@@ -1,3 +1,21 @@
+# Meeting Notes #
+## Weekly Check-in #1: 11-2-2021 ##
+
+Discussion points:
+- Current idea to display major airport hubs in the US is not a deep insight from the dataset
+- How could we supplement the dataset to answer a more insightful question with our visualisation?
+- Maps are a heavily overused component with aviation data
+- Another option is to take an exploratory approach and focus on transitions between visual components
+- The simple road is: focus on doing something fancy with a map
+- Exploratory road: asking the question of what we can achieve with aviation data without a map
+- General consensus is that the exploratory approach might be more interesting
+
+Action items for next week:
+- Come up with ideas for doing a visualisation with no map
+- Come up with more interesting questions that an exploratory approach might answer
+- By next week, decide what approach to take for the project
+
+
 # InfoVis Assignment #
 
 This repo contains the first assignment for the course Information Visualization. Students need to create one visualization using html/js/d3 and one visualization using the python package Bokeh.
