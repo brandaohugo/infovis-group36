@@ -1,5 +1,5 @@
 # Meeting Notes #
-## Weekly Check-in #1: 11-2-2021 ##
+## 11-2-2021: Weekly Check-in #1 ##
 
 Discussion points:
 - Current idea to display major airport hubs in the US is not a deep insight from the dataset
