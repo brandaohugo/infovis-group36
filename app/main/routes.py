@@ -5,7 +5,7 @@ from decimal import Decimal
 
 import pandas as pd
 import numpy as np
-
+# import app
 from app import models, plots, data
 from . import main
 
@@ -13,6 +13,19 @@ from . import main
 @main.route('/', methods=['GET'])
 def index():
 	return render_template("home.html")
+
+@main.route('/map', methods=['GET'])
+def map():
+	# print(app)
+	# print(app.static_url_path)
+
+	# print(app.has_static_folder)
+	# filename = os.path.join(app.static_folder, 'data', 'us-states.json')
+	
+	data_file = open('./static/data/us-states.json')
+	data = json.load(data_file)	
+	
+	return render_template("map.html", data=data)
 
 
 @main.route('/bokeh', methods = ['GET', 'POST'])
