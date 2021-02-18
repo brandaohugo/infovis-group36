@@ -15,6 +15,18 @@ Action items for next week:
 - Come up with more interesting questions that an exploratory approach might answer
 - By next week, decide what approach to take for the project
 
+## 18-2-2021: Weekly Check-in #2 ##
+
+Discussion points:
+- Emphasised that we have a delay dataset
+- The visualisation will not focus on predictions for the future
+- The visualisation basics are two components, the main map view with origin and destination selection and the airline
+view
+
+Action items for next week:
+- Wireframe design of the minimum visualisation with data, with the framework of choice and runnable in browser
+- Upload to GitHub
+
 
 # InfoVis Assignment #
 
