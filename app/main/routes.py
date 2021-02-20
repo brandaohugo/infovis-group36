@@ -88,8 +88,6 @@ def get_data():
 		return jsonify(prediction=pred_area, prediction_proba=proba, 
 				area_changed_proba=new_proba_prev_area)
 
-	
-
 
 @main.route('/d3', methods = ['GET'])
 def d3():
@@ -116,6 +114,14 @@ def d3_plot_data():
 	plot_data = plot_data.to_json(orient='records')
 
 	return plot_data
+
+
+@main.route('/airline', methods = ['GET'])
+def airline():
+	plot_data = data.airline_sample
+	plot_data = plot_data.to_json(orient='records')
+
+	return render_template("airlineview.html", plot_data=plot_data)
 
 
 
