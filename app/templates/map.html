@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Map{% endblock %}
+{% block body %}
+<script type="text/javascript">
+	d3.selectAll(".nav-item").classed("active", false);
+	d3.select("#nav-link-map").classed("active", true);
+	let data = {{ data|tojson }}
+</script>
+
+<link href="../static/css/tooltip.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../static/js/map.js"></script>
+
+{% endblock %}
