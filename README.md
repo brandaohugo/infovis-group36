@@ -1,6 +1,8 @@
 # Meeting Notes #
 ## 11-2-2021: Weekly Check-in #1 ##
 
+
+
 Discussion points:
 - Current idea to display major airport hubs in the US is not a deep insight from the dataset
 - How could we supplement the dataset to answer a more insightful question with our visualisation?
