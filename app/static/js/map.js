@@ -47,9 +47,10 @@ var div = d3.select("body")
 
 // Bind the data to the SVG and create one path per GeoJSON feature
 svg.selectAll("path")
-	.data(data.features)
+	.data(map_data.features)
 	.enter()
 	.append("path")
+	.append("class", "land")
 	.attr("d", path)
 	.style("stroke", "#fff")
 	.style("stroke-width", "1")

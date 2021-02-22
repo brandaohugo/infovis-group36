@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	d3.selectAll(".nav-item").classed("active", false);
 	d3.select("#nav-link-map").classed("active", true);
-	let data = {{ data|tojson }}
+	let map_data = {{ map_data|tojson }}
 </script>
 
 <link href="../static/css/tooltip.css" rel="stylesheet" type="text/css">

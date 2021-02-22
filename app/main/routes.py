@@ -17,14 +17,8 @@ def index():
 
 @main.route('/map', methods=['GET'])
 def map():
-	# print(app)
 
-	# print(app.has_static_folder)
-	# filename = os.path.join(app.static_folder, 'data', 'us-states.json')
-	print(map_data.us_states_map)
-	data = json.load(map_data.us_states_map)
-
-	return render_template("map.html", data=data)
+	return render_template("map.html", map_data=map_data.us_states_map)
 
 
 @main.route('/bokeh', methods = ['GET', 'POST'])
