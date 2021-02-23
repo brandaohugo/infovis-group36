@@ -40,8 +40,8 @@ function lineChart(data) {
 
     var circleOpacity = '0.85';
     var circleOpacityOnLineHover = "0.25"
-    var circleRadius = 3;
-    var circleRadiusHover = 6;
+    var circleRadius = 6;
+    var circleRadiusHover = 9;
 
 
 //set canvas margins
@@ -147,7 +147,7 @@ function lineChart(data) {
         .on("mouseover", function (d) {
             d3.selectAll('.line')
                 .style('opacity', otherLinesOpacityHover);
-            d3.selectAll('.circle')
+            d3.selectAll('circle')
                 .style('opacity', circleOpacityOnLineHover);
             d3.select(this)
                 .style('opacity', lineOpacityHover)
@@ -157,7 +157,7 @@ function lineChart(data) {
         .on("mouseout", function (d) {
             d3.selectAll(".line")
                 .style('opacity', lineOpacity);
-            d3.selectAll('.circle')
+            d3.selectAll('circle')
                 .style('opacity', circleOpacity);
             d3.select(this)
                 .style("stroke-width", lineStroke)
@@ -172,9 +172,22 @@ function lineChart(data) {
         .append("g")
         .style("fill", d => color(d.AIRLINE))
         .append("circle")
-        .attr("r", 6)
         .attr("cx", d => xScale(d.MONTH))
         .attr("cy", d => yScale(d.ARR_DELAY))
+        .attr("r", circleRadius)
+        .style('opacity', circleOpacity)
+        .on("mouseover", function (d) {
+            d3.select(this)
+                .transition()
+                .duration(250)
+                .attr("r", circleRadiusHover);
+        })
+        .on("mouseout", function (d) {
+            d3.select(this)
+                .transition()
+                .duration(250)
+                .attr("r", circleRadius);
+        });
 
 
 //append legends
