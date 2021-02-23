@@ -123,7 +123,7 @@ def d3_plot_data():
 
 @main.route('/airline', methods = ['GET'])
 def airline():
-	plot_data = data.airline_sample
+	plot_data = data.avg_flight_delay_month
 	plot_data = plot_data.to_json(orient='records')
 
 	return render_template("airlineview.html", plot_data=plot_data)
