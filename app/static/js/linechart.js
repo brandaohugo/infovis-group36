@@ -211,6 +211,10 @@ function lineChart(data) {
 
 
     // https://www.vis4.net/blog/2015/04/making-html-tables-in-d3-doesnt-need-to-be-a-pain/
+    // START HERE MARTA
+
+    var airlineNames = Object.keys(table_data[0])
+    console.log(airlineNames[0])
 
 
     // // column definitions
@@ -218,22 +222,22 @@ function lineChart(data) {
         {
             head: 'Month', cl: 'center',
             html: function (r) {
-                return r.MONTH;
-            }
-        },
-        {
-            head: 'Virgin Atlantic', cl: 'title',
-            html: function (r) {
-                return r.VA;
-            }
-        },
-        {
-            head: 'American Airlines', cl: 'center',
-            html: function (r) {
-                return r["American Airlines"];
+                console.log(r)
+                return r;
             }
         }
     ];
+
+    for (index = 0; index < airlineNames.length; ++index) {
+        var airline = airlineNames[index]
+        console.log("AIRLINE NAME", index, airline)
+        columns.push({
+            head: airline, cl: 'center',
+            html: function (r) {
+                return r[airline];
+            }
+        })
+    }
 
     // create table
     var table = d3.select('body')
