@@ -126,7 +126,11 @@ def airline():
 	plot_data = data.avg_flight_delay_month
 	plot_data = plot_data.to_json(orient='records')
 
-	return render_template("airlineview.html", plot_data=plot_data)
+	table_data = data.avg_flight_delay_month
+	table_data = pd.pivot_table(table_data, index = 'MONTH', columns = 'AIRLINE', values = 'ARR_DELAY')
+	table_data = table_data.to_json(orient='records')
+
+	return render_template("airlineview.html", plot_data=plot_data, table_data = table_data)
 
 
 

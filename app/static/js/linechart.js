@@ -214,74 +214,72 @@ function lineChart(data) {
 
 
     // // column definitions
-    // var columns = [
-    //     {
-    //         head: 'Month', cl: 'center',
-    //         html: function (r) {
-    //             return r.MONTH;
-    //         }
-    //     },
-    //     {
-    //         head: 'Virgin Atlantic', cl: 'title',
-    //         html: function (r) {
-    //             return r.VA;
-    //         }
-    //     },
-    //     {
-    //         head: 'American Airlines', cl: 'center',
-    //         html: function (r) {
-    //             return r.AA;
-    //         }
-    //     }
-    // ];
-    //
-    // // create table
-    // var table = d3.select('body')
-    //     .append('table');
-    //
-    // // create table header
-    // table.append('thead').append('tr')
-    //     .selectAll('th')
-    //     .data(columns).enter()
-    //     .append('th')
-    //     .attr('class', function (r) {
-    //         return r.cl;
-    //     })
-    //     .text(function (r) {
-    //         return r.head;
-    //     });
-    //
-    //
-    // console.log(plot_data)
-    // // create table body
-    // table.append('tbody')
-    //     .selectAll('tr')
-    //     .data(plot_data).enter()
-    //     .append('tr')
-    //     .selectAll('td')
-    //     .data(function (row, i) {
-    //         return columns.map(function (c) {
-    //             // compute cell values for this specific row
-    //             var cell = {};
-    //             d3.keys(c).forEach(function (k) {
-    //                 cell[k] = typeof c[k] == 'function' ? c[k](row, i) : c[k];
-    //             });
-    //             return cell;
-    //         });
-    //     }).enter()
-    //     .append('td')
-    //     .html(function (r) {
-    //         return r.html;
-    //     })
-    //     .attr('class', function (r) {
-    //         return r.cl;
-    //     });
-    //
-    // function length() {
-    //     var fmt = d3.format('02d');
-    //     return function (l) {
-    //         return Math.floor(l / 60) + ':' + fmt(l % 60) + '';
-    //     };
-    // }
+    var columns = [
+        {
+            head: 'Month', cl: 'center',
+            html: function (r) {
+                return r.MONTH;
+            }
+        },
+        {
+            head: 'Virgin Atlantic', cl: 'title',
+            html: function (r) {
+                return r.VA;
+            }
+        },
+        {
+            head: 'American Airlines', cl: 'center',
+            html: function (r) {
+                return r["American Airlines"];
+            }
+        }
+    ];
+
+    // create table
+    var table = d3.select('body')
+        .append('table');
+
+    // create table header
+    table.append('thead').append('tr')
+        .selectAll('th')
+        .data(columns).enter()
+        .append('th')
+        .attr('class', function (r) {
+            return r.cl;
+        })
+        .text(function (r) {
+            return r.head;
+        });
+
+    // create table body
+    table.append('tbody')
+        .selectAll('tr')
+        .data(table_data).enter()
+        .append('tr')
+        .selectAll('td')
+        .data(function (row, i) {
+            return columns.map(function (c) {
+                // compute cell values for this specific row
+                var cell = {};
+                d3.keys(c).forEach(function (k) {
+                    cell[k] = typeof c[k] == 'function' ? c[k](row, i) : c[k];
+                });
+                return cell;
+            });
+        }).enter()
+        .append('td')
+        .html(function (r) {
+            return r.html;
+        })
+        .attr('class', function (r) {
+            return r.cl;
+        });
+
+    function length() {
+        var fmt = d3.format('02d');
+        return function (l) {
+            return Math.floor(l / 60) + ':' + fmt(l % 60) + '';
+        };
+    }
 
 }
