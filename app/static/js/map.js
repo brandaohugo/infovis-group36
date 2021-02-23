@@ -55,42 +55,85 @@ svg.selectAll("path")
         return "rgb(118,118,118)";
     });
 
+let firstSelectionBool = true
+let firstSelectedAirport = null
+let secondSelectedAirport = null
+
+function selectAirport(d) {
+    if (firstSelectedAirport === null) {
+        firstSelectedAirport = d
+    } else if (secondSelectedAirport === null) {
+        secondSelectedAirport = d
+    } else if (firstSelectionBool) {
+        firstSelectedAirport = d
+        firstSelectionBool = !firstSelectionBool
+        console.log(firstSelectionBool)
+    } else {
+        secondSelectedAirport = d
+        firstSelectionBool = !firstSelectionBool
+
+    }
+    console.log(firstSelectedAirport, secondSelectedAirport)
+    d3.selectAll("circle").style("fill", "rgb(217,91,67)")
+    d3.select("#" + firstSelectedAirport.iata).style("fill", "green")
+
+    if (secondSelectedAirport !== null) {
+        svg.selectAll("line").remove()
+        d3.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+        svg.append("line")
+            .style("stroke", "black")
+            .attr("id", firstSelectedAirport.iata + secondSelectedAirport.iata)
+            .attr("x1", projection([firstSelectedAirport.longitude, firstSelectedAirport.latitude])[0])
+            .attr("y1", projection([firstSelectedAirport.longitude, firstSelectedAirport.latitude])[1])
+            .attr("x2", projection([secondSelectedAirport.longitude, secondSelectedAirport.latitude])[0])
+            .attr("y2", projection([secondSelectedAirport.longitude, secondSelectedAirport.latitude])[1])
+
+        console.log(projection([firstSelectedAirport.longitude, firstSelectedAirport.latitude])[0])
+    }
+
+}
 
 function drawAirports() {
     svg.selectAll("circle")
         .data(airport_locations)
         .enter()
         .append("circle")
+        .attr("id", function (d) {
+            return d.iata;
+        })
         .attr("cx", function (d) {
             try {
                 return projection([d.longitude, d.latitude])[0]
             } catch (error) {
-                console.error("Projection went wrong")
+                console.error("Projection went wrong with airport: " + d.name)
             }
         })
         .attr("cy", function (d) {
             try {
                 return projection([d.longitude, d.latitude])[1]
             } catch (error) {
-                console.error("Projection went wrong")
+                console.error("Projection went wrong with airport: " + d.name)
             }
         })
-        .attr("r", 2)
+        .attr("r", 4)
         .style("fill", "rgb(217,91,67)")
         .style("opacity", 0.85)
-        .on("mouseover", function (d) {
-            div.transition()
-                .duration(200)
-                .style("opacity", .9);
-            div.text(d.name)
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
+        // .on("mouseover", function (d) {
+        //     div.transition()
+        //         .duration(200)
+        //         .style("opacity", 0.9);
+        //     div.text(d.name)
+        //         .style("left", (d3.event.pageX) + "px")
+        //         .style("top", (d3.event.pageY - 28) + "px");
+        // })
+        // .on("mouseout", function (d) {
+        //     div.transition()
+        //         .duration(500)
+        //         .style("opacity", 0);
+        // })
+        .on("click", function (d) {
+            selectAirport(d)
         })
-        .on("mouseout", function (d) {
-            div.transition()
-                .duration(500)
-                .style("opacity", 0);
-        });
 }
 
 drawAirports()
