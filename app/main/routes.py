@@ -123,8 +123,9 @@ def d3_plot_data():
 
 @main.route('/airline', methods = ['GET'])
 def airline():
-	plot_data = data.airline_sample
-	plot_data = plot_data.to_json(orient='records')
+	plot_data = data.airline_table
+	plot_data = pd.pivot_table(plot_data, index = 'MONTH', columns = 'AIRLINE', values = 'ARR_DELAY')
+	plot_data = plot_data.to_json(orient='table') #not sure which this should be?
 
 	return render_template("airlineview.html", plot_data=plot_data)
 
