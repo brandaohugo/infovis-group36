@@ -5,7 +5,7 @@ from . import models
 stats_ams = pd.read_csv('app/data/ams_stats_infovis.csv')
 stats_ams_meta = pd.read_csv("app/data/ams_stats_infovis_metadata.csv", sep=";")
 airline_sample = pd.read_csv('app/data/sample.csv')
-airline_table = pd.read_csv('app/data/avg_flight_delay_month')
+airline_table = pd.read_csv('app/data/avg_flight_delay_month.csv')
 ##########################
 
 model_data = stats_ams.copy()
