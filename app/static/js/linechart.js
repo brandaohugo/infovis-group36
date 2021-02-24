@@ -1,34 +1,13 @@
-// https://medium.com/javascript-in-plain-english/learning-d3-multiple-lines-chart-w-line-by-line-code-explanations-40440994e1ad
-// https://codepen.io/zakariachowdhury/pen/JEmjwq?editors=0110
-function lineChart(data) {
+/*  This visualization was made possible by modifying code provided by:
 
-    // var data = [
-    //     {month: 1, airline: "Virgin Atlantic", delay: 1},
-    //     {month: 2, airline: "Virgin Atlantic", delay: 0.5},
-    //     {month: 3, airline: "Virgin Atlantic", delay: 0.4},
-    //     {month: 4, airline: "Virgin Atlantic", delay: 0.6},
-    //     {month: 5, airline: "Virgin Atlantic", delay: 0.2},
-    //     {month: 6, airline: "Virgin Atlantic", delay: -0.3},
-    //     {month: 7, airline: "Virgin Atlantic", delay: 0.4},
-    //     {month: 8, airline: "Virgin Atlantic", delay: 0.7},
-    //     {month: 9, airline: "Virgin Atlantic", delay: 0.2},
-    //     {month: 10, airline: "Virgin Atlantic", delay: 0.1},
-    //     {month: 11, airline: "Virgin Atlantic", delay: 0},
-    //     {month: 12, airline: "Virgin Atlantic", delay: 0.2},
-    //
-    //     {month: 1, airline: "American Airlines", delay: 1},
-    //     {month: 2, airline: "American Airlines", delay: 0.2},
-    //     {month: 3, airline: "American Airlines", delay: 0.3},
-    //     {month: 4, airline: "American Airlines", delay: 0.9},
-    //     {month: 5, airline: "American Airlines", delay: 0.1},
-    //     {month: 6, airline: "American Airlines", delay: 0.6},
-    //     {month: 7, airline: "American Airlines", delay: 0.4},
-    //     {month: 8, airline: "American Airlines", delay: 0.9},
-    //     {month: 9, airline: "American Airlines", delay: -0.2},
-    //     {month: 10, airline: "American Airlines", delay: 0.9},
-    //     {month: 11, airline: "American Airlines", delay: 0.2},
-    //     {month: 12, airline: "American Airlines", delay: -0.5}
-    // ];
+Chi Huang, Learning D3 — Multiple Lines Chart w/ Line-by-Line Code Explanations
+https://js.plainenglish.io/learning-d3-multiple-lines-chart-w-line-by-line-code-explanations-40440994e1ad?gi=eaf244fc73f0
+
+Zakaria Chowdhury, D3 v4 Multi Line Chart
+https://codepen.io/zakariachowdhury/pen/JEmjwq?editors=0110
+ */
+
+function lineChart(data) {
 
     var data = plot_data
 
@@ -45,10 +24,15 @@ function lineChart(data) {
 
 
 //set canvas margins
+
     leftMargin = 70
     topMargin = 5
     bottomMargin = 2
     chartHeight = 550
+
+    var svg = d3.select("#linechart")
+			.append("svg")
+            .attr("viewBox", '0 0 1200 750');
 
 
 //scale xAxis
@@ -69,8 +53,7 @@ function lineChart(data) {
     xAxis = d3.axisBottom()
         .scale(xScale)
 
-    d3.select("svg")
-        .append("g")
+    svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0,570)")
         .call(xAxis)
@@ -84,10 +67,7 @@ function lineChart(data) {
         .scale(xScale)
         .ticks(0)
 
-    console.log("middle", middle)
-
-    d3.select("svg")
-        .append("g")
+    svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + middle + ")")
         .call(xAxisZero)
@@ -98,8 +78,7 @@ function lineChart(data) {
         .scale(yScale)
         .ticks(10)
 
-    d3.select('svg')
-        .append("g")
+    svg.append("g")
         .attr("class", "axis")
         .attr("transform", `translate(${leftMargin},20)`) //use variable in translate
         .call(yAxis)
@@ -119,8 +98,7 @@ function lineChart(data) {
 
 //set color pallete for different vairables
     var airlineName = sumstat.map(d => d.key)
-    var color = d3.scaleOrdinal().domain(airlineName).range(colorbrewer.Set2[6])
-
+    var color = d3.scaleOrdinal().domain(airlineName).range(d3.schemeSpectral[11])
 
 //select path
 //three types: curveBasis,curveStep, curveCardinal
@@ -192,8 +170,7 @@ function lineChart(data) {
 
 //append legends
 
-    var legend = d3.select("svg")
-        .selectAll('g.legend')
+    var legend = svg.selectAll('g.legend')
         .data(sumstat)
         .enter()
         .append("g")
@@ -212,8 +189,7 @@ function lineChart(data) {
 
 
 //append title
-    d3.select("svg")
-        .append("text")
+    svg.append("text")
         .attr("x", 485)
         .attr("y", 30)
         .attr("text-anchor", "middle")
@@ -227,7 +203,6 @@ function lineChart(data) {
     // START HERE MARTA
 
     var airlineNames = Object.keys(table_data[0])
-    console.log(airlineNames[0])
 
 
     // // column definitions
@@ -235,7 +210,6 @@ function lineChart(data) {
         {
             head: 'Month', cl: 'center',
             html: function (r) {
-                console.log(r)
                 return r;
             }
         }
@@ -243,7 +217,6 @@ function lineChart(data) {
 
     for (index = 0; index < airlineNames.length; ++index) {
         var airline = airlineNames[index]
-        console.log("AIRLINE NAME", index, airline)
         columns.push({
             head: airline, cl: 'center',
             html: function (r) {

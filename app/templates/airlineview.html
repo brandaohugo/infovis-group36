@@ -8,19 +8,16 @@
 
     <H2 class="mt-3">[Airport] Information</H2>
 
-    <div class="mt-3" id="barchart">
+    <div class="mx-auto" id="linechart">
     </div>
     <link rel="stylesheet" type="text/css" href="../static/css/linechart.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/table.css">
+{#    <link rel="stylesheet" type="text/css" href="../static/css/table.css">#}
     <script type="text/javascript" src="../static/js/linechart.js"></script>
     <script type="text/javascript">
         var plot_data = {{ plot_data |safe }};
         var table_data = {{ table_data |safe }};
-    </script>
 
-    <body onload="lineChart()">
-    <!-- svg canvas-->
-    <svg width="1200" height="750"></svg>
-    </body>
+        lineChart();
+    </script>
 
 {% endblock %}
