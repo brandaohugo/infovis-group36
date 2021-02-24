@@ -60,17 +60,19 @@ let firstSelectedAirport = null
 let secondSelectedAirport = null
 
 
-// Load flights data from the web
-const url = {
-    flights: "https://gist.githubusercontent.com/brandaohugo/95cd2011017b3da45a12849705e2e453/raw/8632dfe829f10f85a978fddb3a8a52856da380b5/flights.csv"
+// URls to load data from the web
+const urls = {
+    flights: "https://gist.githubusercontent.com/brandaohugo/95cd2011017b3da45a12849705e2e453/raw/8632dfe829f10f85a978fddb3a8a52856da380b5/flights.csv",
+    airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
+    map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json"
 };
 
 const drawAirportConnections = (flights) => {
-    console.log(flights)
+    console.log(flights);
     console.log(airport_locations)
 }
 
-d3.csv(url.flights)
+d3.csv(urls.flights)
     .then(flights => drawAirportConnections(flights))
 
 
