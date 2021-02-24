@@ -31,10 +31,9 @@ var color = d3.scaleLinear()
 var legendText = ["Cities Lived", "States Lived", "States Visited", "Nada"];
 
 //Create SVG element and append map to the SVG
-var svg = d3.select("body")
+var svg = d3.select("#map-view")
     .append("svg")
-    .attr("width", width)
-    .attr("height", height);
+    .attr("viewBox", '0 0 1200 750');
 
 // Append Div for tooltip to SVG
 var div = d3.select("body")
