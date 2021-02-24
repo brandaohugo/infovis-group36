@@ -67,42 +67,58 @@ const urls = {
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json"
 };
 
+function fadeOutAirports(filteredAirportLocations) {
+    for (let i = 0; i < airport_locations.length; i++) {
+        if (!filteredAirportLocations.includes(airport_locations[i])) {
+            d3.select("#" + airport_locations[i].iata).style("opacity", 0.3)
+        } else {
+            d3.select("#" + airport_locations[i].iata).style("opacity", 0.85)
+        }
+    }
+}
+
 const drawAirportConnections = (originAirport, flights) => {
-    // console.log(flights);
     let filteredFlights = flights.filter(i => i.origin === originAirport.iata)
 
     svg.selectAll("line").remove()
-
+    let filteredAirportLocations = [originAirport]
     filteredFlights.forEach(flight => {
         let destinationAirport = null
         for (let i = 0; i < airport_locations.length; i++) {
             if (airport_locations[i].iata === flight.destination) {
+                filteredAirportLocations.push(airport_locations[i])
                 destinationAirport = airport_locations[i]
                 svg.append("line")
-                .style("stroke", "black")
-                .attr("id", flight.origin + flight.destination)
-                .attr("x1", projection([originAirport.longitude, originAirport.latitude])[0])
-                .attr("y1", projection([originAirport.longitude, originAirport.latitude])[1])
-                .attr("x2", projection([destinationAirport.longitude, destinationAirport.latitude])[0])
-                .attr("y2", projection([destinationAirport.longitude, destinationAirport.latitude])[1])
+                    .style("stroke", "black")
+                    .style("opacity", 0.85)
+                    .style("stroke-width", function () {
+                        if (flight.count > 100) {
+                            return 2
+                        } else {
+                            return 1
+                        }
+                    })
+                    .attr("id", flight.origin + flight.destination)
+                    .attr("x1", projection([originAirport.longitude, originAirport.latitude])[0])
+                    .attr("y1", projection([originAirport.longitude, originAirport.latitude])[1])
+                    .attr("x2", projection([destinationAirport.longitude, destinationAirport.latitude])[0])
+                    .attr("y2", projection([destinationAirport.longitude, destinationAirport.latitude])[1])
                 break
             }
         }
-
-
     })
-    // console.log(airport_locations)
+    fadeOutAirports(filteredAirportLocations)
 }
-
-// d3.csv(urls.flights)
-//     .then(flights => drawAirportConnections(flights))
-
 
 function selectAirport(d) {
     firstSelectedAirport = d
     d3.csv(urls.flights)
-    .then(flights => drawAirportConnections(d, flights))
+        .then(flights => {
+            drawAirportConnections(d, flights)
+            d3.selectAll("circle").style("fill", "rgb(217,91,67)")
+            d3.select("#" + firstSelectedAirport.iata).style("fill", "green")
 
+        })
 
     // if (firstSelectedAirport === null) {
     //     firstSelectedAirport = d
@@ -121,7 +137,6 @@ function selectAirport(d) {
 
 
     // console.log(firstSelectedAirport, secondSelectedAirport)
-    // d3.selectAll("circle").style("fill", "rgb(217,91,67)")
     // d3.select("#" + firstSelectedAirport.iata).style("fill", "green")
     //
     // if (secondSelectedAirport !== null) {
@@ -139,9 +154,16 @@ function selectAirport(d) {
 
 }
 
-function drawAirports() {
+function resetMap() {
+    svg.selectAll("line").remove()
+    drawAirports(airport_locations)
+}
+
+function drawAirports(airports) {
+    svg.selectAll("circle").remove()
+
     svg.selectAll("circle")
-        .data(airport_locations)
+        .data(airports)
         .enter()
         .append("circle")
         .attr("id", function (d) {
@@ -191,7 +213,7 @@ function drawAirports() {
 //     console.log("flights", airport_connections)
 // }
 
-drawAirports()
+drawAirports(airport_locations)
 // drawAirportConnections()
 
 // Modification
