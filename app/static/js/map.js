@@ -59,6 +59,21 @@ let firstSelectionBool = true
 let firstSelectedAirport = null
 let secondSelectedAirport = null
 
+
+// Load flights data from the web
+const url = {
+    flights: "https://gist.githubusercontent.com/brandaohugo/95cd2011017b3da45a12849705e2e453/raw/8632dfe829f10f85a978fddb3a8a52856da380b5/flights.csv"
+};
+
+const drawAirportConnections = (flights) => {
+    console.log(flights)
+    console.log(airport_locations)
+}
+
+d3.csv(url.flights)
+    .then(flights => drawAirportConnections(flights))
+
+
 function selectAirport(d) {
     if (firstSelectedAirport === null) {
         firstSelectedAirport = d
@@ -136,8 +151,17 @@ function drawAirports() {
         })
 }
 
-drawAirports()
+// function drawAirportConnections() {
+    
+//     let segments = {nodes: [], link:[], paths:[]}
+    
+//     // bundle.nodes = airport_locations.map(function(d,i))
+//     console.log(airport_locations)
+//     console.log("flights", airport_connections)
+// }
 
+drawAirports()
+// drawAirportConnections()
 
 // Modification
 // of
