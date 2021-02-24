@@ -33,7 +33,7 @@ var legendText = ["Cities Lived", "States Lived", "States Visited", "Nada"];
 //Create SVG element and append map to the SVG
 var svg = d3.select("#map-view")
     .append("svg")
-    .attr("viewBox", '0 0 1200 750');
+    .attr("viewBox", '0 0 ' + width + ' ' + height);
 
 // Append Div for tooltip to SVG
 var div = d3.select("body")
@@ -164,7 +164,7 @@ function drawAirports(airports) {
     svg.selectAll("circle")
         .data(airports)
         .enter()
-        .append("circle")
+        .append("svg:circle")
         .attr("id", function (d) {
             return d.iata;
         })
@@ -185,22 +185,38 @@ function drawAirports(airports) {
         .attr("r", 4)
         .style("fill", "rgb(217,91,67)")
         .style("opacity", 0.85)
-        // .on("mouseover", function (d) {
-        //     div.transition()
-        //         .duration(200)
-        //         .style("opacity", 0.9);
-        //     div.text(d.name)
-        //         .style("left", (d3.event.pageX) + "px")
-        //         .style("top", (d3.event.pageY - 28) + "px");
-        // })
-        // .on("mouseout", function (d) {
-        //     div.transition()
-        //         .duration(500)
-        //         .style("opacity", 0);
-        // })
         .on("click", function (d) {
             selectAirport(d)
         })
+
+    $('svg circle').tipsy({
+        gravity: 'w',
+        html: true,
+        title: function () {
+            console.log(this.__data__)
+            let iata = this.__data__.iata
+            let city = this.__data__.city
+            let name = this.__data__.name
+
+            return 'IATA: ' + iata + '<br/>' +
+                'Airport Name: ' + name + '<br/>' +
+                'City: ' + city;
+        }
+    })
+    // .on("mouseover", function (d) {
+    //     div.transition()
+    //         .duration(200)
+    //         .style("opacity", 0.9);
+    //     div.text(d.name)
+    //         .style("left", (d3.event.pageX) + "px")
+    //         .style("top", (d3.event.pageY - 28) + "px");
+    // })
+    // .on("mouseout", function (d) {
+    //     div.transition()
+    //         .duration(500)
+    //         .style("opacity", 0);
+    // })
+
 }
 
 // function drawAirportConnections() {
