@@ -29,6 +29,26 @@ Action items for next week:
 - Wireframe design of the minimum visualisation with data, with the framework of choice and runnable in browser
 - Upload to GitHub
 
+## 25-2-2021: Weekly Check-in #3 ##
+
+
+Discussion points:
+
+- single screen view idea: map moves between halves of screen, explore this idea, destination and origin side by side when selected
+- easy change of airports once selection is made: Dropdown or search to change airport once airports are selected
+- Encoding information: lighter view, when all dots on screen encoding information not useful
+- remove irrelevant airports compeltely once origin is selected
+
+
+Action items for next week:
+
+- integrate map and airline view into one page:
+ try out single page view with origin airport view appearing on left side when origin selected
+- add average delay to routes serviced (data)
+- Finalize table of delays
+
+- Improve the map view (larger, more visualy appealing)
+
 
 # InfoVis Assignment #
 
