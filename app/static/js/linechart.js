@@ -31,8 +31,8 @@ function lineChart(data) {
     chartHeight = 550
 
     var svg = d3.select("#linechart")
-			.append("svg")
-            .attr("viewBox", '0 0 1200 750');
+        .append("svg")
+        .attr("viewBox", '0 0 1200 750');
 
 
 //scale xAxis
@@ -102,7 +102,7 @@ function lineChart(data) {
 
 //select path
 //three types: curveBasis,curveStep, curveCardinal
-    let lines = d3.select('svg').append('g')
+    let lines = svg.append('g')
         .attr('class', 'lines');
 
     lines.selectAll('.line-group')
@@ -123,9 +123,9 @@ function lineChart(data) {
         .style("stroke-width", lineStroke)
         .style('opacity', lineOpacity)
         .on("mouseover", function (d) {
-            d3.selectAll('.line')
+            lines.selectAll('.line')
                 .style('opacity', otherLinesOpacityHover);
-            d3.selectAll('circle')
+            lines.selectAll('circle')
                 .style('opacity', circleOpacityOnLineHover);
             d3.select(this)
                 .style('opacity', lineOpacityHover)
@@ -133,9 +133,9 @@ function lineChart(data) {
                 .style("cursor", "pointer");
         })
         .on("mouseout", function (d) {
-            d3.selectAll(".line")
+            lines.selectAll(".line")
                 .style('opacity', lineOpacity);
-            d3.selectAll('circle')
+            lines.selectAll('circle')
                 .style('opacity', circleOpacity);
             d3.select(this)
                 .style("stroke-width", lineStroke)
@@ -202,74 +202,74 @@ function lineChart(data) {
     // https://www.vis4.net/blog/2015/04/making-html-tables-in-d3-doesnt-need-to-be-a-pain/
     // START HERE MARTA
 
-    var airlineNames = Object.keys(table_data[0])
-
-
-    // // column definitions
-    var columns = [
-        {
-            head: 'Month', cl: 'center',
-            html: function (r) {
-                return r;
-            }
-        }
-    ];
-
-    for (index = 0; index < airlineNames.length; ++index) {
-        var airline = airlineNames[index]
-        columns.push({
-            head: airline, cl: 'center',
-            html: function (r) {
-                return r[airline];
-            }
-        })
-    }
-
-    // create table
-    var table = d3.select('body')
-        .append('table');
-
-    // create table header
-    table.append('thead').append('tr')
-        .selectAll('th')
-        .data(columns).enter()
-        .append('th')
-        .attr('class', function (r) {
-            return r.cl;
-        })
-        .text(function (r) {
-            return r.head;
-        });
-
-    // create table body
-    table.append('tbody')
-        .selectAll('tr')
-        .data(table_data).enter()
-        .append('tr')
-        .selectAll('td')
-        .data(function (row, i) {
-            return columns.map(function (c) {
-                // compute cell values for this specific row
-                var cell = {};
-                d3.keys(c).forEach(function (k) {
-                    cell[k] = typeof c[k] == 'function' ? c[k](row, i) : c[k];
-                });
-                return cell;
-            });
-        }).enter()
-        .append('td')
-        .html(function (r) {
-            return r.html;
-        })
-        .attr('class', function (r) {
-            return r.cl;
-        });
-
-    function length() {
-        var fmt = d3.format('02d');
-        return function (l) {
-            return Math.floor(l / 60) + ':' + fmt(l % 60) + '';
-        };
-    }
+    // var airlineNames = Object.keys(table_data[0])
+    //
+    //
+    // // // column definitions
+    // var columns = [
+    //     {
+    //         head: 'Month', cl: 'center',
+    //         html: function (r) {
+    //             return r;
+    //         }
+    //     }
+    // ];
+    //
+    // for (index = 0; index < airlineNames.length; ++index) {
+    //     var airline = airlineNames[index]
+    //     columns.push({
+    //         head: airline, cl: 'center',
+    //         html: function (r) {
+    //             return r[airline];
+    //         }
+    //     })
+    // }
+    //
+    // // create table
+    // var table = d3.select('body')
+    //     .append('table');
+    //
+    // // create table header
+    // table.append('thead').append('tr')
+    //     .selectAll('th')
+    //     .data(columns).enter()
+    //     .append('th')
+    //     .attr('class', function (r) {
+    //         return r.cl;
+    //     })
+    //     .text(function (r) {
+    //         return r.head;
+    //     });
+    //
+    // // create table body
+    // table.append('tbody')
+    //     .selectAll('tr')
+    //     .data(table_data).enter()
+    //     .append('tr')
+    //     .selectAll('td')
+    //     .data(function (row, i) {
+    //         return columns.map(function (c) {
+    //             // compute cell values for this specific row
+    //             var cell = {};
+    //             d3.keys(c).forEach(function (k) {
+    //                 cell[k] = typeof c[k] == 'function' ? c[k](row, i) : c[k];
+    //             });
+    //             return cell;
+    //         });
+    //     }).enter()
+    //     .append('td')
+    //     .html(function (r) {
+    //         return r.html;
+    //     })
+    //     .attr('class', function (r) {
+    //         return r.cl;
+    //     });
+    //
+    // function length() {
+    //     var fmt = d3.format('02d');
+    //     return function (l) {
+    //         return Math.floor(l / 60) + ':' + fmt(l % 60) + '';
+    //     };
+    // }
 
 }
