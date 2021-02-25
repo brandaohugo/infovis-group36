@@ -6,17 +6,36 @@
         d3.select("#nav-link-map").classed("active", true);
         let map_data = {{ map_data|tojson }};
         let airport_locations = {{ airport_locations|tojson }};
+        var plot_data = {{ plot_data |safe }};
+        var table_data = {{ table_data |safe }};
+
 
     </script>
     <button onclick="resetMap()">Reset Map</button>
 
-    <div class="mx-auto" id="map-view">
+    <div class="row h-100">
+
+        <div class="col-lg flex-grow-1" id="map-view"></div>
+
+        <div class="col-lg flex-grow-1" id="linechart"></div>
     </div>
+
+
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="../static/js/linechart.js"></script>
+
+    <script type="text/javascript" src="../static/js/map.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="../static/css/linechart.css">
 
     <link href="../static/css/tooltip.css" rel="stylesheet" type="text/css">
     <link href="../static/css/tipsy.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="../static/js/map.js"></script>
 
+
+    <script>
+        lineChart();
+    </script>
 {% endblock %}

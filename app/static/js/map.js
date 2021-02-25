@@ -114,8 +114,8 @@ function selectAirport(d) {
     d3.csv(urls.flights)
         .then(flights => {
             drawAirportConnections(d, flights)
-            d3.selectAll("circle").style("fill", "rgb(217,91,67)")
-            d3.select("#" + firstSelectedAirport.iata).style("fill", "green")
+            svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+            svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
 
         })
 
@@ -193,7 +193,6 @@ function drawAirports(airports) {
         gravity: 'w',
         html: true,
         title: function () {
-            console.log(this.__data__)
             let iata = this.__data__.iata
             let city = this.__data__.city
             let name = this.__data__.name
