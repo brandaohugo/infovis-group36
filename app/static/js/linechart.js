@@ -32,7 +32,24 @@ function lineChart(data) {
 
     var svg = d3.select("#linechart")
         .append("svg")
-        .attr("viewBox", '0 0 1200 750');
+        .attr("id", "origin-svg")
+        .attr("viewBox", '0 0 1200 750')
+        .style("display", "none");
+
+    var before_origin_svg = d3.select("#linechart")
+        .append("svg")
+        .attr("id", "before-origin-svg")
+        .attr("viewBox", '0 0 1200 750')
+        .style("display", "block");
+
+    before_origin_svg.append("text")
+        .attr("x", 600)
+        .attr("y", 250)
+        .attr("text-anchor", "middle")
+        .text("Please select an origin airport")
+        .style("fill", "black")
+        .style("font-size", 28)
+        .style("font-family", "Helvetica")
 
 
 //scale xAxis

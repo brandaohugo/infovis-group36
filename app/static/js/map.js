@@ -119,6 +119,8 @@ function selectAirport(d) {
 
         })
 
+
+
     // if (firstSelectedAirport === null) {
     //     firstSelectedAirport = d
     //     d3.csv(urls.flights)
@@ -151,6 +153,14 @@ function selectAirport(d) {
     //
     // }
 
+}
+
+function showOriginAirportInfo() {
+    d3.select("#before-origin-svg")
+        .style("display", "none")
+
+    d3.select("#origin-svg")
+        .style("display", "block")
 }
 
 function resetMap() {
@@ -187,6 +197,7 @@ function drawAirports(airports) {
         .style("opacity", 0.85)
         .on("click", function (d) {
             selectAirport(d)
+            showOriginAirportInfo()
         })
 
     $('svg circle').tipsy({
