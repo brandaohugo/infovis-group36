@@ -1,42 +1,33 @@
-/*  This visualization was made possible by modifying code provided by:
-
-Scott Murray, Choropleth example from "Interactive Data Visualization for the Web"
-https://github.com/alignedleft/d3-book/blob/master/chapter_12/05_choropleth.html
-
-Malcolm Maclean, tooltips example tutorial
-http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-
-Mike Bostock, Pie Chart Legend
-http://bl.ocks.org/mbostock/3888852  */
-
-
 //Width and height of map
-var width = 960;
-var height = 500;
+const width = 960;
+const height = 500;
+
+let locationRadius = 4;
+let lastTransform = {'k': 1, 'x': 0, 'y': 0}; // Default zoom settings
+let zoomChanged = false
 
 // D3 Projection
-var projection = d3.geoAlbersUsa()
+let projection = d3.geoAlbersUsa()
     .translate([width / 2, height / 2])    // translate to center of screen
     .scale([1000]);          // scale things down so see entire US
 
 // Define path generator
-var path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
+let path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
     .projection(projection);  // tell path generator to use albersUsa projection
 
-
-// Define linear scale for output
-var color = d3.scaleLinear()
-    .range(["rgb(213,222,217)", "rgb(69,173,168)", "rgb(84,36,55)", "rgb(217,91,67)"]);
-
-var legendText = ["Cities Lived", "States Lived", "States Visited", "Nada"];
+const zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on('zoom', zoomed);
 
 //Create SVG element and append map to the SVG
-var svg = d3.select("#map-view")
+let svg = d3.select("#map-view")
     .append("svg")
     .attr("viewBox", '0 0 ' + width + ' ' + height);
 
+svg.call(zoom);
+
 // Append Div for tooltip to SVG
-var div = d3.select("body")
+let div = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
@@ -65,6 +56,25 @@ const urls = {
     airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json"
 };
+
+function zoomed() {
+    console.log(d3.event.transform)
+
+    lastTransform = d3.event.transform
+    zoomChanged = true
+    svg
+        .selectAll('path') // To prevent stroke width from scaling
+        .attr('transform', lastTransform);
+
+    svg.selectAll('circle')
+        .attr('transform', lastTransform)
+        .attr("r", function (d) {
+            return lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1
+        })
+
+    svg.selectAll('line')
+        .attr('transform', lastTransform);
+}
 
 function fadeOutAirports(filteredAirportLocations) {
     for (let i = 0; i < airport_locations.length; i++) {
@@ -105,6 +115,8 @@ const drawAirportConnections = (originAirport, flights) => {
                 break
             }
         }
+        svg.selectAll('line').attr('transform', lastTransform);
+
     })
     fadeOutAirports(filteredAirportLocations)
 }
@@ -116,9 +128,7 @@ function selectAirport(d) {
             drawAirportConnections(d, flights)
             svg.selectAll("circle").style("fill", "rgb(217,91,67)")
             svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-
         })
-
 
 
     // if (firstSelectedAirport === null) {
@@ -170,7 +180,6 @@ function resetMap() {
 
 function drawAirports(airports) {
     svg.selectAll("circle").remove()
-
     svg.selectAll("circle")
         .data(airports)
         .enter()
@@ -192,7 +201,16 @@ function drawAirports(airports) {
                 console.error("Projection went wrong with airport: " + d.name)
             }
         })
-        .attr("r", 4)
+        .attr('transform', function (d) {
+            if (zoomChanged) {
+                return lastTransform
+            } else {
+                return null
+            }
+        })
+        .attr("r", function (d) {
+            return lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1
+        })
         .style("fill", "rgb(217,91,67)")
         .style("opacity", 0.85)
         .on("click", function (d) {
@@ -213,71 +231,7 @@ function drawAirports(airports) {
                 'City: ' + city;
         }
     })
-    // .on("mouseover", function (d) {
-    //     div.transition()
-    //         .duration(200)
-    //         .style("opacity", 0.9);
-    //     div.text(d.name)
-    //         .style("left", (d3.event.pageX) + "px")
-    //         .style("top", (d3.event.pageY - 28) + "px");
-    // })
-    // .on("mouseout", function (d) {
-    //     div.transition()
-    //         .duration(500)
-    //         .style("opacity", 0);
-    // })
-
 }
 
-// function drawAirportConnections() {
-
-//     let segments = {nodes: [], link:[], paths:[]}
-
-//     // bundle.nodes = airport_locations.map(function(d,i))
-//     console.log(airport_locations)
-//     console.log("flights", airport_connections)
-// }
 
 drawAirports(airport_locations)
-// drawAirportConnections()
-
-// Modification
-// of
-// custom
-// tooltip
-// code
-// provided
-// by
-// Malcolm
-// Maclean, "D3 Tips and Tricks"
-// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-
-
-// fade out tooltip on mouse out
-
-
-// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-// var legend = d3.select("body").append("svg")
-//       			.attr("class", "legend")
-//      			.attr("width", 140)
-//     			.attr("height", 200)
-//    				.selectAll("g")
-//    				.data(color.domain().slice().reverse())
-//    				.enter()
-//    				.append("g")
-//      			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-//
-//   	legend.append("rect")
-//    		  .attr("width", 18)
-//    		  .attr("height", 18)
-//    		  .style("fill", color);
-//
-//   	legend.append("text")
-//   		  .data(legendText)
-//       	  .attr("x", 24)
-//       	  .attr("y", 9)
-//       	  .attr("dy", ".35em")
-//       	  .text(function(d) { return d; });
-// 	});
-//
-// })
