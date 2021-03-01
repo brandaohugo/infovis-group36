@@ -146,8 +146,15 @@ function drawOriDesConnection(origin, destination) {
     svg.selectAll('line').attr('transform', lastTransform);
 }
 
+const showOriginAirportFlow = (d, flights) => {
+    const destFlights = flights.filter(f => {
+        return f.origin == d.iata
+    })
+    
+}
+
 function selectAirport(d) {
-    // firstSelectedAirport = d
+   // firstSelectedAirport = d
     // d3.csv(urls.flights)
     //     .then(flights => {
     //         drawAirportConnections(d, flights)
@@ -161,7 +168,8 @@ function selectAirport(d) {
                 drawAirportConnections(firstSelectedAirport, flights)
                 svg.selectAll("circle").style("fill", "rgb(217,91,67)")
                 svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-            })
+                showOriginAirportFlow(d, flights)
+            })   
     } else if (secondSelectedAirport === null) {
         secondSelectedAirport = d
         d3.csv(urls.flights)
@@ -176,7 +184,7 @@ function selectAirport(d) {
                 }
             })
     }
-    // } else if (firstSelectionBool) {
+        // } else if (firstSelectionBool) {
     //     firstSelectedAirport = d
     //     firstSelectionBool = !firstSelectionBool
     //     console.log(firstSelectionBool)
