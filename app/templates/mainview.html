@@ -14,23 +14,37 @@
 
     <div class="row h-100">
 
-        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>
+        <div class="col-lg-6 flex-grow-1 border-right text-center" id="origin-airport"></div>
 
         <div class="col-lg flex-grow-1 border-left" id="map-view">
             <button onclick="resetMap()">Reset Map</button>
         </div>
+
+        <div class="col-lg flex-grow-1 border-left" id="destination-airport" style="display: none"></div>
     </div>
     <div class="row h-100">
 
-        <div class="col-lg-6 flex-grow-1 border-right border-top text-center" id="secondchart">
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
+        <div class="col-lg-6 flex-grow-1 border-right border-top text-center" id="origin-chart" style="background: blue ">
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+            <p>Origin chart placeholder</p>
+        </div>
+
+        <div class="col-lg flex-grow-1 border-right border-top text-center" id="od-chart" style="background: blue; display: none ">
+            <p>OD-placeholder</p>
+            <p>OD-placeholder</p>
+            <p>OD-placeholder</p>
+            <p>OD-placeholder</p>
+            <p>OD-placeholder</p>
+            <p>OD-placeholder</p>
+            <p>OD-placeholder</p>
+            <p>OD-placeholder</p>
         </div>
     </div>
 
@@ -38,7 +52,8 @@
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.tipsy.js"></script>
-    <script type="text/javascript" src="../static/js/linechart.js"></script>
+    <script type="text/javascript" src="../static/js/originAirport.js"></script>
+    <script type="text/javascript" src="../static/js/destinationAirport.js"></script>
 
     <script type="text/javascript" src="../static/js/map.js"></script>
 
@@ -50,6 +65,6 @@
 
 
     <script>
-        lineChart();
+        originAirport();
     </script>
 {% endblock %}
