@@ -6,15 +6,24 @@
         d3.select("#nav-link-map").classed("active", true);
         let map_data = {{ map_data|tojson }};
         let airport_locations = {{ airport_locations|tojson }};
-        var plot_data = {{ plot_data |safe }};
-        var table_data = {{ table_data |safe }};
-
-
+        let plot_data = {{ plot_data |safe }};
+        let table_data = {{ table_data |safe }};
     </script>
 
     <div class="row h-100">
 
-        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>
+        {#        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>#}
+        <div class="col-lg-6 flex-grow-1 col-xs-4 border-right text-center align-self-center" id="originSelector">
+            <form class="form-group form-inline" id="origin-form">
+                <input type="text" class="form-control"
+                       id="origin-input-selector"
+                       placeholder="Origin Airport"
+                        name="origin_value">
+                <input type="submit" value="Submit">
+
+            </form>
+        </div>
+
 
         <div class="col-lg flex-grow-1 border-left" id="map-view">
             <button onclick="resetMap()">Reset Map</button>
@@ -34,11 +43,13 @@
         </div>
     </div>
 
+{#    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>#}
 
+    <script type="text/javascript" src="../static/js/linechart.js"></script>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.tipsy.js"></script>
-    <script type="text/javascript" src="../static/js/linechart.js"></script>
+    <script type="text/javascript" src="../static/js/airportSelection.js"></script>
 
     <script type="text/javascript" src="../static/js/map.js"></script>
 

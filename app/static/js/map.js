@@ -41,7 +41,6 @@ svg.selectAll("path")
     .style("stroke", "#fff")
     .style("stroke-width", "1")
     .style("fill", function (d) {
-        //If value is undefined…
         return "rgb(118,118,118)";
     });
 
@@ -123,15 +122,26 @@ const drawAirportConnections = (originAirport, flights) => {
     airportConnections.forEach(airport => {
         drawConnectionLine(originAirport, airport)
     })
-    svg.selectAll('line').attr('transform', lastTransform);
-
+    svg.selectAll('line').attr('transform', function (d) {
+        if (zoomChanged) {
+            return lastTransform
+        } else {
+            return null
+        }
+    })
     drawAirports(airportConnections)
 }
 
 function drawOriDesConnection(origin, destination) {
     svg.selectAll('line').remove()
     drawConnectionLine(origin, destination)
-    svg.selectAll('line').attr('transform', lastTransform);
+    svg.selectAll('line').attr('transform', function (d) {
+        if (zoomChanged) {
+            return lastTransform
+        } else {
+            return null
+        }
+    })
 }
 
 function selectAirport(airport) {
@@ -224,5 +234,6 @@ function drawAirports(airports) {
     })
 }
 
+console.log(airport_locations)
 
 drawAirports(airport_locations)
