@@ -10,6 +10,7 @@
 
     <div class="mx-auto" id="linechart">
     </div>
+    <div id="delay-bar-chart"></div>
     <link rel="stylesheet" type="text/css" href="../static/css/linechart.css">
 {#    <link rel="stylesheet" type="text/css" href="../static/css/table.css">#}
     <script type="text/javascript" src="../static/js/linechart.js"></script>
@@ -18,6 +19,7 @@
         var table_data = {{ table_data |safe }};
 
         lineChart();
+        plotBarChart(table_data);
     </script>
 
 {% endblock %}

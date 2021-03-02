@@ -23,7 +23,7 @@ function lineChart(data) {
     var circleRadiusHover = 9;
 
 
-//set canvas margins
+    //set canvas margins
 
     leftMargin = 70
     topMargin = 5
@@ -31,16 +31,16 @@ function lineChart(data) {
     chartHeight = 550
 
     var svg = d3.select("#linechart")
-			.append("svg")
-            .attr("viewBox", '0 0 1200 750');
+        .append("svg")
+        .attr("viewBox", '0 0 1200 750');
 
 
-//scale xAxis
+    //scale xAxis
     var xExtent = d3.extent(data, d => d.MONTH);
     xScale = d3.scaleLinear().domain(xExtent).range([leftMargin, 900])
 
 
-//scale yAxis
+    //scale yAxis
     var yMax = d3.max(data, d => d.ARR_DELAY)
     yMin = d3.min(data, d => d.ARR_DELAY)
 
@@ -49,7 +49,7 @@ function lineChart(data) {
     middle = yScale(-1.5)
 
 
-//draw xAxis and xAxis label
+    //draw xAxis and xAxis label
     xAxis = d3.axisBottom()
         .scale(xScale)
 
@@ -72,7 +72,7 @@ function lineChart(data) {
         .attr("transform", "translate(0," + middle + ")")
         .call(xAxisZero)
 
-//yAxis and yAxis label
+    //yAxis and yAxis label
 
     yAxis = d3.axisLeft()
         .scale(yScale)
@@ -89,19 +89,19 @@ function lineChart(data) {
         .attr("text-anchor", "end")
         .text("Minutes delay")
 
-//use .nest()function to group data
+    //use .nest()function to group data
 
     var sumstat = d3.nest()
         .key(d => d.AIRLINE)
         .entries(data);
 
 
-//set color pallete for different vairables
+    //set color pallete for different vairables
     var airlineName = sumstat.map(d => d.key)
     var color = d3.scaleOrdinal().domain(airlineName).range(d3.schemeSpectral[11])
 
-//select path
-//three types: curveBasis,curveStep, curveCardinal
+    //select path
+    //three types: curveBasis,curveStep, curveCardinal
     let lines = d3.select('svg').append('g')
         .attr('class', 'lines');
 
@@ -143,7 +143,7 @@ function lineChart(data) {
         });
 
 
-//append circle
+    //append circle
     lines.selectAll("circle-group")
         .data(data)
         .enter()
@@ -168,7 +168,7 @@ function lineChart(data) {
         });
 
 
-//append legends
+    //append legends
 
     var legend = svg.selectAll('g.legend')
         .data(sumstat)
@@ -188,7 +188,7 @@ function lineChart(data) {
         .text(d => d.key)
 
 
-//append title
+    //append title
     svg.append("text")
         .attr("x", 485)
         .attr("y", 30)
@@ -198,78 +198,177 @@ function lineChart(data) {
         .style("font-size", 28)
         .style("font-family", "Arial Black")
 
-
+}
     // https://www.vis4.net/blog/2015/04/making-html-tables-in-d3-doesnt-need-to-be-a-pain/
     // START HERE MARTA
 
-    var airlineNames = Object.keys(table_data[0])
+    /* Modified code provided by:
+    https://stackoverflow.com/questions/42919992/d3-how-to-properly-get-the-key-value-inside-of-a-json-object
+    
+    https://bl.ocks.org/llad/3918637
+    */
 
 
-    // // column definitions
-    var columns = [
-        {
-            head: 'Month', cl: 'center',
-            html: function (r) {
-                return r;
-            }
-        }
-    ];
+//function tabulate(data) {
+    // const columns = d3.keys(data[0])
+    // var table = d3.select('#delay-table');
+    // var thead = table.append('thead');
+    // var tbody = table.append('tbody');
 
-    for (index = 0; index < airlineNames.length; ++index) {
-        var airline = airlineNames[index]
-        columns.push({
-            head: airline, cl: 'center',
-            html: function (r) {
-                return r[airline];
-            }
-        })
+    // // append the header row
+    // thead.append('tr')
+    //     .selectAll('th')
+    //     .data(columns).enter()
+    //     .append('th')
+    //     .text(function (column) {
+    //         return column;
+    //     });
+
+    // // create a row for each object in the data
+    // var rows = tbody.selectAll('tr')
+    //     .data(data)
+    //     .enter()
+    //     .append('tr');
+
+
+    // // create a cell in each row for each column
+    // var cells = rows.selectAll('td')
+    //     .data(function (row) {
+    //         return columns.map(function (column) {
+    //             return {
+    //                 column: column,
+    //                 value: row[column]
+    //             };
+    //         });
+    //     })
+    //     .enter()
+    //     .append('td')
+    //     .text(function (d) {
+    //         return d.value;
+    //     });
+    // return table;
+//}
+
+function plotBarChart(data) {
+    const containerDiv = d3.select('#delay-bar-chart');
+    const svg = containerDiv.append("svg");
+    const svgWidth = 1000;
+    const svgHeight = (data.length + 1) * 26;
+    const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+    const tableWidth = 320;
+    const plotWidth = svgWidth - tableWidth - margin.left - margin.right;
+    const height = svgHeight - margin.top - margin.bottom;
+
+    svg.attr("width", svgWidth)
+        .attr("height", svgHeight);
+
+    const g = svg.append("g")
+        .attr("transform", `translate(${margin.left + tableWidth}, ${margin.top})`)
+
+    const x = d3.scaleLinear()
+        .range([0, plotWidth])
+        .domain(d3.extent(data, (d) => d.AVG_ARR_DELAY))
+
+    const y = d3.scaleBand()
+        .range([20, height])
+        .domain(data.map((d) => d.AIRLINE))
+
+    const colorScale = d3.scaleLinear()
+        .domain([d3.min(data, (d) => d.AVG_ARR_DELAY), 0, d3.max(data, (d) => d.AVG_ARR_DELAY)])
+        .range(["#7fc97f", "grey", "#f0027f"])
+
+    g.append("line")
+        .attr("x1", x(0))
+        .attr("y1", 0)
+        .attr("x2", x(0))
+        .attr("y2", height)
+        .attr('stroke', 'gray') // vertical axis line
+
+    g.append("g")
+        .call(d3.axisTop(x))
+
+    g.selectAll(".lineToCircle")
+        .data(data)
+        .join("line")
+            .attr("x1", x(0))
+            .attr("y1", (d) => y(d.AIRLINE))
+            .attr("x2", (d) => x(d.AVG_ARR_DELAY))
+            .attr("y2", (d) => y(d.AIRLINE))
+            .style("stroke", "gray")
+            .style("stroke-opacity", 1)
+            .style("stroke-width", 0.5)
+            .attr("class", "lineToCircle")
+
+
+    g.selectAll(".lolCircle")
+        .data(data)
+        .join("circle")
+            .attr("cx", (d) => x(d.AVG_ARR_DELAY))
+            .attr("cy", (d) => y(d.AIRLINE))
+            .attr("r", 6)
+            .attr("stroke", "black")
+            .attr("fill", (d) => colorScale(d.AVG_ARR_DELAY))
+            .attr("class", "lolCircle")
+
+
+    const tableGroup = svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    const textHeight = 14;
+    const mouseOverHandler = (d, i) => {
+        const delayText = document.getElementsByClassName("delayText")[i]
+        const airlineText = document.getElementsByClassName("airlineText")[i]
+        const circle = document.getElementsByClassName("lolCircle")[i]
+
+        d3.select(delayText).attr("font-size", 14).attr("font-weight", "bold")
+        d3.select(airlineText).attr("font-size", 14).attr("font-weight", "bold")
+        d3.select(circle).attr("r", 10)
+    }
+    const mouseOutHandler = (d, i) => {
+        const delayText = document.getElementsByClassName("delayText")[i]
+        const airlineText = document.getElementsByClassName("airlineText")[i]
+        const circle = document.getElementsByClassName("lolCircle")[i]
+
+        d3.select(delayText).attr("font-size", 12).attr("font-weight", "normal")
+        d3.select(airlineText).attr("font-size", 12).attr("font-weight", "normal")
+        d3.select(circle).attr("r", 6)
     }
 
-    // create table
-    var table = d3.select('body')
-        .append('table');
+    tableGroup.append("text")
+        .text("AIRLINE")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("font-weight", "bold")
 
-    // create table header
-    table.append('thead').append('tr')
-        .selectAll('th')
-        .data(columns).enter()
-        .append('th')
-        .attr('class', function (r) {
-            return r.cl;
-        })
-        .text(function (r) {
-            return r.head;
-        });
+    tableGroup.append("text")
+        .text("AVG ARR DELAY")
+        .attr("x", 200)
+        .attr("y", 0)
+        .attr("font-weight", "bold")
 
-    // create table body
-    table.append('tbody')
-        .selectAll('tr')
-        .data(table_data).enter()
-        .append('tr')
-        .selectAll('td')
-        .data(function (row, i) {
-            return columns.map(function (c) {
-                // compute cell values for this specific row
-                var cell = {};
-                d3.keys(c).forEach(function (k) {
-                    cell[k] = typeof c[k] == 'function' ? c[k](row, i) : c[k];
-                });
-                return cell;
-            });
-        }).enter()
-        .append('td')
-        .html(function (r) {
-            return r.html;
-        })
-        .attr('class', function (r) {
-            return r.cl;
-        });
+    tableGroup.selectAll(".airlineText")
+        .data(data)
+        .join("text")
+            .attr("x", 0)
+            .attr("y", (d) => y(d.AIRLINE) + textHeight / 2)
+            .attr("class", "airlineText")
+            .text((d) => d.AIRLINE)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 12)
+            .on("mouseover", mouseOverHandler)
+            .on("mouseout", mouseOutHandler)
 
-    function length() {
-        var fmt = d3.format('02d');
-        return function (l) {
-            return Math.floor(l / 60) + ':' + fmt(l % 60) + '';
-        };
-    }
+    tableGroup.selectAll(".delayText")
+        .data(data)
+        .join("text")
+            .attr("x", 200)
+            .attr("y", (d) => y(d.AIRLINE) + textHeight / 2)
+            .attr("class", "delayText")
+            .text((d) => d.AVG_ARR_DELAY)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 12)
+            .on("mouseover", mouseOverHandler)
+            .on("mouseout", mouseOutHandler)
+
 
 }
