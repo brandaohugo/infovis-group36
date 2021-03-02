@@ -20,11 +20,11 @@ const zoom = d3.zoom()
     .on('zoom', zoomed);
 
 //Create SVG element and append map to the SVG
-let svg = d3.select("#map-view")
+let map_svg = d3.select("#map-view")
     .append("svg")
     .attr("viewBox", '0 0 ' + width + ' ' + height);
 
-svg.call(zoom);
+map_svg.call(zoom);
 
 // Append Div for tooltip to SVG
 let div = d3.select("body")
@@ -33,7 +33,7 @@ let div = d3.select("body")
     .style("opacity", 0);
 
 // Bind the data to the SVG and create one path per GeoJSON feature
-svg.selectAll("path")
+map_svg.selectAll("path")
     .data(map_data.features)
     .enter()
     .append("path")
@@ -60,17 +60,17 @@ const urls = {
 function zoomed() {
     lastTransform = d3.event.transform
     zoomChanged = true
-    svg
+    map_svg
         .selectAll('path') // To prevent stroke width from scaling
         .attr('transform', lastTransform);
 
-    svg.selectAll('circle')
+    map_svg.selectAll('circle')
         .attr('transform', lastTransform)
         .attr("r", function (d) {
             return lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1
         })
 
-    svg.selectAll('line')
+    map_svg.selectAll('line')
         .attr('transform', lastTransform);
 }
 
@@ -85,7 +85,7 @@ function fadeOutAirports(filteredAirportLocations) {
 }
 
 function drawConnectionLine(origin, destination) {
-    svg.append("line")
+    map_svg.append("line")
         .style("stroke", "black")
         .style("opacity", 0.85)
         // TODO: Reimplement stroke-width
@@ -123,7 +123,7 @@ function getAirportConnections(originAirport, flights) {
 const drawAirportConnections = (originAirport, flights) => {
     let airportConnections = getAirportConnections(originAirport, flights)
 
-    svg.selectAll("line").remove()
+    map_svg.selectAll("line").remove()
     airportConnections.forEach(flight => {
         for (let i = 0; i < airport_locations.length; i++) {
             if (airport_locations[i].iata === flight.iata) {
@@ -134,16 +134,16 @@ const drawAirportConnections = (originAirport, flights) => {
         }
 
     })
-    svg.selectAll('line').attr('transform', lastTransform);
+    map_svg.selectAll('line').attr('transform', lastTransform);
 
     fadeOutAirports(airportConnections)
 }
 
 function drawOriDesConnection(origin, destination) {
-    svg.selectAll('line').remove()
+    map_svg.selectAll('line').remove()
     drawConnectionLine(origin, destination)
     fadeOutAirports([origin, destination])
-    svg.selectAll('line').attr('transform', lastTransform);
+    map_svg.selectAll('line').attr('transform', lastTransform);
 }
 
 function selectAirport(d) {
@@ -159,8 +159,9 @@ function selectAirport(d) {
         d3.csv(urls.flights)
             .then(flights => {
                 drawAirportConnections(firstSelectedAirport, flights)
-                svg.selectAll("circle").style("fill", "rgb(217,91,67)")
-                svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+                map_svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+                map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+                showOriginAirportInfo()
             })
     } else if (secondSelectedAirport === null) {
         secondSelectedAirport = d
@@ -168,7 +169,8 @@ function selectAirport(d) {
             .then(flights => {
                 if (getAirportConnections(firstSelectedAirport, flights).includes(secondSelectedAirport)) {
                     drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
-                    svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+                    map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+                    showDestinationAirportInfo()
 
                 } else {
                     alert("These two airports do not have a connection, try a different airport")
@@ -212,15 +214,29 @@ function showOriginAirportInfo() {
         .style("display", "block")
 }
 
+function showDestinationAirportInfo() {
+    d3.select("#map-view")
+        .style("display", "none")
+
+    d3.select("#origin-chart")
+        .style("display", "none")
+
+    d3.select("#destination-airport")
+        .style("display", "block")
+
+    d3.select("#od-chart")
+        .style("display", "block")
+}
+
 function resetMap() {
-    svg.selectAll("line").remove()
+    map_svg.selectAll("line").remove()
     firstSelectedAirport = secondSelectedAirport = null
     drawAirports(airport_locations)
 }
 
 function drawAirports(airports) {
-    svg.selectAll("circle").remove()
-    svg.selectAll("circle")
+    map_svg.selectAll("circle").remove()
+    map_svg.selectAll("circle")
         .data(airports)
         .enter()
         .append("svg:circle")
@@ -255,7 +271,6 @@ function drawAirports(airports) {
         .style("opacity", 0.85)
         .on("click", function (d) {
             selectAirport(d)
-            showOriginAirportInfo()
         })
 
     $('svg circle').tipsy({
