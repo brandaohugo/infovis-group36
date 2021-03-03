@@ -12,12 +12,12 @@
     </div>
     <link rel="stylesheet" type="text/css" href="../static/css/linechart.css">
 {#    <link rel="stylesheet" type="text/css" href="../static/css/table.css">#}
-    <script type="text/javascript" src="../static/js/linechart.js"></script>
+    <script type="text/javascript" src="../static/js/originAirport.js"></script>
     <script type="text/javascript">
         var plot_data = {{ plot_data |safe }};
         var table_data = {{ table_data |safe }};
 
-        lineChart();
+        originAirport();
     </script>
 
 {% endblock %}
