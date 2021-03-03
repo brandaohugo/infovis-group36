@@ -25,8 +25,9 @@ def map():
     table_data = pd.pivot_table(table_data, index='MONTH', columns='AIRLINE', values='ARR_DELAY').round(2)
     table_data = table_data.to_json(orient='records')
 
-    return render_template("mainview.html", map_data=map_data.us_states_map, airport_locations=map_data.us_airport_locations,
-                           plot_data=plot_data, table_data=table_data)
+    return render_template("mainview.html", map_data=map_data.us_states_map,
+                           airport_locations=map_data.us_airport_locations,
+                           plot_data=plot_data, table_data=table_data, airport_names=map_data.airport_names)
 
 
 @main.route('/bokeh', methods=['GET', 'POST'])

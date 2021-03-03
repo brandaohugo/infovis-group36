@@ -41,7 +41,6 @@ map_svg.selectAll("path")
     .style("stroke", "#fff")
     .style("stroke-width", "1")
     .style("fill", function (d) {
-        //If value is undefined…
         return "rgb(118,118,118)";
     });
 
@@ -123,37 +122,56 @@ const drawAirportConnections = (originAirport, flights) => {
     airportConnections.forEach(airport => {
         drawConnectionLine(originAirport, airport)
     })
-    map_svg.selectAll('line').attr('transform', lastTransform);
-
+    svg.selectAll('line').attr('transform', function (d) {
+        if (zoomChanged) {
+            return lastTransform
+        } else {
+            return null
+        }
+    })
     drawAirports(airportConnections)
 }
 
 function drawOriDesConnection(origin, destination) {
     map_svg.selectAll('line').remove()
     drawConnectionLine(origin, destination)
-    map_svg.selectAll('line').attr('transform', lastTransform);
+    svg.selectAll('line').attr('transform', function (d) {
+        if (zoomChanged) {
+            return lastTransform
+        } else {
+            return null
+        }
+    })
+}
+
+function selectOriginAirport(airport) {
+    firstSelectedAirport = airport
+    secondSelectedAirport = null
+
+    d3.csv(urls.flights)
+        .then(flights => {
+            drawAirportConnections(firstSelectedAirport, flights)
+            svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+            svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+        })
+}
+
+function selectDestinationAirport(airport) {
+    if (airport === firstSelectedAirport) {
+        secondSelectedAirport = null
+    } else {
+        secondSelectedAirport = airport
+        drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
+        svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+
+    }
 }
 
 function selectAirport(airport) {
     if (firstSelectedAirport === null) {
-        firstSelectedAirport = airport
-        d3.csv(urls.flights)
-            .then(flights => {
-                drawAirportConnections(firstSelectedAirport, flights)
-                map_svg.selectAll("circle").style("fill", "rgb(217,91,67)")
-                map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-                showOriginAirportInfo()
-            })
+        selectOriginAirport(airport)
     } else if (secondSelectedAirport === null) {
-        if (airport === firstSelectedAirport) {
-            secondSelectedAirport = null
-        } else {
-            secondSelectedAirport = airport
-            drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
-            map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
-            showDestinationAirportInfo()
-
-        }
+        selectDestinationAirport(airport)
     }
 }
 
