@@ -22,7 +22,8 @@ def map():
     plot_data = plot_data.to_json(orient='records')
 
     table_data = data.avg_flight_delay_month
-    table_data = pd.pivot_table(table_data, index='MONTH', columns='AIRLINE', values='ARR_DELAY').round(2)
+    table_data = pd.pivot_table(table_data, index='MONTH', columns='AIRLINE', values='ARR_DELAY').mean().round(
+        2).to_frame().rename(columns={0: "AVG_ARR_DELAY"}).reset_index().sort_values(by=['AVG_ARR_DELAY'])
     table_data = table_data.to_json(orient='records')
 
     return render_template("mainview.html", map_data=map_data.us_states_map, airport_locations=map_data.us_airport_locations,

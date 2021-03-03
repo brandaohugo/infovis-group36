@@ -4,7 +4,7 @@ https://stackoverflow.com/questions/42919992/d3-how-to-properly-get-the-key-valu
 https://bl.ocks.org/llad/3918637
 */
 
-var data = plot_data
+var data = table_data
 
 const containerDiv = d3.select('#od-chart');
 const odSvg = containerDiv.append("svg");
