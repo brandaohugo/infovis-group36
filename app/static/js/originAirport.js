@@ -7,7 +7,7 @@ Zakaria Chowdhury, D3 v4 Multi Line Chart
 https://codepen.io/zakariachowdhury/pen/JEmjwq?editors=0110
  */
 
-function lineChart(data) {
+function originAirport(data) {
 
     var data = plot_data
 
@@ -30,13 +30,13 @@ function lineChart(data) {
     bottomMargin = 2
     chartHeight = 550
 
-    var svg = d3.select("#linechart")
+    var svg = d3.select("#origin-airport")
         .append("svg")
         .attr("id", "origin-svg")
         .attr("viewBox", '0 0 1200 750')
         .style("display", "none");
 
-    var before_origin_svg = d3.select("#linechart")
+    var before_origin_svg = d3.select("#origin-airport")
         .append("svg")
         .attr("id", "before-origin-svg")
         .attr("viewBox", '0 0 1200 750')

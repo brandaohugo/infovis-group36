@@ -20,11 +20,11 @@ const zoom = d3.zoom()
     .on('zoom', zoomed);
 
 //Create SVG element and append map to the SVG
-let svg = d3.select("#map-view")
+let map_svg = d3.select("#map-view")
     .append("svg")
     .attr("viewBox", '0 0 ' + width + ' ' + height);
 
-svg.call(zoom);
+map_svg.call(zoom);
 
 // Append Div for tooltip to SVG
 let div = d3.select("body")
@@ -33,7 +33,7 @@ let div = d3.select("body")
     .style("opacity", 0);
 
 // Bind the data to the SVG and create one path per GeoJSON feature
-svg.selectAll("path")
+map_svg.selectAll("path")
     .data(map_data.features)
     .enter()
     .append("path")
@@ -41,7 +41,6 @@ svg.selectAll("path")
     .style("stroke", "#fff")
     .style("stroke-width", "1")
     .style("fill", function (d) {
-        //If value is undefined…
         return "rgb(118,118,118)";
     });
 
@@ -165,7 +164,7 @@ const showOriginAirportFlow = (origin, flights) => {
 
 // URls to load data from the web
 const urls = {
-    flights: "https://gist.githubusercontent.com/brandaohugo/95cd2011017b3da45a12849705e2e453/raw/8632dfe829f10f85a978fddb3a8a52856da380b5/flights.csv",
+    flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/9c62cc28a6b9972999d44d613ab99734fa49ccea/flights.csv",
     airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json"
 };
@@ -173,42 +172,39 @@ const urls = {
 function zoomed() {
     lastTransform = d3.event.transform
     zoomChanged = true
-    svg
+    map_svg
         .selectAll('path') // To prevent stroke width from scaling
         .attr('transform', lastTransform);
 
-    svg.selectAll('circle')
+    map_svg.selectAll('circle')
         .attr('transform', lastTransform)
         .attr("r", function (d) {
             return lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1
         })
 
-    svg.selectAll('line')
+    map_svg.selectAll('line')
         .attr('transform', lastTransform);
 }
 
-function fadeOutAirports(filteredAirportLocations) {
-    for (let i = 0; i < airport_locations.length; i++) {
-        if (!filteredAirportLocations.includes(airport_locations[i])) {
-            d3.select("#" + airport_locations[i].iata).style("opacity", 0.3)
-        } else {
-            d3.select("#" + airport_locations[i].iata).style("opacity", 0.85)
-        }
-    }
-}
-
 function drawConnectionLine(origin, destination) {
-    svg.append("line")
-        .style("stroke", "black")
+    map_svg.append("line")
+        .style("stroke", function () {
+            if (destination.arr_delay < 0) {
+                return "green"
+            } else if (destination.arr_delay > 5) {
+                return "red"
+            } else {
+                return "orange"
+            }
+        })
         .style("opacity", 0.85)
-        // TODO: Reimplement stroke-width
-        // .style("stroke-width", function () {
-        //     if (flight.count > 100) {
-        //         return 2
-        //     } else {
-        //         return 1
-        //     }
-        // })
+        .style("stroke-width", function () {
+            if (destination.flight_volume > 100) {
+                return 2
+            } else {
+                return 1
+            }
+        })
         .attr("id", origin.iata + destination.iata)
         .attr("x1", projection([origin.longitude, origin.latitude])[0])
         .attr("y1", projection([origin.longitude, origin.latitude])[1])
@@ -218,77 +214,79 @@ function drawConnectionLine(origin, destination) {
 
 function getAirportConnections(originAirport, flights) {
     let filteredFlights = flights.filter(i => i.origin === originAirport.iata)
-
     let filteredAirportLocations = [originAirport]
 
     filteredFlights.forEach(flight => {
         for (let i = 0; i < airport_locations.length; i++) {
             if (airport_locations[i].iata === flight.destination) {
-                filteredAirportLocations.push(airport_locations[i])
+                let airport_information = {...airport_locations[i], ...(flight)}
+                delete airport_information['destination'];
+                filteredAirportLocations.push(airport_information)
                 break
             }
         }
     })
-
     return filteredAirportLocations
 }
 
 const drawAirportConnections = (originAirport, flights) => {
     let airportConnections = getAirportConnections(originAirport, flights)
-
-    svg.selectAll("line").remove()
-    airportConnections.forEach(flight => {
-        for (let i = 0; i < airport_locations.length; i++) {
-            if (airport_locations[i].iata === flight.iata) {
-                console.log(flight)
-                drawConnectionLine(originAirport, airport_locations[i])
-                break
-            }
-        }
-
+    map_svg.selectAll("line").remove()
+    airportConnections.forEach(airport => {
+        drawConnectionLine(originAirport, airport)
     })
-    svg.selectAll('line').attr('transform', lastTransform);
-
-    fadeOutAirports(airportConnections)
+    svg.selectAll('line').attr('transform', function (d) {
+        if (zoomChanged) {
+            return lastTransform
+        } else {
+            return null
+        }
+    })
+    drawAirports(airportConnections)
 }
 
 function drawOriDesConnection(origin, destination) {
-    svg.selectAll('line').remove()
+    map_svg.selectAll('line').remove()
     drawConnectionLine(origin, destination)
-    fadeOutAirports([origin, destination])
-    svg.selectAll('line').attr('transform', lastTransform);
+    svg.selectAll('line').attr('transform', function (d) {
+        if (zoomChanged) {
+            return lastTransform
+        } else {
+            return null
+        }
+    })
 }
 
-function selectAirport(d) {
-   // firstSelectedAirport = d
-    // d3.csv(urls.flights)
-    //     .then(flights => {
-    //         drawAirportConnections(d, flights)
-    //         svg.selectAll("circle").style("fill", "rgb(217,91,67)")
-    //         svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-    //     })
-    if (firstSelectedAirport === null) {
-        firstSelectedAirport = d
-        d3.csv(urls.flights)
-            .then(flights => {
-                drawAirportConnections(firstSelectedAirport, flights)
-                svg.selectAll("circle").style("fill", "rgb(217,91,67)")
-                svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-                showOriginAirportFlow(d, flights)
-            })   
-    } else if (secondSelectedAirport === null) {
-        secondSelectedAirport = d
-        d3.csv(urls.flights)
-            .then(flights => {
-                if (getAirportConnections(firstSelectedAirport, flights).includes(secondSelectedAirport)) {
-                    drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
-                    svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+function selectOriginAirport(airport) {
+    firstSelectedAirport = airport
+    secondSelectedAirport = null
 
-                } else {
-                    alert("These two airports do not have a connection, try a different airport")
-                    secondSelectedAirport = null
-                }
-            })
+    d3.csv(urls.flights)
+        .then(flights => {
+            drawAirportConnections(firstSelectedAirport, flights)
+            svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+            svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+            showOriginAirportFlow(d, flights)
+        })
+}
+
+function selectDestinationAirport(airport) {
+    if (airport === firstSelectedAirport) {
+        secondSelectedAirport = null
+    } else {
+        secondSelectedAirport = airport
+        drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
+        svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+
+    }
+}
+
+
+function selectAirport(airport) {
+    if (firstSelectedAirport === null) {
+        selectOriginAirport(airport)
+    } else if (secondSelectedAirport === null) {
+        selectDestinationAirport(airport)
     }
         // } else if (firstSelectionBool) {
     //     firstSelectedAirport = d
@@ -315,7 +313,6 @@ function selectAirport(d) {
     //         .attr("y2", projection([secondSelectedAirport.longitude, secondSelectedAirport.latitude])[1])
     //
     // }
-
 }
 
 function showOriginAirportInfo() {
@@ -326,15 +323,29 @@ function showOriginAirportInfo() {
         .style("display", "block")
 }
 
+function showDestinationAirportInfo() {
+    d3.select("#map-view")
+        .style("display", "none")
+
+    d3.select("#origin-chart")
+        .style("display", "none")
+
+    d3.select("#destination-airport")
+        .style("display", "block")
+
+    d3.select("#od-chart")
+        .style("display", "block")
+}
+
 function resetMap() {
-    svg.selectAll("line").remove()
+    map_svg.selectAll("line").remove()
     firstSelectedAirport = secondSelectedAirport = null
     drawAirports(airport_locations)
 }
 
 function drawAirports(airports) {
-    svg.selectAll("circle").remove()
-    svg.selectAll("circle")
+    map_svg.selectAll("circle").remove()
+    map_svg.selectAll("circle")
         .data(airports)
         .enter()
         .append("svg:circle")
@@ -369,7 +380,6 @@ function drawAirports(airports) {
         .style("opacity", 0.85)
         .on("click", function (d) {
             selectAirport(d)
-            showOriginAirportInfo()
         })
 
     $('svg circle').tipsy({
