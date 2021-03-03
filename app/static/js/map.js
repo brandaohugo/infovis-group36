@@ -144,24 +144,34 @@ function drawOriDesConnection(origin, destination) {
     })
 }
 
+function selectOriginAirport(airport) {
+    firstSelectedAirport = airport
+    secondSelectedAirport = null
+
+    d3.csv(urls.flights)
+        .then(flights => {
+            drawAirportConnections(firstSelectedAirport, flights)
+            svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+            svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+        })
+}
+
+function selectDestinationAirport(airport) {
+    if (airport === firstSelectedAirport) {
+        secondSelectedAirport = null
+    } else {
+        secondSelectedAirport = airport
+        drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
+        svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+
+    }
+}
+
 function selectAirport(airport) {
     if (firstSelectedAirport === null) {
-        firstSelectedAirport = airport
-        d3.csv(urls.flights)
-            .then(flights => {
-                drawAirportConnections(firstSelectedAirport, flights)
-                svg.selectAll("circle").style("fill", "rgb(217,91,67)")
-                svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-            })
+        selectOriginAirport(airport)
     } else if (secondSelectedAirport === null) {
-        if (airport === firstSelectedAirport) {
-            secondSelectedAirport = null
-        } else {
-            secondSelectedAirport = airport
-            drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
-            svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
-
-        }
+        selectDestinationAirport(airport)
     }
 }
 
@@ -234,6 +244,5 @@ function drawAirports(airports) {
     })
 }
 
-console.log(airport_locations)
 
 drawAirports(airport_locations)
