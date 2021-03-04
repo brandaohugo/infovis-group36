@@ -10,7 +10,6 @@ $(document).ready(function () { // Wait until document is fully parsed
             if (airport_locations[i].iata === airport_iata.toUpperCase()) {
                 selectOriginAirport(airport_locations[i])
                 airport_found = true
-                showSecondInputField()
                 break
             }
         }
@@ -18,7 +17,15 @@ $(document).ready(function () { // Wait until document is fully parsed
             alert("The input did not match any IATA")
         }
 
-    });
+    })
+        .bind('reset', function(e) {
+            e.preventDefault();
+
+            document.getElementById("origin-input-selector").value = "";
+            document.getElementById("destination-input-selector").value = "";
+            resetToMainView()
+            resetMap()
+        });
 })
 
 $(document).ready(function () { // Wait until document is fully parsed
@@ -42,12 +49,56 @@ $(document).ready(function () { // Wait until document is fully parsed
             alert("The input did not match any IATA")
         }
 
-    });
+    })
+        .bind('reset', function (e) {
+            e.preventDefault();
+
+            document.getElementById("destination-input-selector").value = "";
+            resetToDestinationView()
+            resetMapDestination()
+        });
 })
 
-function showSecondInputField() {
-    d3.select("#destination-form")
+function showDestinationAirportInfo() {
+    d3.select("#map-view")
+        .style("display", "none")
+
+    d3.select("#origin-chart")
+        .style("display", "none")
+
+    d3.select("#destination-airport")
         .style("display", "block")
+
+    d3.select("#od-chart")
+        .style("display", "block")
+}
+
+function resetToMainView() {
+     d3.select("#map-view")
+        .style("display", "block")
+
+    d3.select("#origin-chart")
+        .style("display", "none")
+
+    d3.select("#destination-airport")
+        .style("display", "none")
+
+    d3.select("#od-chart")
+        .style("display", "none")
+}
+
+function resetToDestinationView() {
+     d3.select("#map-view")
+        .style("display", "block")
+
+    d3.select("#origin-chart")
+        .style("display", "block")
+
+    d3.select("#destination-airport")
+        .style("display", "none")
+
+    d3.select("#od-chart")
+        .style("display", "none")
 }
 
 
