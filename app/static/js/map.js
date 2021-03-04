@@ -70,7 +70,7 @@ const showOriginAirportFlow = (origin, flights) => {
     h = 250 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    var svg = d3.select("#secondchart").append("svg")
+    var svg = d3.select("#origin-chart").append("svg")
     .attr("width", w + margin.left + margin.right)
     .attr("height", h + margin.top + margin.bottom)
     .append("g")
@@ -79,13 +79,13 @@ const showOriginAirportFlow = (origin, flights) => {
 
     // Color scale used
     var color = d3.scaleOrdinal(d3.schemePastel1);
-
+    
     // Set the sankey diagram properties
     var sankey = d3.sankey()
     .nodeWidth(10)
     .nodePadding(15)
     .size([w, h]);
-
+    
     const destFlights = flights.filter( el => {
         return origin.iata == el.origin
     })
@@ -97,9 +97,10 @@ const showOriginAirportFlow = (origin, flights) => {
 
     const links = destFlights.map(el => {
         let t = nodes.find(e => e.name == el.destination);
-        return {source: 0, target: t.node, value: el.count }
+        return {source: 0, target: t.node, value: el.flight_volume }
     })
-
+    console.log(nodes)
+    console.log(links)
     sankey
         .nodes(nodes)
         .links(links)
@@ -235,13 +236,13 @@ const drawAirportConnections = (originAirport, flights) => {
     airportConnections.forEach(airport => {
         drawConnectionLine(originAirport, airport)
     })
-    svg.selectAll('line').attr('transform', function (d) {
-        if (zoomChanged) {
-            return lastTransform
-        } else {
-            return null
-        }
-    })
+    // svg.selectAll('line').attr('transform', function (d) {
+    //     if (zoomChanged) {
+    //         return lastTransform
+    //     } else {
+    //         return null
+    //     }
+    // })
     drawAirports(airportConnections)
 }
 
@@ -264,9 +265,9 @@ function selectOriginAirport(airport) {
     d3.csv(urls.flights)
         .then(flights => {
             drawAirportConnections(firstSelectedAirport, flights)
-            svg.selectAll("circle").style("fill", "rgb(217,91,67)")
-            svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-            showOriginAirportFlow(d, flights)
+            // svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+            // svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+            showOriginAirportFlow(airport, flights)
         })
 }
 
