@@ -287,6 +287,7 @@ function selectAirport(airport) {
         selectOriginAirport(airport)
     } else if (secondSelectedAirport === null) {
         selectDestinationAirport(airport)
+        showDestinationAirportInfo()
     }
         // } else if (firstSelectionBool) {
     //     firstSelectedAirport = d
