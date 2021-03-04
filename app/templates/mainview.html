@@ -22,9 +22,18 @@
                        name="origin_value">
                 <input type="submit" value="Submit">
             </form>
-            <div class="col-lg-6 flex-grow-1 col-xs-4 text-center align-self-center" id="originSelector">
+            <div class="col-lg flex-grow-1 col-xs-4 text-center align-self-center" id="originSelector">
+                <div class="row">
+                    <div class="col" id="origin-flights">
+                    </div>
+                    <div class="col" id="origin-connections">
+                    </div>
+                    <div class="col" id="origin-canceled">
+                    </div>
+                </div>
             </div>
         </div>
+
 
         <div class="col-lg flex-grow-1 border-left">
             <form class="form-group form-inline autocomplete" id="destination-form" autocomplete="off"
@@ -65,6 +74,8 @@
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.tipsy.js"></script>
+
+    <script type="text/javascript" src="../static/js/infoBox.js"></script>
 
     <script type="text/javascript" src="../static/js/airportSelection.js"></script>
     <script type="text/javascript" src="../static/js/originAirport.js"></script>
