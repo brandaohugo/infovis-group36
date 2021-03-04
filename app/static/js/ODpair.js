@@ -16,8 +16,7 @@ const tableWidth = 320;
 const plotWidth = svgWidth - tableWidth - margin.left - margin.right;
 const odHeight = svgHeight - margin.top - margin.bottom;
 
-odSvg.attr("width", svgWidth)
-    .attr("height", svgHeight);
+odSvg.attr("viewBox", '0 0 ' + svgWidth + ' ' + svgHeight);
 
 const g = odSvg.append("g")
     .attr("transform", `translate(${margin.left + tableWidth}, ${margin.top})`)
