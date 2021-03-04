@@ -79,17 +79,17 @@ const showOriginAirportFlow = (origin, flights) => {
 
     // Color scale used
     var color = d3.scaleOrdinal(d3.schemePastel1);
-    
+
     // Set the sankey diagram properties
     var sankey = d3.sankey()
     .nodeWidth(10)
     .nodePadding(15)
     .size([w, h]);
-    
+
     const destFlights = flights.filter( el => {
         return origin.iata == el.origin
     })
-    
+
     const nodes = destFlights.map((el, i) => {
         return {node: i+1, name: el.destination}
     })
@@ -99,8 +99,7 @@ const showOriginAirportFlow = (origin, flights) => {
         let t = nodes.find(e => e.name == el.destination);
         return {source: 0, target: t.node, value: el.flight_volume }
     })
-    console.log(nodes)
-    console.log(links)
+
     sankey
         .nodes(nodes)
         .links(links)
@@ -157,9 +156,9 @@ const showOriginAirportFlow = (origin, flights) => {
 
     // load the data
     // d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_sankey.json", function(error, graph) {
-    
 
-   
+
+
     // });
 };
 
@@ -236,20 +235,20 @@ const drawAirportConnections = (originAirport, flights) => {
     airportConnections.forEach(airport => {
         drawConnectionLine(originAirport, airport)
     })
-    // svg.selectAll('line').attr('transform', function (d) {
-    //     if (zoomChanged) {
-    //         return lastTransform
-    //     } else {
-    //         return null
-    //     }
-    // })
+    map_svg.selectAll('line').attr('transform', function (d) {
+        if (zoomChanged) {
+            return lastTransform
+        } else {
+            return null
+        }
+    })
     drawAirports(airportConnections)
 }
 
 function drawOriDesConnection(origin, destination) {
     map_svg.selectAll('line').remove()
     drawConnectionLine(origin, destination)
-    svg.selectAll('line').attr('transform', function (d) {
+    map_svg.selectAll('line').attr('transform', function (d) {
         if (zoomChanged) {
             return lastTransform
         } else {
@@ -265,8 +264,8 @@ function selectOriginAirport(airport) {
     d3.csv(urls.flights)
         .then(flights => {
             drawAirportConnections(firstSelectedAirport, flights)
-            // svg.selectAll("circle").style("fill", "rgb(217,91,67)")
-            // svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+            map_svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+            map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
             showOriginAirportFlow(airport, flights)
         })
 }
@@ -277,7 +276,7 @@ function selectDestinationAirport(airport) {
     } else {
         secondSelectedAirport = airport
         drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
-        svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+        map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
 
     }
 }
@@ -340,6 +339,7 @@ function showDestinationAirportInfo() {
 
 function resetMap() {
     map_svg.selectAll("line").remove()
+    d3.select("#origin-chart").select('svg').remove()
     firstSelectedAirport = secondSelectedAirport = null
     drawAirports(airport_locations)
 }
