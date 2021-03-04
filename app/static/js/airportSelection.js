@@ -3,13 +3,14 @@ $(document).ready(function () { // Wait until document is fully parsed
         e.preventDefault();
 
         let origin_airport = $('#origin-form').serializeArray()[0]['value']
-        let airport_iata = origin_airport.split('(')[1].substr(0,3)
+        let airport_iata = origin_airport.split('(')[1].substr(0, 3)
 
         let airport_found = false
         for (let i = 0; i < airport_locations.length; i++) {
             if (airport_locations[i].iata === airport_iata.toUpperCase()) {
                 selectOriginAirport(airport_locations[i])
                 airport_found = true
+                showSecondInputField()
                 break
             }
         }
@@ -19,6 +20,35 @@ $(document).ready(function () { // Wait until document is fully parsed
 
     });
 })
+
+$(document).ready(function () { // Wait until document is fully parsed
+    $("#destination-form").bind('submit', function (e) {
+        e.preventDefault();
+
+        let destination_airport = $('#destination-form').serializeArray()[0]['value']
+        console.log("Destination airport", destination_airport)
+        let airport_iata = destination_airport.split('(')[1].substr(0, 3)
+
+        let airport_found = false
+        for (let i = 0; i < airport_locations.length; i++) {
+            if (airport_locations[i].iata === airport_iata.toUpperCase()) {
+                selectDestinationAirport(airport_locations[i])
+                airport_found = true
+                showDestinationAirportInfo()
+                break
+            }
+        }
+        if (!airport_found) {
+            alert("The input did not match any IATA")
+        }
+
+    });
+})
+
+function showSecondInputField() {
+    d3.select("#destination-form")
+        .style("display", "block")
+}
 
 
 function autocomplete(inp, arr) {
@@ -123,3 +153,4 @@ function autocomplete(inp, arr) {
 }
 
 autocomplete(document.getElementById("origin-input-selector"), airport_names);
+autocomplete(document.getElementById("destination-input-selector"), airport_names);
