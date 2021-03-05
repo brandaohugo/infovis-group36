@@ -76,9 +76,8 @@ const convertDataToSpider =(dataIn) => {
     dataIn.forEach(f => {
         keySet.add(f.airline)
     })
-    console.log(keySet)
     const airlineData = [];
-    const airlineNames = []
+    const airlineNames = [];
     keySet.forEach(k => {
         const airline = {}
         const airlineArrays = dataIn.filter(el  => el.airline == k)
@@ -96,14 +95,104 @@ const convertDataToSpider =(dataIn) => {
     }
 }
 
-const drawSpiderWebChart = () => {
-    d3.csv(urls.avgMonthDelay)
-        .then(avgMonthDelay => {
-            const {airlineNames, airlineData} = convertDataToSpider(avgMonthDelay)
-            console.log(airlineNames)
-            console.log(airlineData)
+
+const drawSpiderWebChart = (airlineNames, airlineData, features) => {
+    
+        
+    const diameter = 20;
+    const maxAirlines = 4
+
+    let svg = d3.select("body").append("svg")
+        .attr("width", 600)
+        .attr("height", 600);
+
+
+    let radialScale = d3.scaleLinear()
+        .domain([0,diameter])
+        .range([0,250]);
+    let ticks = [5,10,15,20];
+   
+    ticks.forEach(t =>
+        svg.append("circle")
+        .attr("cx", 300)
+        .attr("cy", 300)
+        .attr("fill", "none")
+        .attr("stroke", "gray")
+        .attr("r", radialScale(t))
+    );
+
+    ticks.forEach(t =>
+        svg.append("text")
+        .attr("x", 305)
+        .attr("y", 300-radialScale(t))
+        .text(t.toString())
+    );
+
+    const angleToCoordinate = (angle, value) => {
+        let x = Math.cos(angle) * radialScale(value);
+        let y  = Math.sin(angle) * radialScale(value);
+        return {"x": 300 + x, "y": 300-y}
+    }
+
+    for (var i = 0 ; i < features.length; i++) {
+        let featureName =  features[i];
+        let angle  = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+        let lineCoordinate = angleToCoordinate(angle, diameter);
+        let labelCoordinate = angleToCoordinate(angle, diameter + 0.5);
+
+        svg.append("line")
+        .attr("x1", 300)
+        .attr("y1", 300)
+        .attr("x2", lineCoordinate.x)
+        .attr("y2", lineCoordinate.y)
+        .attr("stroke", "black");
+
+        svg.append("text")
+        .attr("x", labelCoordinate.x)
+        .attr("y", labelCoordinate.y)
+        .text(featureName);
+    }
+
+    let line = d3.line()
+        .x(d => d.x)
+        .y(d => d.y);
+
+    let colors = ["gold", "blue", "green", "black", "grey", "darkgreen", "yellow", "pink", "brown", "slateblue", "grey1", "orange"]
+
+    const getPathCoordinates = (dataPoint) => {
+        let coordinates = [];
+        for (var i = 0; i < features.length; i++){
+            let featureName = features[i];
+            let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+            coordinates.push(angleToCoordinate(angle, dataPoint[featureName]));
         }
-    )
+        return coordinates;
+    }
+
+
+    for (var i = 0; i < maxAirlines; i++) {
+        let d = airlineData[i];
+        let color = colors[i];
+        let coordinates = getPathCoordinates(d);
+
+        console.log(d)
+        console.log("coordinates", coordinates);
+
+        svg.append("text")
+        .attr("x", 400)
+        .attr("y", 300 + i * 20)
+        .style("fill",color)
+        .style("font-size", "20px")
+        .text(airlineNames[i]);
+        
+        svg.append("path")
+            .attr("d",line(coordinates))
+            .attr("stroke-width", 3)
+            .attr("stroke", color)
+            .attr("fill", color)
+            .attr("stroke-opacity", 1)
+            .attr("opacity", 0.3);
+    }
 }
 
 const showOriginAirportFlow = (origin, flights) => {
@@ -304,7 +393,6 @@ const drawAirportConnections = (originAirport, flights) => {
 function drawOriDesConnection(origin, destination) {
     map_svg.selectAll('line').remove()
     drawConnectionLine(origin, destination)
-    drawSpiderWebChart()
     map_svg.selectAll('line').attr('transform', function (d) {
         if (zoomChanged) {
             return lastTransform
@@ -312,6 +400,13 @@ function drawOriDesConnection(origin, destination) {
             return null
         }
     })
+    d3.csv(urls.avgMonthDelay)
+        .then(avgMonthDelay => {
+            const {airlineNames, airlineData} = convertDataToSpider(avgMonthDelay);
+            const features = Object.keys(airlineData[0]);
+            drawSpiderWebChart(airlineNames, airlineData, features)
+        }
+    )
 }
 
 function selectOriginAirport(airport) {
