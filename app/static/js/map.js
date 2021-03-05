@@ -1,3 +1,4 @@
+
 //Width and height of map
 const width = 960;
 const height = 500;
@@ -48,6 +49,14 @@ let firstSelectionBool = true
 let firstSelectedAirport = null
 let secondSelectedAirport = null
 
+// URls to load data from the web
+const urls = {
+    flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/9c62cc28a6b9972999d44d613ab99734fa49ccea/flights.csv",
+    airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
+    map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
+    avgMonthDelay: "https://gist.githubusercontent.com/brandaohugo/2afd4888532bd563d5dcd20d5d741423/raw/a02e4a00c13e8fa025625b002db4200a5a0c0e55/avg_flight_delay_month.csv"
+};
+
 
 // the function for moving the nodes
 const dragmove = (d) => {
@@ -62,6 +71,40 @@ const dragmove = (d) => {
     link.attr("d", sankey.link());
 }
 
+const convertDataToSpider =(dataIn) => {
+    const keySet = new Set();
+    dataIn.forEach(f => {
+        keySet.add(f.airline)
+    })
+    console.log(keySet)
+    const airlineData = [];
+    const airlineNames = []
+    keySet.forEach(k => {
+        const airline = {}
+        const airlineArrays = dataIn.filter(el  => el.airline == k)
+        airlineArrays.forEach(el => {
+            month = el.period
+            delay = Math.max(0,el.avg_delay)
+            airline[month] = delay
+        })
+        airlineNames.push(k)
+        airlineData.push(airline)
+    })
+    return {
+        airlineNames,
+        airlineData
+    }
+}
+
+const drawSpiderWebChart = () => {
+    d3.csv(urls.avgMonthDelay)
+        .then(avgMonthDelay => {
+            const {airlineNames, airlineData} = convertDataToSpider(avgMonthDelay)
+            console.log(airlineNames)
+            console.log(airlineData)
+        }
+    )
+}
 
 const showOriginAirportFlow = (origin, flights) => {
     // set the dimensions and margins of the graph
@@ -181,12 +224,6 @@ const showOriginAirportFlow = (origin, flights) => {
     // });
 };
 
-// URls to load data from the web
-const urls = {
-    flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/9c62cc28a6b9972999d44d613ab99734fa49ccea/flights.csv",
-    airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
-    map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json"
-};
 
 function zoomed() {
     lastTransform = d3.event.transform
@@ -267,6 +304,7 @@ const drawAirportConnections = (originAirport, flights) => {
 function drawOriDesConnection(origin, destination) {
     map_svg.selectAll('line').remove()
     drawConnectionLine(origin, destination)
+    drawSpiderWebChart()
     map_svg.selectAll('line').attr('transform', function (d) {
         if (zoomChanged) {
             return lastTransform
