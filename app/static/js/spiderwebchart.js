@@ -33,11 +33,13 @@ const drawSpiderWebChart = (rawData) => {
 
     const numTicks = 5;
     
-    const chartWidth = 800;
+    const chartWidth = 800; // chartWidth >= chartHeight
     const chartHeight = 600;
     const chartMargin = 50;
 
-    const labelsRightMargin = 150;
+    const spiderCenterX = chartHeight / 2
+    const spiderCenterY = chartHeight / 2
+
     const labelsYOffset = 0;
    
     
@@ -52,15 +54,14 @@ const drawSpiderWebChart = (rawData) => {
     let radialScale = d3.scaleLinear()
         .domain([minValue,maxValue])
         .range([0, maxRange - chartMargin]);
-    
-    // let ticks = [5,10,15,20]; //calculate ticks?
+
     
     let ticks = [...Array(numTicks).keys()].map((e,i) => {return Math.min((i+1) * maxValue / numTicks, maxValue)})
     console.log(ticks)
     ticks.forEach(t =>
         svg.append("circle")
-        .attr("cx", Math.round(chartWidth / 2))
-        .attr("cy", Math.round(chartHeight / 2))
+        .attr("cx", Math.round(spiderCenterX))
+        .attr("cy", Math.round(spiderCenterY))
         .attr("fill", "none")
         .attr("stroke", "gray")
         .attr("r", radialScale(t))
@@ -68,15 +69,15 @@ const drawSpiderWebChart = (rawData) => {
 
     ticks.forEach(t =>
         svg.append("text")
-        .attr("x", Math.round(chartWidth / 2) + 5)
-        .attr("y", Math.round(chartWidth / 2) -radialScale(t))
+        .attr("x", Math.round(spiderCenterX) + 5)
+        .attr("y", Math.round(spiderCenterY) - radialScale(t))
         .text(t.toString())
     );
 
     const angleToCoordinate = (angle, value) => {
         let x = Math.cos(angle) * radialScale(value);
         let y  = Math.sin(angle) * radialScale(value);
-        return {"x": Math.round(chartWidth / 2) + x, "y": Math.round(chartHeight / 2)-y}
+        return {"x": Math.round(spiderCenterX) + x, "y": Math.round(spiderCenterY)-y}
     }
 
     for (var i = 0 ; i < features.length; i++) {
@@ -86,8 +87,8 @@ const drawSpiderWebChart = (rawData) => {
         let labelCoordinate = angleToCoordinate(angle, maxValue + 0.5);
 
         svg.append("line")
-        .attr("x1", Math.round(chartWidth / 2))
-        .attr("y1", Math.round(chartHeight / 2))
+        .attr("x1", Math.round(spiderCenterX))
+        .attr("y1", Math.round(spiderCenterY))
         .attr("x2", lineCoordinate.x)
         .attr("y2", lineCoordinate.y)
         .attr("stroke", "black");
@@ -122,8 +123,8 @@ const drawSpiderWebChart = (rawData) => {
 
 
         svg.append("text")
-        .attr("x", chartWidth - labelsRightMargin  )
-        .attr("y", Math.round(chartHeight / 2) + i * 20 + labelsYOffset)
+        .attr("x", spiderCenterX + maxRange )
+        .attr("y", Math.round(spiderCenterY) + i * 20 + labelsYOffset)
         .style("fill",color)
         .style("font-size", "20px")
         .text(labels[i]);
