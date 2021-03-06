@@ -280,7 +280,19 @@ function drawOriDesConnection(origin, destination) {
         }
     })
     d3.csv(urls.avgMonthDelay)
-        .then(rawData => drawSpiderWebChart(rawData));
+        .then(rawData => {
+            const options = {
+                maxLabels: 4,
+                numTicks: 5,
+                chartWidth: 800, 
+                chartHeight: 600,
+                chartMargin: 50,
+                labelsYOffset: -100,
+                labelLineHeight: 25,
+                labelFontSize: "25px"
+            };
+            drawSpiderWebChart(rawData, options)
+        });
 }
     
 

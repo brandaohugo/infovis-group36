@@ -30,22 +30,19 @@ const convertDataToSpider =(dataIn) => {
     }
 }
 
-const drawSpiderWebChart = (rawData) => {
+const drawSpiderWebChart = (rawData, options) => {
     const {labels, data, features, misc} = convertDataToSpider(rawData);
     const { maxValue, minValue } = misc
-    console.log(maxValue)
-    console.log(minValue)
-    
-    const maxLabels = 4;
-    const numTicks = 5;
-    
-    const chartWidth = 800; // chartWidth >= chartHeight
-    const chartHeight = 600;
-    const chartMargin = 50;
-    
-    const labelsYOffset = 0;
-    const labelLineHeight = 20;
-    const labelFontSize = "20px"
+    const {
+        maxLabels,
+        numTicks,
+        chartHeight,
+        chartWidth,
+        chartMargin,
+        labelsYOffset,
+        labelFontSize,
+        labelLineHeight,
+    } = options
 
     const spiderCenterX = chartHeight / 2
     const spiderCenterY = chartHeight / 2
