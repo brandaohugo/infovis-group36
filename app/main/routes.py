@@ -1,5 +1,6 @@
-from flask import render_template, request, jsonify
-import os, json
+from flask import render_template, request, jsonify, send_from_directory
+
+import os, json, sys
 
 from decimal import Decimal
 
@@ -15,6 +16,11 @@ from . import main
 def index():
     return render_template("home.html")
 
+@main.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
+    return response
 
 @main.route('/map', methods=['GET'])
 def map():
@@ -49,6 +55,10 @@ def bokeh():
                            selected_property_type=property_type, selected_rental_price=rental_price,
                            selected_surface_area=surface_area)
 
+@main.route("/static/<path:path>")
+def static_dir(path):
+    print('This is standard output', file=sys.stdout)
+    return send_from_directory("static", path)
 
 @main.route("/data", methods=['GET'])
 def get_data():
