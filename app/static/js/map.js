@@ -69,10 +69,14 @@ const showOriginAirportFlow = (origin, flights) => {
         w = 540 - margin.left - margin.right,
         h = 250 - margin.top - margin.bottom;
 
+    var width = w + margin.left + margin.right
+    var height = h + margin.top + margin.bottom
+
     // append the svg object to the body of the page
     var svg = d3.select("#origin-chart").append("svg")
-        .attr("width", w + margin.left + margin.right)
-        .attr("height", h + margin.top + margin.bottom)
+        // .attr("width", w + margin.left + margin.right)
+        // .attr("height", h + margin.top + margin.bottom)
+        .attr("viewBox", '0 0 ' + width + ' ' + height)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
@@ -90,16 +94,19 @@ const showOriginAirportFlow = (origin, flights) => {
         return origin.iata == el.origin
     })
 
-    const nodes = destFlights.map((el, i) => {
+    let nodes = destFlights.map((el, i) => {
         return {node: i + 1, name: el.destination}
-    })
+    });
+    // Place origin as first node instead of last
     nodes.unshift({node: 0, name: origin.iata})
 
-    const links = destFlights.map(el => {
+    let links = destFlights.map(el => {
         let t = nodes.find(e => e.name == el.destination);
         return {source: 0, target: t.node, value: el.flight_volume}
     })
 
+    nodes = nodes.slice(0, 10)
+    links = links.slice(0, 9)
     sankey
         .nodes(nodes)
         .links(links)
