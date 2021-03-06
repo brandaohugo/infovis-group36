@@ -18,7 +18,7 @@ $(document).ready(function () { // Wait until document is fully parsed
         }
 
     })
-        .bind('reset', function(e) {
+        .bind('reset', function (e) {
             e.preventDefault();
 
             document.getElementById("origin-input-selector").value = "";
@@ -74,11 +74,10 @@ function showDestinationAirportInfo() {
 }
 
 function resetToMainView() {
-     d3.select("#map-view")
+    d3.select("#map-view")
         .style("display", "block")
 
-    d3.select("#origin-chart")
-        .style("display", "none")
+    d3.select("#origin-chart").select('svg').remove()
 
     d3.select("#destination-airport")
         .style("display", "none")
@@ -88,7 +87,7 @@ function resetToMainView() {
 }
 
 function resetToDestinationView() {
-     d3.select("#map-view")
+    d3.select("#map-view")
         .style("display", "block")
 
     d3.select("#origin-chart")
