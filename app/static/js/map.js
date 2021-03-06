@@ -54,68 +54,65 @@ const urls = {
     flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/9c62cc28a6b9972999d44d613ab99734fa49ccea/flights.csv",
     airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
-    avgMonthDelay: "https://gist.githubusercontent.com/brandaohugo/2afd4888532bd563d5dcd20d5d741423/raw/a02e4a00c13e8fa025625b002db4200a5a0c0e55/avg_flight_delay_month.csv"
+    avgMonthDelay: "https://gist.githubusercontent.com/brandaohugo/2afd4888532bd563d5dcd20d5d741423/raw/60f3e2a853de995f3455ce239c452110e6a7d945/avg_flight_delay_month.csv"
 };
-
-
-// the function for moving the nodes
-const dragmove = (d) => {
-    d3.select(this)
-        .attr("transform",
-            "translate("
-            + d.x + ","
-            + (d.y = Math.max(
-                0, Math.min(height - d.dy, d3.event.y))
-            ) + ")");
-    sankey.relayout();
-    link.attr("d", sankey.link());
-}
 
 const convertDataToSpider =(dataIn) => {
     const keySet = new Set();
     dataIn.forEach(f => {
-        keySet.add(f.airline)
+        keySet.add(f.label)
     })
-    const airlineData = [];
-    const airlineNames = [];
+    let data = [];
+    const labels = [];
     keySet.forEach(k => {
-        const airline = {}
-        const airlineArrays = dataIn.filter(el  => el.airline == k)
-        airlineArrays.forEach(el => {
-            month = el.period
-            delay = Math.max(0,el.avg_delay)
-            airline[month] = delay
+        const labelRow = {}
+        const labelArrays = dataIn.filter(el  => el.label == k)
+        labelArrays.forEach(el => {
+            value = Math.max(0,el.value)
+            labelRow[el.period] = value
         })
-        airlineNames.push(k)
-        airlineData.push(airline)
+        labels.push(k)
+        data.push(labelRow)
     })
+    const features = Object.keys(data[0]);
     return {
-        airlineNames,
-        airlineData
+        labels,
+        data,
+        features
     }
 }
 
-
-const drawSpiderWebChart = (airlineNames, airlineData, features) => {
+const drawSpiderWebChart = (rawData) => {
     
-        
-    const diameter = 20;
-    const maxAirlines = 4
+    const {labels, data, features} = convertDataToSpider(rawData);
+
+    const maxLabels = 4
+
+    const maxValue = 20;
+    const minValue = 0;
+    
+    const chartWidth = 600;
+    const chartHeight = 600;
+    const chartMargin = 50;
+   
+    
+    const minDim = Math.min(chartWidth,chartHeight)
+    const maxRange = Math.round(minDim / 2)
 
     let svg = d3.select("body").append("svg")
-        .attr("width", 600)
-        .attr("height", 600);
+        .attr("width", chartWidth)
+        .attr("height", chartHeight);
 
 
     let radialScale = d3.scaleLinear()
-        .domain([0,diameter])
-        .range([0,250]);
-    let ticks = [5,10,15,20];
+        .domain([minValue,maxValue])
+        .range([0, maxRange - chartMargin]);
+    let ticks = [5,10,15,20]; //calculate ticks?
    
     ticks.forEach(t =>
         svg.append("circle")
-        .attr("cx", 300)
-        .attr("cy", 300)
+        .attr("cx", Math.round(chartWidth / 2))
+        .attr("cy", Math.round(chartHeight / 2))
         .attr("fill", "none")
         .attr("stroke", "gray")
         .attr("r", radialScale(t))
@@ -123,26 +120,26 @@ const drawSpiderWebChart = (airlineNames, airlineData, features) => {
 
     ticks.forEach(t =>
         svg.append("text")
-        .attr("x", 305)
-        .attr("y", 300-radialScale(t))
+        .attr("x", Math.round(chartWidth / 2) + 5)
+        .attr("y", Math.round(chartWidth / 2) -radialScale(t))
         .text(t.toString())
     );
 
     const angleToCoordinate = (angle, value) => {
         let x = Math.cos(angle) * radialScale(value);
         let y  = Math.sin(angle) * radialScale(value);
-        return {"x": 300 + x, "y": 300-y}
+        return {"x": Math.round(chartWidth / 2) + x, "y": Math.round(chartHeight / 2)-y}
     }
 
     for (var i = 0 ; i < features.length; i++) {
         let featureName =  features[i];
         let angle  = (Math.PI / 2) + (2 * Math.PI * i / features.length);
-        let lineCoordinate = angleToCoordinate(angle, diameter);
-        let labelCoordinate = angleToCoordinate(angle, diameter + 0.5);
+        let lineCoordinate = angleToCoordinate(angle, maxValue);
+        let labelCoordinate = angleToCoordinate(angle, maxValue + 0.5);
 
         svg.append("line")
-        .attr("x1", 300)
-        .attr("y1", 300)
+        .attr("x1", Math.round(chartWidth / 2))
+        .attr("y1", Math.round(chartHeight / 2))
         .attr("x2", lineCoordinate.x)
         .attr("y2", lineCoordinate.y)
         .attr("stroke", "black");
@@ -170,20 +167,18 @@ const drawSpiderWebChart = (airlineNames, airlineData, features) => {
     }
 
 
-    for (var i = 0; i < maxAirlines; i++) {
-        let d = airlineData[i];
+    for (var i = 0; i < maxLabels; i++) {
+        let d = data[i];
         let color = colors[i];
         let coordinates = getPathCoordinates(d);
 
-        console.log(d)
-        console.log("coordinates", coordinates);
 
         svg.append("text")
-        .attr("x", 400)
-        .attr("y", 300 + i * 20)
+        .attr("x", Math.round(chartWidth / 2) +  100)
+        .attr("y", Math.round(chartHeight / 2) + i * 20)
         .style("fill",color)
         .style("font-size", "20px")
-        .text(airlineNames[i]);
+        .text(labels[i]);
         
         svg.append("path")
             .attr("d",line(coordinates))
@@ -194,6 +189,22 @@ const drawSpiderWebChart = (airlineNames, airlineData, features) => {
             .attr("opacity", 0.3);
     }
 }
+
+
+// the function for moving the nodes
+const dragmove = (d) => {
+    d3.select(this)
+        .attr("transform",
+            "translate("
+            + d.x + ","
+            + (d.y = Math.max(
+                0, Math.min(height - d.dy, d3.event.y))
+            ) + ")");
+    sankey.relayout();
+    link.attr("d", sankey.link());
+}
+
+
 
 const showOriginAirportFlow = (origin, flights) => {
     // set the dimensions and margins of the graph
@@ -401,13 +412,9 @@ function drawOriDesConnection(origin, destination) {
         }
     })
     d3.csv(urls.avgMonthDelay)
-        .then(avgMonthDelay => {
-            const {airlineNames, airlineData} = convertDataToSpider(avgMonthDelay);
-            const features = Object.keys(airlineData[0]);
-            drawSpiderWebChart(airlineNames, airlineData, features)
-        }
-    )
+        .then(rawData => drawSpiderWebChart(rawData));
 }
+    
 
 function selectOriginAirport(airport) {
     firstSelectedAirport = airport
