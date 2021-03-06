@@ -93,7 +93,7 @@ const showOriginAirportFlow = (origin, flights) => {
     const nodes = destFlights.map((el, i) => {
         return {node: i + 1, name: el.destination}
     })
-    nodes.push({node: 0, name: origin.iata})
+    nodes.unshift({node: 0, name: origin.iata})
 
     const links = destFlights.map(el => {
         let t = nodes.find(e => e.name == el.destination);
