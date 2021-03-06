@@ -4,6 +4,7 @@ const convertDataToSpider =(dataIn) => {
         keySet.add(f.label)
     })
     let data = [];
+    const values = []
     const labels = [];
     keySet.forEach(k => {
         const labelRow = {}
@@ -11,38 +12,44 @@ const convertDataToSpider =(dataIn) => {
         labelArrays.forEach(el => {
             value = Math.max(0,el.value)
             labelRow[el.period] = value
+            values.push(value);
         })
         labels.push(k)
         data.push(labelRow)
     })
     const features = Object.keys(data[0]);
+    const misc = {
+        maxValue: Math.max.apply(Math, values),
+        minValue: Math.min.apply(Math, values)
+    }
     return {
         labels,
         data,
-        features
+        features,
+        misc
     }
 }
 
 const drawSpiderWebChart = (rawData) => {
-    const {labels, data, features} = convertDataToSpider(rawData);
-
-    const maxLabels = 4
-
-    const maxValue = 25;
-    const minValue = 0;
-
+    const {labels, data, features, misc} = convertDataToSpider(rawData);
+    const { maxValue, minValue } = misc
+    console.log(maxValue)
+    console.log(minValue)
+    
+    const maxLabels = 4;
     const numTicks = 5;
     
     const chartWidth = 800; // chartWidth >= chartHeight
     const chartHeight = 600;
     const chartMargin = 50;
+    
+    const labelsYOffset = 0;
+    const labelLineHeight = 20;
+    const labelFontSize = "20px"
 
     const spiderCenterX = chartHeight / 2
     const spiderCenterY = chartHeight / 2
 
-    const labelsYOffset = 0;
-   
-    
     const minDim = Math.min(chartWidth,chartHeight)
     const maxRange = Math.round(minDim / 2)
 
@@ -56,7 +63,7 @@ const drawSpiderWebChart = (rawData) => {
         .range([0, maxRange - chartMargin]);
 
     
-    let ticks = [...Array(numTicks).keys()].map((e,i) => {return Math.min((i+1) * maxValue / numTicks, maxValue)})
+    let ticks = [...Array(numTicks).keys()].map((e,i) => {return Math.round(Math.min((i+1) * maxValue / numTicks, maxValue))})
     console.log(ticks)
     ticks.forEach(t =>
         svg.append("circle")
@@ -124,9 +131,9 @@ const drawSpiderWebChart = (rawData) => {
 
         svg.append("text")
         .attr("x", spiderCenterX + maxRange )
-        .attr("y", Math.round(spiderCenterY) + i * 20 + labelsYOffset)
+        .attr("y", Math.round(spiderCenterY) + i * labelLineHeight + labelsYOffset)
         .style("fill",color)
-        .style("font-size", "20px")
+        .style("font-size", labelFontSize)
         .text(labels[i]);
         
         svg.append("path")
