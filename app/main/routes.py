@@ -57,7 +57,6 @@ def bokeh():
 
 @main.route("/static/<path:path>")
 def static_dir(path):
-    print('This is standard output', file=sys.stdout)
     return send_from_directory("static", path)
 
 @main.route("/data", methods=['GET'])
