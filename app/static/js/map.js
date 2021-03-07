@@ -69,10 +69,14 @@ const showOriginAirportFlow = (origin, flights) => {
         w = 540 - margin.left - margin.right,
         h = 250 - margin.top - margin.bottom;
 
+    var width = w + margin.left + margin.right
+    var height = h + margin.top + margin.bottom
+
     // append the svg object to the body of the page
     var svg = d3.select("#origin-chart").append("svg")
-        .attr("width", w + margin.left + margin.right)
-        .attr("height", h + margin.top + margin.bottom)
+        // .attr("width", w + margin.left + margin.right)
+        // .attr("height", h + margin.top + margin.bottom)
+        .attr("viewBox", '0 0 ' + width + ' ' + height)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
@@ -90,16 +94,21 @@ const showOriginAirportFlow = (origin, flights) => {
         return origin.iata == el.origin
     })
 
-    const nodes = destFlights.map((el, i) => {
-        return {node: i + 1, name: el.destination}
-    })
-    nodes.push({node: 0, name: origin.iata})
+    let destFlightsSorted = destFlights.sort((a, b) => parseFloat(b.flight_volume) - parseFloat(a.flight_volume));
 
-    const links = destFlights.map(el => {
+    let nodes = destFlightsSorted.map((el, i) => {
+        return {node: i + 1, name: el.destination}
+    });
+    // Place origin as first node instead of last
+    nodes.unshift({node: 0, name: origin.iata})
+
+    let links = destFlightsSorted.map(el => {
         let t = nodes.find(e => e.name == el.destination);
         return {source: 0, target: t.node, value: el.flight_volume}
     })
 
+    nodes = nodes.slice(0, 10)
+    links = links.slice(0, 9)
     sankey
         .nodes(nodes)
         .links(links)
@@ -118,6 +127,15 @@ const showOriginAirportFlow = (origin, flights) => {
         })
         .sort(function (a, b) {
             return b.dy - a.dy;
+        })
+        .on("click", function (d) {
+            d3.csv(urls.airports)
+                .then(airports => {
+                    const clickedAirport = airports.filter(el => {
+                        return d.target.name == el.iata
+                    })
+                    selectAirport(clickedAirport[0])
+                })
         });
 
     // add in the nodes
@@ -400,6 +418,7 @@ function drawAirports(airports) {
         .style("fill", "rgb(217,91,67)")
         .style("opacity", 0.85)
         .on("click", function (d) {
+            $(".tipsy").remove();
             selectAirport(d)
         })
 
