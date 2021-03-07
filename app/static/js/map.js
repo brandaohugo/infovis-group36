@@ -418,6 +418,7 @@ function drawAirports(airports) {
         .style("fill", "rgb(217,91,67)")
         .style("opacity", 0.85)
         .on("click", function (d) {
+            $(".tipsy").remove();
             selectAirport(d)
         })
 
