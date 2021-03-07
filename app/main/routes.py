@@ -59,6 +59,10 @@ def bokeh():
 def static_dir(path):
     return send_from_directory("static", path)
 
+@main.route("/data/<path:path>")
+def data_dir(path):
+    return send_from_directory("data", path)
+
 @main.route("/data", methods=['GET'])
 def get_data():
     area = request.args.get("area")
