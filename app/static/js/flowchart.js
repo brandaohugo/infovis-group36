@@ -39,22 +39,29 @@ const showOriginAirportFlow = (origin, flights) => {
     links
   } = convertDataToFlow(origin, flights);
 
-  const margins = {
-    top: 10,
-    right: 10,
-    bottom: 10,
-    left: 10
-  };
-  
-  const divId = "#origin-chart"
+  const {
+    margins,
+    divId,
+    svgWidth,
+    svgHeight,
+    nodeWidth,
+    nodePadding
+  } = {
+    margins: {
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10
+    },
+    divId: "#origin-chart",
+    svgWidth: 540,
+    svgHeight: 250,
+    nodeWidth: 10,
+    nodePadding: 15
+  }
 
-  const svgWidth = 540
-  const svgHeight = 250
   const chartWidth = svgWidth - margins.left - margins.right;
   const chartHeight = svgHeight - margins.top - margins.bottom;
-
-  const nodeWidth = 10;
-  const nodePadding = 15;
 
   // append the svg object to the div
   const svg = d3.select(divId).append("svg")
