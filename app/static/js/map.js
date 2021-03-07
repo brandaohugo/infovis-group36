@@ -94,13 +94,15 @@ const showOriginAirportFlow = (origin, flights) => {
         return origin.iata == el.origin
     })
 
-    let nodes = destFlights.map((el, i) => {
+    destFlightsSorted = destFlights.sort((a, b) => parseFloat(b.flight_volume) - parseFloat(a.flight_volume));
+
+    let nodes = destFlightsSorted.map((el, i) => {
         return {node: i + 1, name: el.destination}
     });
     // Place origin as first node instead of last
     nodes.unshift({node: 0, name: origin.iata})
 
-    let links = destFlights.map(el => {
+    let links = destFlightsSorted.map(el => {
         let t = nodes.find(e => e.name == el.destination);
         return {source: 0, target: t.node, value: el.flight_volume}
     })
