@@ -159,7 +159,20 @@ function selectOriginAirport(airport) {
             drawAirportConnections(firstSelectedAirport, flights)
             map_svg.selectAll("circle").style("fill", "rgb(217,91,67)")
             map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-            showOriginAirportFlow(firstSelectedAirport, flights)
+            const flowOptions = {
+                margins: {
+                  top: 10,
+                  right: 10,
+                  bottom: 10,
+                  left: 10
+                },
+                divId: "#origin-chart",
+                svgWidth: 540,
+                svgHeight: 250,
+                nodeWidth: 10,
+                nodePadding: 15
+              }
+            drawOriginAirportFlow(firstSelectedAirport, flights, flowOptions);
         })
 }
 

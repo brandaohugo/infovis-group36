@@ -32,13 +32,12 @@ const convertDataToFlow = (origin, flights) =>{
   }
 }
 
-const showOriginAirportFlow = (origin, flights) => {
+const drawOriginAirportFlow = (origin, flights, flowOptions) => {
   
   const {
     nodes,
     links
-  } = convertDataToFlow(origin, flights);
-
+  } = convertDataToFlow(origin, flights, flowOptions);
   const {
     margins,
     divId,
@@ -46,19 +45,7 @@ const showOriginAirportFlow = (origin, flights) => {
     svgHeight,
     nodeWidth,
     nodePadding
-  } = {
-    margins: {
-      top: 10,
-      right: 10,
-      bottom: 10,
-      left: 10
-    },
-    divId: "#origin-chart",
-    svgWidth: 540,
-    svgHeight: 250,
-    nodeWidth: 10,
-    nodePadding: 15
-  }
+  } = flowOptions;
 
   const chartWidth = svgWidth - margins.left - margins.right;
   const chartHeight = svgHeight - margins.top - margins.bottom;
