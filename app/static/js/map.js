@@ -279,20 +279,6 @@ function drawOriDesConnection(origin, destination) {
             return null
         }
     })
-    d3.csv(urls.avgMonthDelay)
-        .then(rawData => {
-            const options = {
-                maxLabels: 4,
-                numTicks: 5,
-                chartWidth: 800, 
-                chartHeight: 600,
-                chartMargin: 50,
-                labelsYOffset: -100,
-                labelLineHeight: 25,
-                labelFontSize: "25px"
-            };
-            drawSpiderWebChart(rawData, options)
-        });
 }
     
 
@@ -323,6 +309,21 @@ function selectDestinationAirport(airport) {
 
         drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
         map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+        d3.csv(urls.avgMonthDelay)
+        .then(rawData => {
+            const options = {
+                divId: "body",
+                maxLabels: 4,
+                numTicks: 5,
+                chartWidth: 800, 
+                chartHeight: 600,
+                chartMargin: 50,
+                labelsYOffset: -100,
+                labelLineHeight: 25,
+                labelFontSize: "25px"
+            };
+            drawSpiderWebChart(rawData, options)
+        });
 
     }
 }
