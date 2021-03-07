@@ -294,7 +294,7 @@ function selectOriginAirport(airport) {
             drawAirportConnections(firstSelectedAirport, flights)
             map_svg.selectAll("circle").style("fill", "rgb(217,91,67)")
             map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-            showOriginAirportFlow(airport, flights)
+            showOriginAirportFlow(firstSelectedAirport, flights)
         })
 }
 
@@ -332,7 +332,6 @@ function selectDestinationAirport(airport) {
 function selectAirport(airport) {
     if (firstSelectedAirport === null) {
         selectOriginAirport(airport)
-        showSecondInputField()
     } else if (secondSelectedAirport === null) {
         selectDestinationAirport(airport)
         showDestinationAirportInfo()
@@ -372,25 +371,18 @@ function showOriginAirportInfo() {
         .style("display", "block")
 }
 
-function showDestinationAirportInfo() {
-    d3.select("#map-view")
-        .style("display", "none")
-
-    d3.select("#origin-chart")
-        .style("display", "none")
-
-    d3.select("#destination-airport")
-        .style("display", "block")
-
-    d3.select("#od-chart")
-        .style("display", "block")
-}
-
 function resetMap() {
     map_svg.selectAll("line").remove()
     d3.select("#origin-chart").select('svg').remove()
     firstSelectedAirport = secondSelectedAirport = null
     drawAirports(airport_locations)
+}
+
+function resetMapDestination() {
+    map_svg.selectAll("line").remove()
+    d3.select("#origin-chart").select('svg').remove()
+    secondSelectedAirport = null
+    selectOriginAirport(firstSelectedAirport)
 }
 
 function drawAirports(airports) {

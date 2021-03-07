@@ -21,6 +21,10 @@ input[type=submit] {
   background-color: DodgerBlue;
   color: #fff;
 }
+input[type=reset] {
+  background-color: crimson;
+  color: #fff;
+}
 .autocomplete-items {
   position: absolute;
   border: 1px solid #d4d4d4;
