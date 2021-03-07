@@ -15,24 +15,25 @@ const convertDataToFlow = (origin, flights) =>{
 
   const destFlights = flights.filter(el => {
     return origin.iata == el.origin
-  });
+})
+  const destFlightsSorted = destFlights.sort((a, b) => parseFloat(b.flight_volume) - parseFloat(a.flight_volume));
 
-  const nodes = destFlights.map((el, i) => {
+  const nodes = destFlightsSorted.map((el, i) => {
     return {node: i + 1, name: el.destination}
   });
-  nodes.push({node: 0, name: origin.iata});
+  nodes.unshift({node: 0, name: origin.iata})
 
-  const links = destFlights.map(el => {
+  const links = destFlightsSorted.map(el => {
       let t = nodes.find(e => e.name == el.destination);
       return {source: 0, target: t.node, value: el.flight_volume}
   });
   return {
-    nodes,
-    links
+    nodes: nodes.slice(0, 10),
+    links: links.slice(0, 9)
   }
 }
 
-const drawOriginAirportFlow = (origin, flights, flowOptions) => {
+const drawOriginAirportFlow = (origin, flights, flowOptions, onClickFlow) => {
   
   const {
     nodes,
@@ -52,8 +53,9 @@ const drawOriginAirportFlow = (origin, flights, flowOptions) => {
 
   // append the svg object to the div
   const svg = d3.select(divId).append("svg")
-    .attr("width", svgWidth)
-    .attr("height", svgHeight)
+    .attr("viewBox", '0 0 ' + svgWidth + ' ' + svgHeight)
+    // .attr("width", svgWidth)
+    // .attr("height", svgHeight)
     .append("g")
     .attr("transform",
         "translate(" + margins.left + "," + margins.top + ")");
@@ -85,7 +87,8 @@ const drawOriginAirportFlow = (origin, flights, flowOptions) => {
     })
     .sort(function (a, b) {
         return b.dy - a.dy;
-    });
+    })
+    .on("click", onClickFlow);
 
   // add in the nodes
   var node = svg.append("g")
