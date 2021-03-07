@@ -11,8 +11,34 @@ const dragmove = (d) => {
   link.attr("d", sankey.link());
 }
 
+const convertDataToFlow = (origin, flights) =>{
+
+  const destFlights = flights.filter(el => {
+    return origin.iata == el.origin
+})
+
+  const nodes = destFlights.map((el, i) => {
+    return {node: i + 1, name: el.destination}
+  })
+  nodes.push({node: 0, name: origin.iata})
+
+  const links = destFlights.map(el => {
+      let t = nodes.find(e => e.name == el.destination);
+      return {source: 0, target: t.node, value: el.flight_volume}
+  })
+  return {
+    nodes,
+    links
+  }
+}
+
 const showOriginAirportFlow = (origin, flights) => {
-  // set the dimensions and margins of the graph
+  
+  const {
+    nodes,
+    links
+  } = convertDataToFlow(origin, flights);
+
   var margin = {top: 10, right: 10, bottom: 10, left: 10},
       w = 540 - margin.left - margin.right,
       h = 250 - margin.top - margin.bottom;
@@ -34,20 +60,8 @@ const showOriginAirportFlow = (origin, flights) => {
       .nodePadding(15)
       .size([w, h]);
 
-  const destFlights = flights.filter(el => {
-      return origin.iata == el.origin
-  })
-
-  const nodes = destFlights.map((el, i) => {
-      return {node: i + 1, name: el.destination}
-  })
-  nodes.push({node: 0, name: origin.iata})
-
-  const links = destFlights.map(el => {
-      let t = nodes.find(e => e.name == el.destination);
-      return {source: 0, target: t.node, value: el.flight_volume}
-  })
-
+  console.log(nodes)
+  console.log(links)
   sankey
       .nodes(nodes)
       .links(links)
