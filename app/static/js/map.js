@@ -94,7 +94,7 @@ const showOriginAirportFlow = (origin, flights) => {
         return origin.iata == el.origin
     })
 
-    destFlightsSorted = destFlights.sort((a, b) => parseFloat(b.flight_volume) - parseFloat(a.flight_volume));
+    let destFlightsSorted = destFlights.sort((a, b) => parseFloat(b.flight_volume) - parseFloat(a.flight_volume));
 
     let nodes = destFlightsSorted.map((el, i) => {
         return {node: i + 1, name: el.destination}
@@ -127,6 +127,15 @@ const showOriginAirportFlow = (origin, flights) => {
         })
         .sort(function (a, b) {
             return b.dy - a.dy;
+        })
+        .on("click", function (d) {
+            d3.csv(urls.airports)
+                .then(airports => {
+                    const clickedAirport = airports.filter(el => {
+                        return d.target.name == el.iata
+                    })
+                    selectAirport(clickedAirport[0])
+                })
         });
 
     // add in the nodes

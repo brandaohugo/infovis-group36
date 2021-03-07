@@ -78,6 +78,8 @@ function resetToMainView() {
         .style("display", "block")
 
     d3.select("#origin-chart").select('svg').remove()
+    d3.select("#origin-chart")
+        .style("display", "block")
 
     d3.select("#destination-airport")
         .style("display", "none")
