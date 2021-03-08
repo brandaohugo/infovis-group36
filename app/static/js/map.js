@@ -1,3 +1,4 @@
+
 //Width and height of map
 const width = 960;
 const height = 500;
@@ -49,162 +50,23 @@ let firstSelectedAirport = null
 let secondSelectedAirport = null
 
 
-// the function for moving the nodes
-const dragmove = (d) => {
-    d3.select(this)
-        .attr("transform",
-            "translate("
-            + d.x + ","
-            + (d.y = Math.max(
-                0, Math.min(height - d.dy, d3.event.y))
-            ) + ")");
-    sankey.relayout();
-    link.attr("d", sankey.link());
-}
-
-
-const showOriginAirportFlow = (origin, flights) => {
-    // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 10, bottom: 10, left: 10},
-        w = 540 - margin.left - margin.right,
-        h = 250 - margin.top - margin.bottom;
-
-    var width = w + margin.left + margin.right
-    var height = h + margin.top + margin.bottom
-
-    // append the svg object to the body of the page
-    var svg = d3.select("#origin-chart").append("svg")
-        // .attr("width", w + margin.left + margin.right)
-        // .attr("height", h + margin.top + margin.bottom)
-        .attr("viewBox", '0 0 ' + width + ' ' + height)
-        .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
-
-    // Color scale used
-    var color = d3.scaleOrdinal(d3.schemePastel1);
-
-    // Set the sankey diagram properties
-    var sankey = d3.sankey()
-        .nodeWidth(10)
-        .nodePadding(15)
-        .size([w, h]);
-
-    const destFlights = flights.filter(el => {
-        return origin.iata == el.origin
-    })
-
-    let destFlightsSorted = destFlights.sort((a, b) => parseFloat(b.flight_volume) - parseFloat(a.flight_volume));
-
-    let nodes = destFlightsSorted.map((el, i) => {
-        return {node: i + 1, name: el.destination}
-    });
-    // Place origin as first node instead of last
-    nodes.unshift({node: 0, name: origin.iata})
-
-    let links = destFlightsSorted.map(el => {
-        let t = nodes.find(e => e.name == el.destination);
-        return {source: 0, target: t.node, value: el.flight_volume}
-    })
-
-    nodes = nodes.slice(0, 10)
-    links = links.slice(0, 9)
-    sankey
-        .nodes(nodes)
-        .links(links)
-        .layout(1);
-
-    // add in the links
-    var link = svg.append("g")
-        .selectAll(".link")
-        .data(links)
-        .enter()
-        .append("path")
-        .attr("class", "link")
-        .attr("d", sankey.link())
-        .style("stroke-width", function (d) {
-            return Math.max(1, d.dy);
-        })
-        .sort(function (a, b) {
-            return b.dy - a.dy;
-        })
-        .on("click", function (d) {
-            d3.csv(urls.airports)
-                .then(airports => {
-                    const clickedAirport = airports.filter(el => {
-                        return d.target.name == el.iata
-                    })
-                    selectAirport(clickedAirport[0])
-                })
-        });
-
-    // add in the nodes
-    var node = svg.append("g")
-        .selectAll(".node")
-        .data(nodes)
-        .enter().append("g")
-        .attr("class", "node")
-        .attr("transform", function (d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        })
-    // .call(d3.drag()
-    // .subject(function(d) { return d; })
-    // .on("start", function() { this.parentNode.appendChild(this); })
-    // .on("drag", dragmove));
-
-
-    // add the rectangles for the nodes
-    node
-        .append("rect")
-        .attr("height", function (d) {
-            return d.dy;
-        })
-        .attr("width", sankey.nodeWidth())
-        .style("fill", function (d) {
-            return d.color = color(d.name.replace(/ .*/, ""));
-        })
-        .style("stroke", function (d) {
-            return d3.rgb(d.color).darker(2);
-        })
-        // Add hover text
-        .append("title")
-        .text(function (d) {
-            return d.name + "\n" + "There is " + d.value + " stuff in this node";
-        });
-
-    // add in the title for the nodes
-    node
-        .append("text")
-        .attr("x", -6)
-        .attr("y", function (d) {
-            return d.dy / 2;
-        })
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .attr("transform", null)
-        .text(function (d) {
-            return d.name;
-        })
-        .filter(function (d) {
-            return d.x < width / 2;
-        })
-        .attr("x", 6 + sankey.nodeWidth())
-        .attr("text-anchor", "start");
-
-
-    // load the data
-    // d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_sankey.json", function(error, graph) {
-
-
-    // });
-};
-
 // URls to load data from the web
 const urls = {
     flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/9c62cc28a6b9972999d44d613ab99734fa49ccea/flights.csv",
     airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
-    map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json"
+    map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
+    avgMonthDelay: "http://localhost:5000/data/global_avg_month_delay.csv"
 };
+
+const onClickFlow = (d) => {
+    d3.csv(urls.airports)
+        .then(airports => {
+            const clickedAirport = airports.filter(el => {
+                return d.target.name == el.iata
+            })
+            selectAirport(clickedAirport[0])
+        })
+}
 
 function zoomed() {
     lastTransform = d3.event.transform
@@ -293,6 +155,7 @@ function drawOriDesConnection(origin, destination) {
         }
     })
 }
+    
 
 function selectOriginAirport(airport) {
     firstSelectedAirport = airport
@@ -306,7 +169,20 @@ function selectOriginAirport(airport) {
             drawAirportConnections(firstSelectedAirport, flights)
             map_svg.selectAll("circle").style("fill", "rgb(217,91,67)")
             map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
-            showOriginAirportFlow(firstSelectedAirport, flights)
+            const flowOptions = {
+                margins: {
+                  top: 10,
+                  right: 10,
+                  bottom: 10,
+                  left: 10
+                },
+                divId: "#origin-chart",
+                svgWidth: 540,
+                svgHeight: 250,
+                nodeWidth: 10,
+                nodePadding: 15
+              }
+            drawOriginAirportFlow(firstSelectedAirport, flights, flowOptions, onClickFlow);
         })
 }
 
@@ -321,6 +197,21 @@ function selectDestinationAirport(airport) {
 
         drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
         map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
+        d3.csv(urls.avgMonthDelay)
+        .then(rawData => {
+            const options = {
+                divId: "body",
+                maxLabels: 4,
+                numTicks: 5,
+                chartWidth: 800, 
+                chartHeight: 600,
+                chartMargin: 50,
+                labelsYOffset: -100,
+                labelLineHeight: 25,
+                labelFontSize: "25px"
+            };
+            drawSpiderWebChart(rawData, options)
+        });
 
     }
 }
