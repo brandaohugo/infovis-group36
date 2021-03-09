@@ -1,5 +1,6 @@
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
+from flask_cors import CORS, cross_origin
 
 from app import create_app, socketio
 
@@ -19,7 +20,7 @@ def fix_werkzeug_logging():
 
 config_name = os.getenv('FLASK_ENV')
 app = create_app(config_name)
-
+CORS(app)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 if __name__ == '__main__':
