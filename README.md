@@ -49,6 +49,18 @@ Action items for next week:
 
 - Improve the map view (larger, more visualy appealing)
 
+## 4-3-2021 Weekly Check-in #4 ##
+
+Discussion point: 
+- Option B more informative
+- Avoid scrolling as much as possible
+- Perhaps adding a toggle button to switch between different views
+- Report should honestly report what is in the demo, even if the demo is not of high quality
+
+Action items for next week:
+- Focus on functional aspects, make sure most of functional work is finished
+- Leave visual appeal for week after
+
 
 # InfoVis Assignment #
 
