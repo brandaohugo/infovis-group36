@@ -54,7 +54,11 @@ const urls = {
     flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/9c62cc28a6b9972999d44d613ab99734fa49ccea/flights.csv",
     airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
-    avgMonthDelay: "http://localhost:5000/data/global_avg_month_delay.csv"
+    avgMonthDelay: "http://localhost:5000/data/global_avg_month_delay.csv",
+    aggrDayOfWeek: "https://gist.githubusercontent.com/brandaohugo/aa591bc1f6d9f7c4e9f927edcc8700fb8/raw/6f5033423c40da1f95d9abe369bb4f4f252b1075/aggr_day_of_week.csv",
+    aggrDayOfMonth: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/6f5033423c40da1f95d9abe369bb4f4f252b1075/aggr_day_of_month.csv",
+    aggrHourOfDay: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/6f5033423c40da1f95d9abe369bb4f4f252b1075/aggr_hour_of_day.csv",
+    aggrMonth: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/6f5033423c40da1f95d9abe369bb4f4f252b1075/aggr_month.csv"
 };
 
 const onClickFlow = (d) => {
@@ -196,22 +200,38 @@ function selectDestinationAirport(airport) {
 
         drawOriDesConnection(firstSelectedAirport, secondSelectedAirport)
         map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
-        d3.csv(urls.avgMonthDelay)
-        .then(rawData => {
-            const options = {
-                divId: "body",
-                maxLabels: 4,
-                numTicks: 5,
-                chartWidth: 800,
-                chartHeight: 600,
-                chartMargin: 50,
-                labelsYOffset: -100,
-                labelLineHeight: 25,
-                labelFontSize: "25px"
-            };
-            drawSpiderWebChart(rawData, options)
+        const Spideroptions = {
+            titleFontSize: "12px",
+            divId: "body",
+            maxLabels: 4,
+            numTicks: 5,
+            chartWidth: 400, 
+            chartHeight: 300,
+            chartMargin: 50,
+            labelsYOffset: -50,
+            labelLineHeight: 15,
+            labelFontSize: "12px"
+        };
+        console.log("Month")
+        d3.csv(urls.aggrMonth)
+            .then(rawData => {
+                const ODData = rawData.filter(el => 
+                    el.origin === firstSelectedAirport.iata &&
+                    el.dest === secondSelectedAirport.iata
+            );
+            let options = {...Spideroptions, chartTitle: "Average Delay per Month"}
+            drawSpiderWebChart(ODData, options)
         });
-
+        console.log("Day of Month")
+        d3.csv(urls.aggrDayOfMonth)
+            .then(rawData => {
+                const ODData = rawData.filter(el => 
+                    el.origin === firstSelectedAirport.iata &&
+                    el.dest === secondSelectedAirport.iata
+            );
+            let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month"}
+            drawSpiderWebChart(ODData, options)
+        });
     }
 }
 
