@@ -154,7 +154,7 @@ function drawOriDesConnection(origin, destination) {
         }
     })
 }
-    
+
 
 function selectOriginAirport(airport) {
     firstSelectedAirport = airport
@@ -202,7 +202,7 @@ function selectDestinationAirport(airport) {
                 divId: "body",
                 maxLabels: 4,
                 numTicks: 5,
-                chartWidth: 800, 
+                chartWidth: 800,
                 chartHeight: 600,
                 chartMargin: 50,
                 labelsYOffset: -100,
@@ -219,7 +219,7 @@ function selectDestinationAirport(airport) {
 function selectAirport(airport) {
     if (firstSelectedAirport === null) {
         selectOriginAirport(airport)
-        showSecondInputField()
+        // showSecondInputField()
         drawAirportInfoBox(airport)
     } else if (secondSelectedAirport === null) {
         selectDestinationAirport(airport)
