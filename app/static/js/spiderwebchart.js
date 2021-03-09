@@ -109,7 +109,7 @@ const drawSpiderWebChart = (rawData, options) => {
         let featureName =  features[i];
         let angle  = (Math.PI / 2) + (2 * Math.PI * i / features.length);
         let lineCoordinate = angleToCoordinate(angle, maxValue);
-        let labelCoordinate = angleToCoordinate(angle, maxValue + 8);
+        let labelCoordinate = angleToCoordinate(angle, maxValue * 1.2);
 
         svg.append("line")
         .attr("x1", spiderCenterX)
