@@ -34,6 +34,8 @@ const drawSpiderWebChart = (rawData, options) => {
     const {labels, data, features, misc} = convertDataToSpider(rawData);
     const { maxValue, minValue } = misc
     const {
+        chartTitle,
+        titleFontSize,
         divId,
         maxLabels,
         numTicks,
@@ -46,11 +48,12 @@ const drawSpiderWebChart = (rawData, options) => {
     } = options
 
     const tickXOffset = 5;
+    const titleMargin = 60
 
     const spiderCenterX = Math.round(chartHeight / 2);
-    const spiderCenterY = Math.round(chartHeight / 2);
+    const spiderCenterY = Math.round((chartHeight-titleMargin) / 2);
 
-    const minDim = Math.min(chartWidth,chartHeight);
+    const minDim = Math.min(chartWidth,chartHeight-titleMargin);
     const maxRange = Math.round(minDim / 2);
 
     let svg = d3.select(divId).append("svg")
@@ -86,6 +89,16 @@ const drawSpiderWebChart = (rawData, options) => {
         .text(t.toString())
     );
 
+    svg.append("text")
+        .attr("x", spiderCenterX)
+        .attr("y", titleMargin/3)
+        .style("font-size", titleFontSize)
+        .style("font-weight", 500)
+        .attr('text-anchor','middle')
+        .attr('alignment-baseline','central')
+        .text(chartTitle)
+
+
     const angleToCoordinate = (angle, value) => {
         let x = Math.cos(angle) * radialScale(value);
         let y  = Math.sin(angle) * radialScale(value);
@@ -96,7 +109,7 @@ const drawSpiderWebChart = (rawData, options) => {
         let featureName =  features[i];
         let angle  = (Math.PI / 2) + (2 * Math.PI * i / features.length);
         let lineCoordinate = angleToCoordinate(angle, maxValue);
-        let labelCoordinate = angleToCoordinate(angle, maxValue + 10);
+        let labelCoordinate = angleToCoordinate(angle, maxValue + 8);
 
         svg.append("line")
         .attr("x1", spiderCenterX)
@@ -138,7 +151,6 @@ const drawSpiderWebChart = (rawData, options) => {
             if (i >= maxLabels) {
                 throw BreakException
             }
-            // let d = data[i];
             let color = colors[i];
             let coordinates = getPathCoordinates(d);
     
