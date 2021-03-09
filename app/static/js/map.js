@@ -45,7 +45,6 @@ map_svg.selectAll("path")
         return "rgb(118,118,118)";
     });
 
-let firstSelectionBool = true
 let firstSelectedAirport = null
 let secondSelectedAirport = null
 
@@ -220,6 +219,8 @@ function selectDestinationAirport(airport) {
 function selectAirport(airport) {
     if (firstSelectedAirport === null) {
         selectOriginAirport(airport)
+        showSecondInputField()
+        drawAirportInfoBox(airport)
     } else if (secondSelectedAirport === null) {
         selectDestinationAirport(airport)
         showDestinationAirportInfo()
@@ -262,6 +263,10 @@ function showOriginAirportInfo() {
 function resetMap() {
     map_svg.selectAll("line").remove()
     d3.select("#origin-chart").select('svg').remove()
+    d3.select("#origin-flights").select('svg').remove()
+    d3.select("#origin-connections").select('svg').remove()
+    d3.select("#origin-canceled").select('svg').remove()
+
     firstSelectedAirport = secondSelectedAirport = null
     drawAirports(airport_locations)
 }
@@ -274,6 +279,7 @@ function resetMapDestination() {
 }
 
 function drawAirports(airports) {
+    console.log(airports)
     map_svg.selectAll("circle").remove()
     map_svg.selectAll("circle")
         .data(airports)
