@@ -36,17 +36,17 @@ function drawText(svg, text, info) {
         .text(info)
 }
 
-function drawAirportInfoBox(airport) {
-    var info_passengers_svg = d3.select("#origin-flights")
+function drawOriginAirportInfoBox(airport) {
+    let info_passengers_svg = d3.select("#origin-flights")
         .append("svg")
         .attr("width", squareSize)
         .attr("height", squareSize)
 
-    var info_connections_svg = d3.select("#origin-connections")
+    let info_connections_svg = d3.select("#origin-connections")
         .append("svg")
         .attr("width", squareSize)
         .attr("height", squareSize)
-    var info_canceled_svg = d3.select("#origin-canceled")
+    let info_canceled_svg = d3.select("#origin-canceled")
         .append("svg")
         .attr("width", squareSize)
         .attr("height", squareSize)
@@ -54,5 +54,26 @@ function drawAirportInfoBox(airport) {
     drawText(info_passengers_svg, "# of flights", airport['num_of_flights'])
     drawText(info_connections_svg, "# of connections", airport['num_of_connections'])
     drawText(info_canceled_svg, "% of flights cancelled", airport['perc_cancelled'])
+
+}
+
+function drawDestinationAirportInfoBox(airport) {
+    let info_passengers_svg = d3.select("#od-flights")
+        .append("svg")
+        .attr("width", squareSize)
+        .attr("height", squareSize)
+
+    let info_connections_svg = d3.select("#od-rank")
+        .append("svg")
+        .attr("width", squareSize)
+        .attr("height", squareSize)
+    let info_canceled_svg = d3.select("#od-cancelled")
+        .append("svg")
+        .attr("width", squareSize)
+        .attr("height", squareSize)
+
+    drawText(info_passengers_svg, "# of flights", airport['flight_volume'])
+    drawText(info_connections_svg, "Connection rank", airport['volume_rank'])
+    drawText(info_canceled_svg, "# of flights cancelled", airport['cancelled'])
 
 }

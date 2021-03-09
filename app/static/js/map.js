@@ -51,7 +51,7 @@ let secondSelectedAirport = null
 
 // URls to load data from the web
 const urls = {
-    flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/9c62cc28a6b9972999d44d613ab99734fa49ccea/flights.csv",
+    flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/7eda6b08fc999201d17e3d5c1e04db5c1bccd904/flights.csv",
     airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
     avgMonthDelay: "http://localhost:5000/data/global_avg_month_delay.csv"
@@ -98,6 +98,7 @@ function drawConnectionLine(origin, destination) {
         .style("opacity", 0.85)
         .style("stroke-width", function () {
             if (destination.flight_volume > 100) {
+                console.log(destination)
                 return 2
             } else {
                 return 1
@@ -220,36 +221,12 @@ function selectAirport(airport) {
     if (firstSelectedAirport === null) {
         selectOriginAirport(airport)
         // showSecondInputField()
-        drawAirportInfoBox(airport)
+        drawOriginAirportInfoBox(airport)
     } else if (secondSelectedAirport === null) {
         selectDestinationAirport(airport)
         showDestinationAirportInfo()
+        drawDestinationAirportInfoBox(airport)
     }
-    // } else if (firstSelectionBool) {
-    //     firstSelectedAirport = d
-    //     firstSelectionBool = !firstSelectionBool
-    //     console.log(firstSelectionBool)
-    // } else {
-    //     secondSelectedAirport = d
-    //     firstSelectionBool = !firstSelectionBool
-    // }
-
-
-    // console.log(firstSelectedAirport, secondSelectedAirport)
-    // d3.select("#" + firstSelectedAirport.iata).style("fill", "green")
-    //
-    // if (secondSelectedAirport !== null) {
-    //     svg.selectAll("line").remove()
-    //     d3.select("#" + secondSelectedAirport.iata).style("fill", "blue")
-    //     svg.append("line")
-    //         .style("stroke", "black")
-    //         .attr("id", firstSelectedAirport.iata + secondSelectedAirport.iata)
-    //         .attr("x1", projection([firstSelectedAirport.longitude, firstSelectedAirport.latitude])[0])
-    //         .attr("y1", projection([firstSelectedAirport.longitude, firstSelectedAirport.latitude])[1])
-    //         .attr("x2", projection([secondSelectedAirport.longitude, secondSelectedAirport.latitude])[0])
-    //         .attr("y2", projection([secondSelectedAirport.longitude, secondSelectedAirport.latitude])[1])
-    //
-    // }
 }
 
 function showOriginAirportInfo() {
