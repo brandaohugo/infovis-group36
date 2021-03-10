@@ -1,7 +1,7 @@
 
 //Width and height of map
-const width = 960;
-const height = 500;
+const width = 900;
+const height = 800;
 
 let locationRadius = 4;
 let lastTransform = {'k': 1, 'x': 0, 'y': 0}; // Default zoom settings
@@ -180,7 +180,7 @@ function selectOriginAirport(airport) {
                   left: 10
                 },
                 divId: "#origin-chart",
-                svgWidth: 540,
+                svgWidth: 650,
                 svgHeight: 250,
                 nodeWidth: 10,
                 nodePadding: 15
