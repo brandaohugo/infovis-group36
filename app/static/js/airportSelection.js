@@ -15,6 +15,17 @@ $(document).ready(function () { // Wait until document is fully parsed
         }
         if (!airport_found) {
             alert("The input did not match any IATA")
+        } else {
+            // if origin airport is found, see if there is also a destination airport
+            // if there is, update the gauge chart
+            const destinationAirport = $("#destination-input-selector").val();
+            if (destinationAirport) {
+                const destinationIata = destinationAirport.split('(')[1].substr(0, 3);
+                window.updateGaugeChart({
+                    origin: airport_iata,
+                    destination: destinationIata
+                })
+            }
         }
 
     })
@@ -47,6 +58,17 @@ $(document).ready(function () { // Wait until document is fully parsed
         }
         if (!airport_found) {
             alert("The input did not match any IATA")
+        } else {
+            // if destination airport is found, see if there is also a origin airport
+            // if there is, update the gauge chart
+            const originAirport = $("#origin-input-selector").val();
+            if (originAirport) {
+                const originIata = originAirport.split('(')[1].substr(0, 3);
+                window.updateGaugeChart({
+                    origin: originIata,
+                    destination: airport_iata
+                })
+            }
         }
 
     })

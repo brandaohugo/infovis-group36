@@ -9,6 +9,7 @@
         let airport_names = {{ airport_names|tojson }};
         let plot_data = {{ plot_data |safe }};
         let table_data = {{ table_data |safe }};
+        let flights_data = {{ flights_data |safe }};
     </script>
 
     <div class="row h-100 flex-grow-1">
@@ -64,7 +65,10 @@
              style="background: grey; display: none ">
         </div>
     </div>
-
+    <div class="gauge-chart-container">
+        <svg class="chart-gauge" width="400" height="250"></svg>
+        <div class="gauge-chart-number">- mins</div>
+    </div>
     {#    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>#}
 
 
@@ -81,11 +85,13 @@
 
     <script type="text/javascript" src="../static/js/map.js"></script>
 
-
+    <script type="text/javascript" src="../static/js/lib/gaugeChart.js"></script>
+    <script type="text/javascript" src="../static/js/gaugeChart.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../static/css/linechart.css">
     <link rel="stylesheet" type="text/css" href="../static/css/flowchart.css">
     <link rel="stylesheet" type="text/css" href="../static/css/autocompleteform.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/gaugeChart.css">
 
     <link href="../static/css/tooltip.css" rel="stylesheet" type="text/css">
     <link href="../static/css/tipsy.css" rel="stylesheet" type="text/css"/>
@@ -93,5 +99,6 @@
 
     <script>
         originAirport();
+        createGaugeChart();
     </script>
 {% endblock %}
