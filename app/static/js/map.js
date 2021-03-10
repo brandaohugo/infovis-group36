@@ -244,6 +244,7 @@ function selectAirport(airport) {
     } else if (secondSelectedAirport === null) {
         selectDestinationAirport(airport)
         showDestinationAirportInfo()
+        makeBarchart(airport)
     }
     // } else if (firstSelectionBool) {
     //     firstSelectedAirport = d
