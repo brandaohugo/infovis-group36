@@ -1,7 +1,7 @@
 
 //Width and height of map
-const width = 1000;
-const height = 1200;
+const width = 900;
+const height = 800;
 
 let locationRadius = 4;
 let lastTransform = {'k': 1, 'x': 0, 'y': 0}; // Default zoom settings
