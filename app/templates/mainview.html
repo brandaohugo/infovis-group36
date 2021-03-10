@@ -56,6 +56,10 @@
             </div>
 
             <div class="col-lg flex-grow-1" id="destination-airport" style="display: none">
+                <div class="gauge-chart-container">
+                    <svg class="chart-gauge" width="400" height="250"></svg>
+                    <div class="gauge-chart-number">- mins</div>
+                </div>
             </div>
         </div>
     </div>
@@ -64,10 +68,6 @@
         <div class="col-lg flex-grow-1 border-right border-top text-center" id="od-chart"
              style="background: grey; display: none ">
         </div>
-    </div>
-    <div class="gauge-chart-container">
-        <svg class="chart-gauge" width="400" height="250"></svg>
-        <div class="gauge-chart-number">- mins</div>
     </div>
     {#    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>#}
 
@@ -84,9 +84,6 @@
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/sankey.js"></script>
 
     <script type="text/javascript" src="../static/js/map.js"></script>
-
-    <script type="text/javascript" src="../static/js/lib/gaugeChart.js"></script>
-    <script type="text/javascript" src="../static/js/gaugeChart.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../static/css/linechart.css">
     <link rel="stylesheet" type="text/css" href="../static/css/flowchart.css">
