@@ -71,7 +71,6 @@ function showDestinationAirportInfo() {
 
     d3.select("#od-chart")
         .style("display", "block")
-    makeBarchart("LAX","JFK")
 }
 
 function resetToMainView() {

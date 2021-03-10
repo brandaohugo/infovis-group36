@@ -231,7 +231,10 @@ function selectDestinationAirport(airport) {
             );
             let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month"}
             drawSpiderWebChart(ODData, options)
+
         });
+
+    makeBarchart(firstSelectedAirport.iata,secondSelectedAirport.iata)
     }
 }
 

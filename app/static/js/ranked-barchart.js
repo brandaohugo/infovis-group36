@@ -1,11 +1,11 @@
 function makeBarchart(origin, destination ){
 
+
+
 // set the dimensions and margins of the graph
 var margin = {top: 30, right: 30, bottom: 70, left: 60},
     chart_width = 430 - margin.left - margin.right,
     chart_height = 360 - margin.top - margin.bottom;
-
-
 
 
 // append the svg object to the body of the page
