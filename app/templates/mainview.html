@@ -9,9 +9,10 @@
         let airport_names = {{ airport_names|tojson }};
         let plot_data = {{ plot_data |safe }};
         let table_data = {{ table_data |safe }};
+        let flights_data = {{ flights_data |safe }};
     </script>
 
-    <div class="row h-100">
+    <div class="row h-100 flex-grow-1">
 
         {#        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>#}
         <div class="col-lg flex-grow-1 border-right">
@@ -32,6 +33,10 @@
                     <div class="col" id="origin-cancelled">
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg flex-grow-1 text-center"
+                         id="origin-chart"></div>
+                </div>
             </div>
         </div>
 
@@ -46,23 +51,24 @@
                 <input type="submit" value="Submit">
                 <input type="reset" value="Clear">
             </form>
-            <div class="col-lg flex-grow-1" id="map-view">
-    {#                <button onclick="resetMap()">Reset Map</button>#}
+            <div class="col-lg" id="map-view" style="padding: 0!important;">
+                {#                <button onclick="resetMap()">Reset Map</button>#}
             </div>
 
             <div class="col-lg flex-grow-1" id="destination-airport" style="display: none">
+                <div class="gauge-chart-container">
+                    <svg class="chart-gauge" width="400" height="250"></svg>
+                    <div class="gauge-chart-number">- mins</div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row h-100">
+    <div class="row h-100" id="od-row" style="display: none">
 
-        <div class="col-lg-6 flex-grow-1 border-right border-top text-center"
-             id="origin-chart"></div>
         <div class="col-lg flex-grow-1 border-right border-top text-center" id="od-chart"
              style="background: grey; display: none ">
         </div>
     </div>
-
     {#    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>#}
 
 
@@ -74,17 +80,17 @@
     <script type="text/javascript" src="../static/js/airportSelection.js"></script>
     <script type="text/javascript" src="../static/js/originAirport.js"></script>
     <script type="text/javascript" src="../static/js/destinationAirport.js"></script>
+    <script type="text/javascript" src="../static/js/ranked-barchart.js"></script>
 
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/sankey.js"></script>
 
     <script type="text/javascript" src="../static/js/map.js"></script>
 
-
     <link href="http://fonts.cdnfonts.com/css/skyfont" rel="stylesheet">
-
     <link rel="stylesheet" type="text/css" href="../static/css/linechart.css">
     <link rel="stylesheet" type="text/css" href="../static/css/flowchart.css">
     <link rel="stylesheet" type="text/css" href="../static/css/autocompleteform.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/gaugeChart.css">
 
     <link href="../static/css/tooltip.css" rel="stylesheet" type="text/css">
     <link href="../static/css/tipsy.css" rel="stylesheet" type="text/css"/>
@@ -92,5 +98,6 @@
 
     <script>
         originAirport();
+        createGaugeChart();
     </script>
 {% endblock %}
