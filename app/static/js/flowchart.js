@@ -34,11 +34,10 @@ const convertDataToFlow = (origin, flights) =>{
 }
 
 const drawOriginAirportFlow = (origin, flights, flowOptions, onClickFlow) => {
-  
   const {
     nodes,
     links
-  } = convertDataToFlow(origin, flights, flowOptions);
+  } = convertDataToFlow(origin, flights);
   const {
     margins,
     divId,

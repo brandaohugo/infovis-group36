@@ -1,4 +1,3 @@
-
 //Width and height of map
 const width = 900;
 const height = 800;
@@ -52,7 +51,6 @@ let secondSelectedAirport = null
 // URls to load data from the web
 const urls = {
     flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/7eda6b08fc999201d17e3d5c1e04db5c1bccd904/flights.csv",
-    airports: "https://gist.githubusercontent.com/brandaohugo/c66a88ecac49b0af6a6a91162ebdceb8/raw/31315724924ab2ffcc199463d46f26044bdf829c/airports.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
     avgMonthDelay: "http://localhost:5000/data/global_avg_month_delay.csv",
     aggrDayOfWeek: "https://gist.githubusercontent.com/brandaohugo/aa591bc1f6d9f7c4e9f927edcc8700fb8/raw/6f5033423c40da1f95d9abe369bb4f4f252b1075/aggr_day_of_week.csv",
@@ -61,14 +59,27 @@ const urls = {
     aggrMonth: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/6f5033423c40da1f95d9abe369bb4f4f252b1075/aggr_month.csv"
 };
 
-const onClickFlow = (d) => {
-    d3.csv(urls.airports)
-        .then(airports => {
-            const clickedAirport = airports.filter(el => {
-                return d.target.name == el.iata
-            })
-            selectAirport(clickedAirport[0])
+function expandAirportInformation(origin, airport) {
+
+    d3.csv(urls.flights)
+        .then(flights => {
+            for (let i = 0; i < flights.length; i++) {
+                if (origin.iata === flights[i].origin && airport.iata === flights[i].destination) {
+                    let airport_information = {...airport, ...(flights[i])}
+                    delete airport_information['destination'];
+                    selectDestinationAirport(airport_information)
+                }
+            }
         })
+}
+
+const onClickFlow = (d) => {
+    for (let i = 0; i < airport_locations.length; i++) {
+        if (d.target.name === airport_locations[i].iata) {
+            expandAirportInformation(firstSelectedAirport, airport_locations[i])
+            return [airport_locations[i]]
+        }
+    }
 }
 
 function zoomed() {
@@ -122,6 +133,7 @@ function getAirportConnections(originAirport, flights) {
     filteredFlights.forEach(flight => {
         for (let i = 0; i < airport_locations.length; i++) {
             if (airport_locations[i].iata === flight.destination) {
+
                 let airport_information = {...airport_locations[i], ...(flight)}
                 delete airport_information['destination'];
                 filteredAirportLocations.push(airport_information)
@@ -175,23 +187,25 @@ function selectOriginAirport(airport) {
             map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
             const flowOptions = {
                 margins: {
-                  top: 10,
-                  right: 10,
-                  bottom: 10,
-                  left: 10
+                    top: 10,
+                    right: 10,
+                    bottom: 10,
+                    left: 10
                 },
                 divId: "#origin-chart",
                 svgWidth: 650,
                 svgHeight: 250,
                 nodeWidth: 10,
                 nodePadding: 15
-              }
+            }
             drawOriginAirportFlow(firstSelectedAirport, flights, flowOptions, onClickFlow);
         })
+    drawOriginAirportInfoBox(airport)
 }
 
 function selectDestinationAirport(airport) {
-    if (airport === firstSelectedAirport) {
+    console.log("Selected Destination airport")
+    if (airport === firstSelectedAirport) { // If selected airport is equal to origin airport
         secondSelectedAirport = null
     } else {
         secondSelectedAirport = airport
@@ -206,36 +220,40 @@ function selectDestinationAirport(airport) {
             divId: "body",
             maxLabels: 4,
             numTicks: 5,
-            chartWidth: 400, 
+            chartWidth: 400,
             chartHeight: 300,
             chartMargin: 50,
             labelsYOffset: -50,
             labelLineHeight: 15,
             labelFontSize: "12px"
         };
-        console.log("Month")
+        // Month
         d3.csv(urls.aggrMonth)
             .then(rawData => {
-                const ODData = rawData.filter(el => 
+                const ODData = rawData.filter(el =>
                     el.origin === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
-            );
-            let options = {...Spideroptions, chartTitle: "Average Delay per Month"}
-            drawSpiderWebChart(ODData, options)
-        });
-        console.log("Day of Month")
+                );
+                let options = {...Spideroptions, chartTitle: "Average Delay per Month"}
+                drawSpiderWebChart(ODData, options)
+            });
+        // Day of month
         d3.csv(urls.aggrDayOfMonth)
             .then(rawData => {
-                const ODData = rawData.filter(el => 
+                const ODData = rawData.filter(el =>
                     el.origin === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
-            );
-            let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month"}
-            drawSpiderWebChart(ODData, options)
+                );
+                let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month"}
+                drawSpiderWebChart(ODData, options)
 
-        });
+            });
+        console.log("First airport", firstSelectedAirport)
+        console.log("Second airport", secondSelectedAirport)
+        drawDestinationAirportInfoBox(secondSelectedAirport)
+        makeBarchart(firstSelectedAirport.iata, secondSelectedAirport.iata)
+        showDestinationAirportInfo()
 
-    makeBarchart(firstSelectedAirport.iata,secondSelectedAirport.iata)
     }
 }
 
@@ -244,11 +262,10 @@ function selectAirport(airport) {
     if (firstSelectedAirport === null) {
         selectOriginAirport(airport)
         // showSecondInputField()
-        drawOriginAirportInfoBox(airport)
+
     } else if (secondSelectedAirport === null) {
         selectDestinationAirport(airport)
-        showDestinationAirportInfo()
-        drawDestinationAirportInfoBox(airport)
+
     }
 }
 
@@ -282,7 +299,6 @@ function resetMapDestination() {
 }
 
 function drawAirports(airports) {
-    console.log(airports)
     map_svg.selectAll("circle").remove()
     map_svg.selectAll("circle")
         .data(airports)
