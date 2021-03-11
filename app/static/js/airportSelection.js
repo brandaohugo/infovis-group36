@@ -122,6 +122,8 @@ function resetToDestinationView() {
 
     d3.select("#od-chart")
         .style("display", "none")
+
+
 }
 
 
