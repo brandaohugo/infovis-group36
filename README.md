@@ -61,6 +61,28 @@ Action items for next week:
 - Focus on functional aspects, make sure most of functional work is finished
 - Leave visual appeal for week after
 
+## 11-3-2021 Weekly Check-in #5 ##
+
+First instinct about user story is usually correct: rely on intuition
+
+3 min video for 1. April: contain/highlight every function of the airline 
+Introduce components on screen
+Pose a question: anwser it by clicking on tabs
+Come to conclusion about components: explain why your components make sense
+
+Slides: 
+Screenshots of every component with explanation and arrows
+
+Report: 
+Scientific report, explain why choose visualizations, why color, why layout, why chart type
+
+
+For next week:  
+prepare main component for feedback, along with the video outline (structure, , references to theory as explaining design choices, introduce all components in order)
+
+Make tool public to improve understanding, deploy on free hosting 
+
+
 
 # InfoVis Assignment #
 
