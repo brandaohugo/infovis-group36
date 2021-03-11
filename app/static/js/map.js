@@ -242,7 +242,10 @@ function resetMap() {
     d3.select("#origin-chart").select('svg').remove()
     d3.select("#origin-flights").select('svg').remove()
     d3.select("#origin-connections").select('svg').remove()
-    d3.select("#origin-canceled").select('svg').remove()
+    d3.select("#origin-cancelled").select('svg').remove()
+    d3.select("#od-flights").select('svg').remove()
+    d3.select("#od-rank").select('svg').remove()
+    d3.select("#od-cancelled").select('svg').remove()
 
     firstSelectedAirport = secondSelectedAirport = null
     drawAirports(airport_locations)
