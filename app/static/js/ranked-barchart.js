@@ -9,7 +9,7 @@ var margin = {top: 30, right: 30, bottom: 70, left: 60},
 
 
 // append the svg object to the body of the page
-var svg = d3.select("#destination-airport")
+var svg = d3.select("#delay-barchart")
   .append("svg")
     .attr("width", chart_width + margin.left + margin.right)
     .attr("height", chart_height + margin.top + margin.bottom)
