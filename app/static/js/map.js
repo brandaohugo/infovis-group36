@@ -201,6 +201,9 @@ function selectOriginAirport(airport) {
             drawOriginAirportFlow(firstSelectedAirport, flights, flowOptions, onClickFlow);
         })
     drawOriginAirportInfoBox(airport)
+
+    d3.select("#destination-form")
+        .style("display", "block")
 }
 
 function selectDestinationAirport(airport) {

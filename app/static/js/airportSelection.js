@@ -108,6 +108,9 @@ function resetToMainView() {
 
     d3.select("#od-chart")
         .style("display", "none")
+
+    d3.select("#destination-form")
+        .style("display", "none")
 }
 
 function resetToDestinationView() {
