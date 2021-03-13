@@ -220,7 +220,7 @@ function selectDestinationAirport(airport) {
         map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
         const Spideroptions = {
             titleFontSize: "12px",
-            divId: "body",
+            divId: "#od-chart",
             maxLabels: 4,
             numTicks: 5,
             chartWidth: 400,
