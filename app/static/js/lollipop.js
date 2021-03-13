@@ -7,8 +7,8 @@ var data = table_data
 
 const containerDiv = d3.select('#lollipop-chart');
 const odSvg = containerDiv.append("svg");
-const svgWidth = 1000;
-const svgHeight = (data.length + 1) * 26;
+const svgWidth = 900;
+const svgHeight = (data.length + 1) * 15;
 const margin = {top: 20, right: 30, bottom: 20, left: 0};
 
 const tableWidth = 320;

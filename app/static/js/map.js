@@ -193,8 +193,8 @@ function selectOriginAirport(airport) {
                     left: 10
                 },
                 divId: "#origin-chart",
-                svgWidth: 650,
-                svgHeight: 250,
+                svgWidth: 950,
+                svgHeight: 190,
                 nodeWidth: 10,
                 nodePadding: 15
             }
