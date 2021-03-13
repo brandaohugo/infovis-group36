@@ -1,6 +1,13 @@
 .gauge-chart-container {
     text-align: center;
 }
+.gauge-chart-text,
 .gauge-chart-number {
-    font-size: 32px;
+    font-size: 16px;
+}
+.is-late {
+    color: red;
+}
+.is-early {
+    color: green;
 }
