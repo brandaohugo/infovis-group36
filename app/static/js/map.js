@@ -193,14 +193,20 @@ function selectOriginAirport(airport) {
                     left: 10
                 },
                 divId: "#origin-chart",
-                svgWidth: 650,
-                svgHeight: 250,
+                svgWidth: 950,
+                svgHeight: 190,
                 nodeWidth: 10,
                 nodePadding: 15
             }
             drawOriginAirportFlow(firstSelectedAirport, flights, flowOptions, onClickFlow);
         })
     drawOriginAirportInfoBox(airport)
+
+    d3.select("#destination-form")
+        .style("display", "block")
+
+    d3.select("#lollipop-chart")
+        .style("display", "block")
 }
 
 function selectDestinationAirport(airport) {
@@ -217,7 +223,7 @@ function selectDestinationAirport(airport) {
         map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
         const Spideroptions = {
             titleFontSize: "12px",
-            divId: "body",
+            divId: "#od-chart",
             maxLabels: 4,
             numTicks: 5,
             chartWidth: 400,
