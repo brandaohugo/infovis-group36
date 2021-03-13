@@ -204,6 +204,9 @@ function selectOriginAirport(airport) {
 
     d3.select("#destination-form")
         .style("display", "block")
+
+    d3.select("#lollipop-chart")
+        .style("display", "block")
 }
 
 function selectDestinationAirport(airport) {
