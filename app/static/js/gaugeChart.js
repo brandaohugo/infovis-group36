@@ -5,7 +5,7 @@ function createGaugeChart() {
     interval: [-15, 15],         // The interval (min and max values) of the gauge (optional)
     sectionsCount: 2,           // The number of sections in the gauge
     width: 200,                  // The width of the gauge
-    sectionsColors: ['#00ff00', '#ff0000'],
+    sectionsColors: ['#3D5A80', '#EE6C4D'],
     barWidth: 20,
     needleRadius: 8
   });
