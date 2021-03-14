@@ -1,3 +1,5 @@
+// built thanks to: https://github.com/antoinebeland/d3-simple-gauge
+
 function createGaugeChart() {
  window.simpleGauge = new window.d3SimpleGauge.SimpleGauge({
     el: d3.select('.chart-gauge').append('g'),        // The element that hosts the gauge
