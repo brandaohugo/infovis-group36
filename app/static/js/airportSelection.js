@@ -50,7 +50,8 @@ $(document).ready(function () { // Wait until document is fully parsed
         let airport_found = false
         for (let i = 0; i < airport_locations.length; i++) {
             if (airport_locations[i].iata === airport_iata.toUpperCase()) {
-                selectDestinationAirport(airport_locations[i])
+                expandAirportInformation(firstSelectedAirport, airport_locations[i])
+                // selectDestinationAirport(airport_locations[i])
                 airport_found = true
                 showDestinationAirportInfo()
                 break
