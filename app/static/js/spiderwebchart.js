@@ -19,11 +19,19 @@ const convertDataToSpider =(dataIn, frequency) => {
         labels.push(k)
         data.push(labelRow)
     })
-    console.log(data)
+    const standardDev = math.std(values)
+    const mean = math.mean(values)
     const misc = {
-        maxValue: Math.max.apply(Math, values),
-        minValue: Math.min.apply(Math, values)
+        maxValue: Math.min(Math.max.apply(Math, values), mean + 1 * standardDev),
+        minValue: Math.min.apply(Math, values),
+        mean,
+        standardDev
     }
+    data.forEach(a => {
+        features.forEach(f => {
+            a[f] = Math.min(a[f], misc.maxValue)
+        })
+    })
     return {
         labels,
         data,
@@ -158,7 +166,7 @@ const drawSpiderWebChart = (rawData, options) => {
             let color = colors[i];
             let coordinates = getPathCoordinates(d);
     
-    
+
             svg.append("text")
             .attr("x", spiderCenterX + maxRange )
             .attr("y", spiderCenterY + i * labelLineHeight + labelsYOffset)
