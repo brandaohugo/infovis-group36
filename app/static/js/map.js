@@ -257,6 +257,10 @@ function selectDestinationAirport(airport) {
         console.log("First airport", firstSelectedAirport)
         console.log("Second airport", secondSelectedAirport)
         drawDestinationAirportInfoBox(secondSelectedAirport)
+        window.updateGaugeChart({
+                    origin: firstSelectedAirport.iata,
+                    destination: secondSelectedAirport.iata
+                })
         makeBarchart(firstSelectedAirport.iata, secondSelectedAirport.iata)
         showDestinationAirportInfo()
 

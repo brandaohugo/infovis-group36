@@ -1,3 +1,9 @@
+function removeOldBarchart() {
+    d3.select("#barchart-body")
+        .remove();
+}
+
+
 function makeBarchart(origin, destination) {
 
 
@@ -5,16 +11,17 @@ function makeBarchart(origin, destination) {
   // set the dimensions and margins of the graph
   var margin = { top: 30, right: 30, bottom: 70, left: 60 },
     chart_width = 430 - margin.left - margin.right,
-    chart_height = 360 - margin.top - margin.bottom;
+    chart_height = 300 - margin.top - margin.bottom;
 
 
   // append the svg object to the body of the page
   var svg = d3.select("#delay-barchart")
-    .append("svg")
-    .attr("width", chart_width + margin.left + margin.right)
-    .attr("height", chart_height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform",
+      .append("svg")
+      .attr("id", "barchart-body")
+      .attr("width", chart_width + margin.left + margin.right)
+      .attr("height", chart_height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform",
       "translate(" + margin.left + "," + margin.top + ")");
 
   // Parse the Data
@@ -23,15 +30,6 @@ function makeBarchart(origin, destination) {
   var dataPoint = flights_data.find((data) => {
     return data.origin === origin && data.destination === destination;
   });
-
-  //delete dataPoint.origin
-  //delete dataPoint.destination
-  //delete dataPoint.CANCELLED
-  //delete dataPoint.VOLUME_RANK
-  //delete dataPoint.arr_delay
-  //delete dataPoint.flight_volume;
-
-  //console.log("delay is", Object.keys(dataPoint))
 
   function draw(data) {
     var barPlotData = [
