@@ -313,6 +313,7 @@ function drawAirports(airports) {
         .attr("id", function (d) {
             return d.iata;
         })
+        .attr("class", "airport-circle")
         .attr("cx", function (d) {
             try {
                 return projection([d.longitude, d.latitude])[0]
@@ -344,7 +345,7 @@ function drawAirports(airports) {
             selectAirport(d)
         })
 
-    $('svg circle').tipsy({
+    $('.airport-circle').tipsy({
         gravity: 'w',
         html: true,
         title: function () {
