@@ -1,4 +1,4 @@
-const convertDataToSpider =(dataIn) => {
+const convertDataToSpider =(dataIn, frequency) => {
     const keySet = new Set();
     dataIn.forEach(f => {
         keySet.add(f.label)
@@ -6,8 +6,10 @@ const convertDataToSpider =(dataIn) => {
     let data = [];
     const values = []
     const labels = [];
+    const features = [...Array(frequency).keys()].map(i => i+1);
     keySet.forEach(k => {
         const labelRow = {}
+        features.forEach(f => labelRow[f] = 0)
         const labelArrays = dataIn.filter(el  => el.label == k)
         labelArrays.forEach(el => {
             value = Math.max(0,el.value)
@@ -17,7 +19,7 @@ const convertDataToSpider =(dataIn) => {
         labels.push(k)
         data.push(labelRow)
     })
-    const features = Object.keys(data[0]);
+    console.log(data)
     const misc = {
         maxValue: Math.max.apply(Math, values),
         minValue: Math.min.apply(Math, values)
@@ -31,12 +33,11 @@ const convertDataToSpider =(dataIn) => {
 }
 
 const drawSpiderWebChart = (rawData, options) => {
-    const {labels, data, features, misc} = convertDataToSpider(rawData);
-    const { maxValue, minValue } = misc
     const {
         chartTitle,
         titleFontSize,
         divId,
+        frequency,
         maxLabels,
         numTicks,
         chartHeight,
@@ -46,6 +47,9 @@ const drawSpiderWebChart = (rawData, options) => {
         labelFontSize,
         labelLineHeight,
     } = options
+
+    const {labels, data, features, misc} = convertDataToSpider(rawData, frequency);
+    const { maxValue, minValue } = misc
 
     const tickXOffset = 5;
     const titleMargin = 60

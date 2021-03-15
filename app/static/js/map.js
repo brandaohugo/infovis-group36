@@ -240,7 +240,7 @@ function selectDestinationAirport(airport) {
                     el.origin === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per Month"}
+                let options = {...Spideroptions, chartTitle: "Average Delay per Month", frequency: 12}
                 drawSpiderWebChart(ODData, options)
             });
         // Day of month
@@ -250,7 +250,7 @@ function selectDestinationAirport(airport) {
                     el.origin === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month"}
+                let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month", frequency: 31}
                 drawSpiderWebChart(ODData, options)
 
             });
