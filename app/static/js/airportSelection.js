@@ -130,6 +130,8 @@ function resetToDestinationView() {
     d3.select("#od-row")
         .style("display", "none")
 
+    removeOldBarchart()
+
 
 }
 
