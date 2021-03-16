@@ -185,7 +185,15 @@ const drawSpiderWebChart = (rawData, options) => {
                 .attr("y", spiderCenterY + i * labelLineHeight + labelsYOffset)
                 .style("fill",color)
                 .style("font-size", labelFontSize)
-                .text(labels[i]);
+                .attr("id", `${labels[i]}`.replace(' ','-'))
+                .text(labels[i])
+                .on("mouseover", function () {
+                    console.log("path#"+this.id)
+                    d3.selectAll("path#"+this.id).style("stroke", "red");
+                })
+                .on("mouseout", function () {
+                    d3.selectAll("path#"+this.id).style("stroke", color);
+                });
             }
 
             svg.append("path")
