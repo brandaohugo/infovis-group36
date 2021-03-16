@@ -226,8 +226,6 @@ function selectDestinationAirport(airport) {
             divId: "#od-chart",
             maxLabels: 4,
             numTicks: 5,
-            chartWidth: 480,
-            chartHeight: 320,
             chartMargin: 50,
             labelsYOffset: -50,
             labelLineHeight: 15,
@@ -240,7 +238,7 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per Month", frequency: 12}
+                let options = {...Spideroptions, chartTitle: "Average Delay per Month", frequency: 12, showLabels: false, chartWidth: 320, chartHeight: 320}
                 drawSpiderWebChart(ODData, options)
             });
         // Day of month
@@ -250,7 +248,7 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month", frequency: 31}
+                let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month", frequency: 31, showLabels: true, chartWidth: 480, chartHeight: 320}
                 drawSpiderWebChart(ODData, options)
 
             });
@@ -260,7 +258,7 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per Hour of Day", frequency: 31}
+                let options = {...Spideroptions, chartTitle: "Average Delay per Hour of Day", frequency: 31, showLabels: false, chartWidth: 320, chartHeight: 320}
                 drawSpiderWebChart(ODData, options)
 
             });

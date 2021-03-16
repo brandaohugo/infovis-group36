@@ -13,7 +13,7 @@ const convertDataToSpider =(dataIn, frequency) => {
         const labelArrays = dataIn.filter(el  => el.label == k)
         labelArrays.forEach(el => {
             value = Math.max(0,el.value)
-            labelRow[el.period] = value
+            labelRow[el.period] = Math.ceil(value)
             values.push(value);
         })
         labels.push(k)
@@ -55,7 +55,8 @@ const drawSpiderWebChart = (rawData, options) => {
         labelFontSize,
         labelLineHeight,
         onMouseOverSpider,
-        onMouseOutSpider
+        onMouseOutSpider,
+        showLabels
     } = options
 
     const {labels, data, features, misc} = convertDataToSpider(rawData, frequency);
@@ -176,19 +177,16 @@ const drawSpiderWebChart = (rawData, options) => {
             const onMouseOverSpider = (d,i) => {
                 // console.log(e)
             }   
-
-            svg.append("text")
-            .attr("x", spiderCenterX + maxRange )
-            .attr("y", spiderCenterY + i * labelLineHeight + labelsYOffset)
-            .style("fill",color)
-            .style("font-size", labelFontSize)
-            .text(labels[i])
-            .on("mouseover", function(d) {
-                console.log(d)
-            })
-            .on("mouseout", onMouseOutSpider);
-
-           
+            console.log("here", showLabels)
+            if (showLabels) {
+                console.log("here")
+                svg.append("text")
+                .attr("x", spiderCenterX + maxRange )
+                .attr("y", spiderCenterY + i * labelLineHeight + labelsYOffset)
+                .style("fill",color)
+                .style("font-size", labelFontSize)
+                .text(labels[i]);
+            }
 
             svg.append("path")
                 .attr("d",line(coordinates))
