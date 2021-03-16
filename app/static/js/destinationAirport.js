@@ -1,8 +1,8 @@
-var destination_svg = d3.select("#destination-airport")
-    .append("svg")
-    .attr("id", "destination-svg")
-    .attr("viewBox", '0 0 1200 750')
-    .style("display", "block");
+// var destination_svg = d3.select("#destination-airport")
+//     .append("svg")
+//     .attr("id", "destination-svg")
+//     .attr("viewBox", '0 0 1200 750')
+//     .style("display", "block");
 
 // destination_svg.append("text")
 //     .attr("x", 600)
