@@ -95,7 +95,7 @@ function showDestinationAirportInfo() {
     d3.select("#destination-airport")
         .style("display", "block")
 
-    d3.select("#od-row")
+    d3.select("#od-chart")
         .style("display", "block")
 }
 
@@ -110,7 +110,7 @@ function resetToMainView() {
     d3.select("#destination-airport")
         .style("display", "none")
 
-    d3.select("#od-row")
+    d3.select("#od-chart")
         .style("display", "none")
 
     d3.select("#destination-form")
@@ -127,7 +127,7 @@ function resetToDestinationView() {
     d3.select("#destination-airport")
         .style("display", "none")
 
-    d3.select("#od-row")
+    d3.select("#od-chart")
         .style("display", "none")
 
     removeOldBarchart()

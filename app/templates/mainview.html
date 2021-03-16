@@ -12,7 +12,7 @@
         let flights_data = {{ flights_data |safe }};
     </script>
 
-    <div class="row flex-grow-1">
+    <div class="row flex-grow-1 border-bottom">
 
         {#        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>#}
         <div class="col-lg flex-grow-1 border-right">
@@ -75,21 +75,24 @@
         </div>
     </div>
 
+    <div class="row justify-content-center">Route statistics</div>
+
     <div class="row align-items-center" id="gauge-bar-row">
 
-        <div class="col-lg flex-grow-1 offset-md-2">
+        <div class="col-lg flex-grow-1">
             <div class="row">
-                <div class="col-5 gauge-chart-container">
+                <div class="col-5 my-auto gauge-chart-container">
                     <svg class="chart-gauge" height="110" width="200"></svg>
                     <div id="gauge-chart-text" style="display: none">Average Arrival Delay</div>
                     <div id="gauge-chart-number" style="display: none">- mins</div>
                 </div>
+
+                <div class="col-7" id="delay-barchart"></div>
             </div>
         </div>
 
-        <div class="col-lg flex-grow-1 offset-md-1">
-            <div class="row">
-                <div class="col-7" id="delay-barchart"></div>
+        <div class="row">
+            <div class="col-lg flex-grow-1 text-center" id="od-chart">
             </div>
         </div>
 
@@ -97,8 +100,7 @@
 
     <div class="row h-100" id="od-row" style="display: none">
 
-        <div class="col-lg flex-grow-1 border-top text-center" id="od-chart">
-        </div>
+
     </div>
 
 
