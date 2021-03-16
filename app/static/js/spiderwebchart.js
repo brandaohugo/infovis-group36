@@ -198,7 +198,7 @@ const drawSpiderWebChart = (rawData, options) => {
 
             svg.append("path")
                 .attr("d",line(coordinates))
-                .attr("id", `${labels[i]}`)
+                .attr("id", `${labels[i]}`.replace(' ','-'))
                 .attr("stroke-width", 4)
                 .attr("stroke", color)
                 .attr("fill", color)
