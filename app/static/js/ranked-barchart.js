@@ -24,6 +24,16 @@ function makeBarchart(origin, destination) {
       .attr("transform",
       "translate(" + margin.left + "," + margin.top + ")");
 
+      //Add Title
+    d3.select("svg#barchart-body")
+        .append("text")
+        .attr("class","title")
+        .attr("x", ((chart_width+margin.left+margin.right) / 2))
+        .attr("y", 0 + (margin.top ))
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("Top 5 Delay Causes");
+
   // Parse the Data
 
 
@@ -61,6 +71,9 @@ function makeBarchart(origin, destination) {
       .call(d3.axisLeft(y).ticks(5))
       // .call(d3.axisLeft(y).tickFormat((interval, i) => {return i % 2 === 0 ? interval : ''}));
 
+
+
+
     // Bars
     svg.selectAll(".mybar")
       .data(sortedData)
@@ -70,8 +83,13 @@ function makeBarchart(origin, destination) {
       .attr("y", function (d) { return y(d.data); })
       .attr("width", x.bandwidth())
       .attr("height", function (d) { return chart_height - y(d.data); })
-      .attr("fill", "#69b3a2")
+      .attr("fill", "#98C1D9")
       .attr('class', 'mybar')
+      .attr("id", function (d,i) { return "bar_"+i })
+
+    //color top Bar
+    d3.select("rect#bar_0")
+       .attr("fill", "#EE6C4D");
 
     svg.selectAll('.bar-text')
       .data(sortedData)
