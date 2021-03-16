@@ -2,8 +2,12 @@ function updateDestinationAutoComplete(airport) {
     d3.csv(urls.flights)
         .then(flights => {
             let airportConnections = getAirportConnections(airport, flights)
-            console.log(airportConnections)
-        })
+            let _airport_names = []
+            for (let i = 1; i < airportConnections.length; i++) { // Skip origin airport
+                _airport_names.push(airportConnections[i].name + " (" + airportConnections[i].iata + ")")
+            }
+            autocomplete(document.getElementById("destination-input-selector"), _airport_names);
+            })
 }
 
 $(document).ready(function () { // Wait until document is fully parsed
