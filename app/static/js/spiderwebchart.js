@@ -54,6 +54,8 @@ const drawSpiderWebChart = (rawData, options) => {
         labelsYOffset,
         labelFontSize,
         labelLineHeight,
+        onMouseOverSpider,
+        onMouseOutSpider
     } = options
 
     const {labels, data, features, misc} = convertDataToSpider(rawData, frequency);
@@ -159,28 +161,47 @@ const drawSpiderWebChart = (rawData, options) => {
     }
 
     try { 
-        data.forEach((d,i) => {
+        data.forEach((dt,i) => {
             if (i >= maxLabels) {
                 throw BreakException
             }
             let color = colors[i];
-            let coordinates = getPathCoordinates(d);
+            let coordinates = getPathCoordinates(dt);
     
+
+            const onMouseOutSpider = (d,i) => {
+                console.log(svg.selectAll("path"))
+                // console.log(this)
+            }
+            const onMouseOverSpider = (d,i) => {
+                // console.log(e)
+            }   
 
             svg.append("text")
             .attr("x", spiderCenterX + maxRange )
             .attr("y", spiderCenterY + i * labelLineHeight + labelsYOffset)
             .style("fill",color)
             .style("font-size", labelFontSize)
-            .text(labels[i]);
-            
+            .text(labels[i])
+            .on("mouseover", function(d) {
+                console.log(d)
+            })
+            .on("mouseout", onMouseOutSpider);
+
+           
+
             svg.append("path")
                 .attr("d",line(coordinates))
+                .attr("id", `${labels[i]}`)
                 .attr("stroke-width", 4)
                 .attr("stroke", color)
                 .attr("fill", color)
                 .attr("stroke-opacity", 1)
-                .attr("opacity", 0.5);
+                .attr("opacity", 0.5)
+                .on("mouseover", function (d) {
+                    console.log(d)
+                })
+                // .on("mouseout", onMouseOutSpider);
         });
     } catch (e) {
         //pass
