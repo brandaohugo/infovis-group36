@@ -10,61 +10,70 @@
         let plot_data = {{ plot_data |safe }};
         let table_data = {{ table_data |safe }};
         let flights_data = {{ flights_data |safe }};
+
+        let color_palette = {
+            'BBlue': '#3D5A80',
+            'PaleC': '#98C1D9',
+            'LCyan': '#E0FBFC',
+            'BSienna': '#EE6C4D',
+            'Gunmetal': '#293241'
+        }
+
     </script>
 
     <div class="row h-75 flex-grow-1">
 
-        {#        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>#}
-        <div class="col-lg flex-grow-1 border-right">
-            <form class="form-group form-inline autocomplete" id="origin-form" autocomplete="off">
-                <input type="text" class="form-control"
-                       id="origin-input-selector"
-                       placeholder="Origin Airport"
-                       name="origin_value">
-                <input type="submit" value="Submit">
-                <input type="reset" value="Clear">
-            </form>
-            <div class="col-lg flex-grow-1 col-xs-4 text-center align-self-center" id="originSelector">
-                <div class="row">
-                    <div class="col" id="origin-flights">
-                    </div>
-                    <div class="col" id="origin-connections">
-                    </div>
-                    <div class="col" id="origin-cancelled">
-                    </div>
+    {#        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>#}
+    <div class="col-lg flex-grow-1 border-right">
+        <form class="form-group form-inline autocomplete" id="origin-form" autocomplete="off">
+            <input type="text" class="form-control"
+                   id="origin-input-selector"
+                   placeholder="Origin Airport"
+                   name="origin_value">
+            <input type="submit" value="Submit">
+            <input type="reset" value="Clear">
+        </form>
+        <div class="col-lg flex-grow-1 col-xs-4 text-center align-self-center" id="originSelector">
+            <div class="row">
+                <div class="col" id="origin-flights">
                 </div>
-                <div class="row">
-                    <div class="col" id="lollipop-chart" style="display: none; height: 285px">
-                    </div>
+                <div class="col" id="origin-connections">
                 </div>
-                <div class="row">
-                    <div class="col-lg flex-grow-1 text-center"
-                         id="origin-chart" style="height: 100%"></div>
+                <div class="col" id="origin-cancelled">
                 </div>
+            </div>
+            <div class="row">
+                <div class="col" id="lollipop-chart" style="display: none; height: 285px">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg flex-grow-1 text-center"
+                     id="origin-chart" style="height: 100%"></div>
             </div>
         </div>
+    </div>
 
 
-        <div class="col-lg flex-grow-1" style="padding: 0">
-            <form class="form-group form-inline autocomplete" id="destination-form" autocomplete="off"
-                  style="display: none; padding: 0 15px">
-                <input type="text" class="form-control"
-                       id="destination-input-selector"
-                       placeholder="Destination Airport"
-                       name="destination_value">
-                <input type="submit" value="Submit">
-                <input type="reset" value="Clear">
-            </form>
-            <div class="col-lg" id="map-view" style="padding: 0">
-                {#                <button onclick="resetMap()">Reset Map</button>#}
-            </div>
+    <div class="col-lg flex-grow-1" style="padding: 0">
+        <form class="form-group form-inline autocomplete" id="destination-form" autocomplete="off"
+              style="display: none; padding: 0 15px">
+            <input type="text" class="form-control"
+                   id="destination-input-selector"
+                   placeholder="Destination Airport"
+                   name="destination_value">
+            <input type="submit" value="Submit">
+            <input type="reset" value="Clear">
+        </form>
+        <div class="col-lg" id="map-view" style="padding: 0">
+            {#                <button onclick="resetMap()">Reset Map</button>#}
+        </div>
 
-            <div class="col-lg flex-grow-1" id="destination-airport" style="display: none">
-                <div class="row">
+        <div class="col-lg flex-grow-1" id="destination-airport" style="display: none">
+            <div class="row">
 
-                    <div class="col" id="od-flights">
-                    </div>
-                    <div class="col" id="od-ranking">
+                <div class="col" id="od-flights">
+                </div>
+                <div class="col" id="od-ranking">
 
                     <div class="col-5 gauge-chart-container">
                         <svg class="chart-gauge" height="110" width="200"></svg>

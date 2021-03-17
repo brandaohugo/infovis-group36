@@ -1,3 +1,15 @@
+function updateDestinationAutoComplete(airport) {
+    d3.csv(urls.flights)
+        .then(flights => {
+            let airportConnections = getAirportConnections(airport, flights)
+            let _airport_names = []
+            for (let i = 1; i < airportConnections.length; i++) { // Skip origin airport
+                _airport_names.push(airportConnections[i].name + " (" + airportConnections[i].iata + ")")
+            }
+            autocomplete(document.getElementById("destination-input-selector"), _airport_names);
+            })
+}
+
 $(document).ready(function () { // Wait until document is fully parsed
     $("#origin-form").bind('submit', function (e) {
         e.preventDefault();
@@ -9,6 +21,7 @@ $(document).ready(function () { // Wait until document is fully parsed
         for (let i = 0; i < airport_locations.length; i++) {
             if (airport_locations[i].iata === airport_iata.toUpperCase()) {
                 selectOriginAirport(airport_locations[i])
+                updateDestinationAutoComplete(airport_locations[i])
                 airport_found = true
                 break
             }
@@ -238,4 +251,3 @@ function autocomplete(inp, arr) {
 }
 
 autocomplete(document.getElementById("origin-input-selector"), airport_names);
-autocomplete(document.getElementById("destination-input-selector"), airport_names);
