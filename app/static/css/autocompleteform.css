@@ -18,12 +18,14 @@ input[type=text] {
   width: 100%;
 }
 input[type=submit] {
-  background-color: DodgerBlue;
+  background-color: #3D5A80;
   color: #fff;
+  border-radius: 12px;
 }
 input[type=reset] {
-  background-color: crimson;
+  background-color: #EE6C4D;
   color: #fff;
+  border-radius: 12px;
 }
 .autocomplete-items {
   position: absolute;

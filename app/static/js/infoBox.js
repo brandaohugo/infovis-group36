@@ -1,4 +1,4 @@
-let squareSize = 200
+let squareSize = 160
 // TODO: Add easter egg for connection rank 1
 function drawText(svg, text, info, transition = false, origin_info = null) {
     svg.append("rect")

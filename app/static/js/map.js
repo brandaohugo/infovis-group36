@@ -255,6 +255,7 @@ function selectDestinationAirport(airport) {
         console.log("First airport", firstSelectedAirport)
         console.log("Second airport", secondSelectedAirport)
         drawDestinationAirportInfoBox(secondSelectedAirport)
+        createGaugeChart()
         window.updateGaugeChart({
                     origin: firstSelectedAirport.iata,
                     destination: secondSelectedAirport.iata
