@@ -10,6 +10,15 @@
         let plot_data = {{ plot_data |safe }};
         let table_data = {{ table_data |safe }};
         let flights_data = {{ flights_data |safe }};
+
+        let color_palette = {
+            'BBlue': '#3D5A80',
+            'PaleC': '#98C1D9',
+            'LCyan': '#E0FBFC',
+            'BSienna': '#EE6C4D',
+            'Gunmetal': '#293241'
+        }
+
     </script>
 
     <div class="row flex-grow-1 border-bottom">
@@ -33,17 +42,17 @@
                     </div>
                     <div class="col" id="origin-cancelled">
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col" id="lollipop-chart" style="display: none; height: 285px">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg flex-grow-1 text-center"
-                         id="origin-chart" style="height: 100%"></div>
+            </div>
+            <div class="row">
+                <div class="col" id="lollipop-chart" style="display: none; height: 285px">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg flex-grow-1 text-center"
+                     id="origin-chart" style="height: 100%"></div>
+            </div>
         </div>
+    </div>
 
 
         <div class="col-lg flex-grow-1" style="padding: 0">
@@ -61,12 +70,12 @@
                 {#                <button onclick="resetMap()">Reset Map</button>#}
             </div>
 
-            <div class="col-lg flex-grow-1" id="destination-airport" style="display: none">
-                <div class="row">
+        <div class="col-lg flex-grow-1" id="destination-airport" style="display: none">
+            <div class="row">
 
-                    <div class="col" id="od-flights">
-                    </div>
-                    <div class="col" id="od-ranking">
+                <div class="col" id="od-flights">
+                </div>
+                <div class="col" id="od-ranking">
 
                     </div>
                     <div class="col" id="od-cancelled">

@@ -38,11 +38,9 @@ map_svg.selectAll("path")
     .enter()
     .append("path")
     .attr("d", path)
-    .style("stroke", "#fff")
+    .style("stroke", color_palette.LCyan)
     .style("stroke-width", "1")
-    .style("fill", function (d) {
-        return "rgb(118,118,118)";
-    });
+    .style("fill", color_palette.Gunmetal);
 
 let firstSelectedAirport = null
 let secondSelectedAirport = null
@@ -183,7 +181,7 @@ function selectOriginAirport(airport) {
     d3.csv(urls.flights)
         .then(flights => {
             drawAirportConnections(firstSelectedAirport, flights)
-            map_svg.selectAll("circle").style("fill", "rgb(217,91,67)")
+            map_svg.selectAll("circle").style("fill", color_palette.BSienna)
             map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
             const flowOptions = {
                 margins: {
@@ -343,7 +341,7 @@ function drawAirports(airports) {
         .attr("r", function (d) {
             return lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1
         })
-        .style("fill", "rgb(217,91,67)")
+        .style("fill", color_palette.BSienna)
         .style("opacity", 0.85)
         .on("click", function (d) {
             $(".tipsy").remove();
