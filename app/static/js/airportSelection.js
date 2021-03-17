@@ -89,14 +89,16 @@ function showDestinationAirportInfo() {
     d3.select("#origin-chart")
         .style("display", "none")
 
-    d3.select("#lollipop-chart")
-        .style("display", "none")
+    // d3.select("#lollipop-chart")
+    //     .style("display", "none")
 
     d3.select("#destination-airport")
         .style("display", "block")
 
     d3.select("#od-row")
         .style("display", "block")
+
+    $('#lollipop-chart').insertAfter('#od-lollipop-row');
 }
 
 function resetToMainView() {
