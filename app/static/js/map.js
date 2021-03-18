@@ -199,6 +199,7 @@ function selectOriginAirport(airport) {
             drawOriginAirportFlow(firstSelectedAirport, flights, flowOptions, onClickFlow);
         })
     drawOriginAirportInfoBox(airport)
+    drawLollipopChart(airport.iata);
 
     d3.select("#destination-form")
         .style("display", "block")
