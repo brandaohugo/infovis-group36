@@ -53,10 +53,10 @@ const urls = {
     flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/7eda6b08fc999201d17e3d5c1e04db5c1bccd904/flights.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
     avgMonthDelay: "http://localhost:5000/data/global_avg_month_delay.csv",
-    aggrDayOfWeek: "https://gist.githubusercontent.com/brandaohugo/aa591bc1f6d9f7c4e9f927edcc8700fb8/raw/8fbd9ad66a6915a52e715418245841de194b916c/aggr_day_of_week.csv",
-    aggrDayOfMonth: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/8fbd9ad66a6915a52e715418245841de194b916c/aggr_day_of_month.csv",
-    aggrHourOfDay: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/8fbd9ad66a6915a52e715418245841de194b916c/aggr_hour_of_day.csv",
-    aggrMonth: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/8fbd9ad66a6915a52e715418245841de194b916c/aggr_month.csv"
+    aggrDayOfWeek: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/e351345af1f900d887177711dfa9f1da5e4fc309/aggr_day_of_week.csv",
+    aggrDayOfMonth: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/e351345af1f900d887177711dfa9f1da5e4fc309/aggr_day_of_month.csv",
+    aggrHourOfDay: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/e351345af1f900d887177711dfa9f1da5e4fc309/aggr_hour_of_day.csv",
+    aggrMonth: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/e351345af1f900d887177711dfa9f1da5e4fc309/aggr_month.csv"
 };
 
 function expandAirportInformation(origin, airport) {
@@ -238,7 +238,7 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per Month", frequency: 12, showLabels: false, chartWidth: 320, chartHeight: 320}
+                let options = {...Spideroptions, chartTitle: "% Delayed Flights- Month", frequency: 12, showLabels: false, chartWidth: 320, chartHeight: 320}
                 drawSpiderWebChart(ODData, options)
             });
         // Day of month
@@ -248,7 +248,7 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per  Day of the Month", frequency: 31, showLabels: true, chartWidth: 480, chartHeight: 320}
+                let options = {...Spideroptions, chartTitle: "% Delayed Flights - Day of the Month", frequency: 31, showLabels: true, chartWidth: 480, chartHeight: 320}
                 drawSpiderWebChart(ODData, options)
 
             });
@@ -258,7 +258,17 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "Average Delay per Hour of Day", frequency: 31, showLabels: false, chartWidth: 320, chartHeight: 320}
+                let options = {...Spideroptions, chartTitle: "% Delayed Flights - Hour of Day", frequency: 24, showLabels: false, chartWidth: 320, chartHeight: 320}
+                drawSpiderWebChart(ODData, options)
+
+            });
+            d3.csv(urls.aggrDayOfWeek)
+            .then(rawData => {
+                const ODData = rawData.filter(el =>
+                    el.orig === firstSelectedAirport.iata &&
+                    el.dest === secondSelectedAirport.iata
+                );
+                let options = {...Spideroptions, chartTitle: "% Delayed Flights - Day of Week", frequency: 7, showLabels: false, chartWidth: 320, chartHeight: 320}
                 drawSpiderWebChart(ODData, options)
 
             });
