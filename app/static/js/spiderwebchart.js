@@ -151,7 +151,7 @@ const drawSpiderWebChart = (rawData, options) => {
         .x(d => d.x)
         .y(d => d.y);
 
-    let colors = ["gold", "blue", "green", "black", "grey", "darkgreen", "yellow", "pink", "brown", "slateblue", "grey1", "orange"]
+    let colors = ["#3D5A80", "#EE6C4D", "rgb(152, 193, 217)", "rgb(135, 120, 128)", "rgb(195, 53, 127)", "#293241", "black", "rgb(127, 201, 127)", "brown", "slateblue", "grey1", "orange"]
 
     const getPathCoordinates = (dataPoint) => {
         let coordinates = [];
