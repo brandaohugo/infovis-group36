@@ -6,7 +6,9 @@ stats_ams = pd.read_csv('app/data/ams_stats_infovis.csv')
 stats_ams_meta = pd.read_csv("app/data/ams_stats_infovis_metadata.csv", sep=";")
 avg_flight_delay_month = pd.read_csv('app/data/avg_flight_delay_month.csv')
 flights_data = pd.read_csv('app/data/flights.csv')
+lollipop_data = pd.read_csv('app/data/DELAY_FROM_ORIGIN_BY_CARRIER.csv')
 ##########################
+#print(lollipop_data)
 
 model_data = stats_ams.copy()
 model_vars = stats_ams.drop(['area_name', 'area_code', 'WOPPONB_P'], axis=1)
