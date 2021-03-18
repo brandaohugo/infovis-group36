@@ -222,7 +222,7 @@ function selectDestinationAirport(airport) {
         const Spideroptions = {
             titleFontSize: "12px",
             divId: "#od-chart",
-            maxLabels: 4,
+            maxLabels: 6,
             numTicks: 5,
             chartMargin: 50,
             labelsYOffset: -50,
