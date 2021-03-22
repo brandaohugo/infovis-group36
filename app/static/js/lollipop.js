@@ -11,9 +11,20 @@ const margin = { top: 20, right: 30, bottom: 20, left: 130 };
 const plotWidth = svgWidth - margin.left - margin.right;
 
 
-const drawLollipopChart = (originAirport) => {
+const drawLollipopChart = (originAirport, destinationAirport) => {
     containerDiv.node().innerHTML = '';
-    const data = lollipop_data.filter((d) => d.ORIGIN === originAirport);
+    let data;
+    const forOriginDestination = originAirport && destinationAirport
+    if (forOriginDestination) {
+        data = lollipop_od.filter((d) => {
+            return (d.ORIGIN === originAirport) && (d.DEST === destinationAirport);
+        });
+        console.error(originAirport)
+        console.error(destinationAirport)
+        console.error(data)
+    } else {
+        data = lollipop_data.filter((d) => d.ORIGIN === originAirport);
+    }
     const plotHeight = (data.length + 1) * 18;
     const svgHeight = plotHeight + margin.top + margin.bottom + 60;
 
@@ -21,12 +32,21 @@ const drawLollipopChart = (originAirport) => {
         .attr('height', svgHeight)
         .attr('width', svgWidth);
 
+    let titleText = forOriginDestination ? 'Origin destination flight delay in minutes' : 'Origin flight delay in minutes';
+    odSvg.append('text')
+        .attr('x', svgWidth / 2)
+        .attr('y', plotHeight + margin.top + 30)
+        .text(titleText)
+        .attr('text-anchor', 'middle')
+
     const g = odSvg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`)
 
+    const minXDomain = Math.min(-1, d3.min(data, (d) => d.ARR_DELAY));
+    const maxXDomain = Math.max(1, d3.max(data, (d) => d.ARR_DELAY));
     const x = d3.scaleLinear()
         .range([0, plotWidth])
-        .domain(d3.extent(data, (d) => d.ARR_DELAY))
+        .domain([minXDomain, maxXDomain])
 
     const y = d3.scaleBand()
         .range([20, plotHeight])
@@ -74,12 +94,12 @@ const drawLollipopChart = (originAirport) => {
     }
 
     g.append("line")
-        .attr("x1", x(0))
+        .attr("x1", x(0) + 0.5)
         .attr("y1", 0)
-        .attr("x2", x(0))
+        .attr("x2", x(0) + 0.5)
         .attr("y2", plotHeight)
-        .attr('stroke', '#ccc')
-        .attr('stroke-width', 2) // vertical axis line
+        .attr('stroke', '#000')
+        .attr('stroke-width', 1) // vertical axis line
 
     g.append("g")
         .call(d3.axisTop(x))
