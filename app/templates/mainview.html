@@ -46,7 +46,7 @@
                     <div class="col" id="origin-cancelled">
                     </div>
             </div>
-            <div class="row">
+            <div class="row" id="o-lollipop-row">
                 <div class="col" id="lollipop-chart" style="display: none; height: 285px">
                 </div>
             </div>
@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <div class="row align-items-center border-bottom" id="gauge-bar-row" style="background-color: #f5f5f5;">
+    <div class="row flex-grow-1 align-items-center border-bottom" id="gauge-bar-row" style="background-color: #f5f5f5;">
 
         <div class="col-5 flex-grow-1 mx-auto border-right">
             <div class="row" id="od-lollipop-row">
@@ -103,7 +103,7 @@
         </div>
 
         <div class="col-2 flex-grow-1 border-left border-right gauge-chart-container my-auto">
-            <svg class="chart-gauge" height="110" width="200"></svg>
+            <svg class="chart-gauge" height="110" width="200" id="chart-gauge"></svg>
             <div id="gauge-chart-text" style="display: none">Average Arrival Delay</div>
             <div id="gauge-chart-number" style="display: none">- mins</div>
         </div>
@@ -115,7 +115,7 @@
 
     <div class="row" id="od-row" style="display: none">
 
-        <div class="col-lg text-center" id="od-chart" style="height: 100px">
+        <div class="col-lg text-center" id="od-chart">
         </div>
     </div>
 

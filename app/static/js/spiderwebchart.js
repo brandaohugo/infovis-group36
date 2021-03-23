@@ -76,7 +76,7 @@ const drawSpiderWebChart = (rawData, options) => {
 
     let svg = d3.select(divId).append("svg")
         .attr("width", chartWidth)
-        .attr("height", chartHeight-85);
+        .attr("height", chartHeight-90);
 
 
     let radialScale = d3.scaleLinear()
