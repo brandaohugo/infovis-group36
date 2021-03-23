@@ -218,6 +218,7 @@ function selectDestinationAirport(airport) {
     } else {
         secondSelectedAirport = airport
 
+
         d3.select("#destination-input-selector")
             .property("value", `${airport.name} (${airport.iata})`)
 
@@ -240,7 +241,14 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "% Delayed Flights- Month", frequency: 12, showLabels: false, chartWidth: 320, chartHeight: 320}
+                let options = {
+                    ...Spideroptions,
+                    chartTitle: "% Delayed Flights- Month",
+                    frequency: 12,
+                    showLabels: false,
+                    chartWidth: 320,
+                    chartHeight: 320
+                }
                 drawSpiderWebChart(ODData, options)
             });
         // Day of month
@@ -250,7 +258,14 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "% Delayed Flights - Day of the Month", frequency: 31, showLabels: true, chartWidth: 480, chartHeight: 320}
+                let options = {
+                    ...Spideroptions,
+                    chartTitle: "% Delayed Flights - Day of the Month",
+                    frequency: 31,
+                    showLabels: true,
+                    chartWidth: 480,
+                    chartHeight: 320
+                }
                 drawSpiderWebChart(ODData, options)
 
             });
@@ -260,17 +275,31 @@ function selectDestinationAirport(airport) {
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "% Delayed Flights - Hour of Day", frequency: 24, showLabels: false, chartWidth: 320, chartHeight: 320}
+                let options = {
+                    ...Spideroptions,
+                    chartTitle: "% Delayed Flights - Hour of Day",
+                    frequency: 24,
+                    showLabels: false,
+                    chartWidth: 320,
+                    chartHeight: 320
+                }
                 drawSpiderWebChart(ODData, options)
 
             });
-            d3.csv(urls.aggrDayOfWeek)
+        d3.csv(urls.aggrDayOfWeek)
             .then(rawData => {
                 const ODData = rawData.filter(el =>
                     el.orig === firstSelectedAirport.iata &&
                     el.dest === secondSelectedAirport.iata
                 );
-                let options = {...Spideroptions, chartTitle: "% Delayed Flights - Day of Week", frequency: 7, showLabels: false, chartWidth: 320, chartHeight: 320}
+                let options = {
+                    ...Spideroptions,
+                    chartTitle: "% Delayed Flights - Day of Week",
+                    frequency: 7,
+                    showLabels: false,
+                    chartWidth: 320,
+                    chartHeight: 320
+                }
                 drawSpiderWebChart(ODData, options)
 
             });
@@ -280,9 +309,9 @@ function selectDestinationAirport(airport) {
         drawDestinationAirportInfoBox(secondSelectedAirport)
         createGaugeChart()
         window.updateGaugeChart({
-                    origin: firstSelectedAirport.iata,
-                    destination: secondSelectedAirport.iata
-                })
+            origin: firstSelectedAirport.iata,
+            destination: secondSelectedAirport.iata
+        })
         makeBarchart(firstSelectedAirport.iata, secondSelectedAirport.iata)
         showDestinationAirportInfo()
 
