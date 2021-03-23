@@ -220,6 +220,8 @@ function selectDestinationAirport(airport) {
     } else {
         secondSelectedAirport = airport
 
+        d3.select("#gauge-bar-row")
+            .style("visibility", "visible")
 
         d3.select("#destination-input-selector")
             .property("value", `${airport.name} (${airport.iata})`)

@@ -145,6 +145,9 @@ function resetToMainView() {
     d3.select("#destination-form")
         .style("display", "none")
 
+    d3.select("#gauge-bar-row")
+        .style("visibility", "hidden")
+
     removeOldBarchart()
 }
 
@@ -173,6 +176,9 @@ function resetToDestinationView() {
         .style("display", "none")
     d3.select("#gauge-chart-number")
         .style("display", "none")
+
+    d3.select("#gauge-bar-row")
+        .style("visibility", "hidden")
 
     removeOldBarchart()
 }
