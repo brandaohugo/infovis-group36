@@ -32,7 +32,7 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
         .attr('height', svgHeight)
         .attr('width', svgWidth);
 
-    let titleText = forOriginDestination ? 'Origin destination flight delay in minutes' : 'Origin flight delay in minutes';
+    let titleText = forOriginDestination ? 'Average delay in minutes between origin and destination airports' : 'Average delay in minutes from origin airport';
     odSvg.append('text')
         .attr('x', svgWidth / 2)
         .attr('y', plotHeight + margin.top + 30)
