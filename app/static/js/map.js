@@ -177,6 +177,8 @@ function selectOriginAirport(airport) {
 
     d3.select("#navbar-top")
         .style("display", "none")
+    d3.select("#landing-text")
+        .style("display", "none")
 
     d3.select("#origin-input-selector")
         .property("value", `${airport.name} (${airport.iata})`)

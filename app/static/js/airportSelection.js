@@ -117,6 +117,8 @@ function showDestinationAirportInfo() {
 function resetToMainView() {
     d3.select("#map-view")
         .style("display", "block")
+    d3.select("#landing-text")
+        .style("display", "block")
 
     d3.select("#origin-chart").select('svg').remove()
 
