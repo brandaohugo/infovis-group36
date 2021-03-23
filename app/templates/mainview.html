@@ -27,7 +27,7 @@
 
         {#        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>#}
         <div class="col-lg-6 flex-grow-1 border-right">
-            <form class="form-group form-inline autocomplete" id="origin-form" autocomplete="off">
+            <form class="form-group form-inline autocomplete" id="origin-form" autocomplete="off" style="margin: 0">
                 <b>Origin airport -</b>
                 <input type="text" class="form-control"
                        id="origin-input-selector"
@@ -60,7 +60,7 @@
 
         <div class="col-lg-6 flex-grow-1" style="padding: 0">
             <form class="form-group form-inline autocomplete" id="destination-form" autocomplete="off"
-                  style="display: none; padding: 0 15px">
+                  style="display: none; padding: 0 15px; margin: 0">
                 <b>Destination airport -</b>
                 <input type="text" class="form-control"
                        id="destination-input-selector"
@@ -115,7 +115,7 @@
 
     <div class="row" id="od-row" style="display: none">
 
-        <div class="col-lg flex-grow-1 text-center" id="od-chart">
+        <div class="col-lg text-center" id="od-chart" style="height: 100px">
         </div>
     </div>
 
