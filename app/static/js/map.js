@@ -48,7 +48,7 @@ let secondSelectedAirport = null
 
 // URls to load data from the web
 const urls = {
-    flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/7eda6b08fc999201d17e3d5c1e04db5c1bccd904/flights.csv",
+    flights: "https://gist.githubusercontent.com/Dtenwolde/5ca2048944fdd699a36ad7016d77605f/raw/b9ee6cb5313f1b3c066dc4ad95f584c5651078fd/flights.csv",
     map: "https://gist.githubusercontent.com/brandaohugo/8783ee3a2567e0ef62605a74f662a85f/raw/0ca649eb8f563be9917ee063e46ee2796cc1246d/map.json",
     avgMonthDelay: "http://localhost:5000/data/global_avg_month_delay.csv",
     aggrDayOfWeek: "https://gist.githubusercontent.com/brandaohugo/a591bc1f6d9f7c4e9f927edcc8700fb8/raw/e351345af1f900d887177711dfa9f1da5e4fc309/aggr_day_of_week.csv",
