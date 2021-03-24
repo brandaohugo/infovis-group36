@@ -111,7 +111,7 @@ function drawDestinationAirportInfoBox(airport) {
         .attr("height", squareSize)
 
     drawText(info_passengers_svg, "OD Flights", parseInt(airport['flight_volume']))
-    drawText(info_connections_svg, "Conn. rank", parseInt(airport['volume_rank']))
+    drawText(info_connections_svg, "Route Pop.", "#" + parseInt(airport['volume_rank']))
     drawText(info_cancelled_svg, "OD Cancelled", parseInt(airport['cancelled']))
 
 }

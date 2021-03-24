@@ -19,9 +19,6 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
         data = lollipop_od.filter((d) => {
             return (d.ORIGIN === originAirport) && (d.DEST === destinationAirport);
         });
-        console.error(originAirport)
-        console.error(destinationAirport)
-        console.error(data)
     } else {
         data = lollipop_data.filter((d) => d.ORIGIN === originAirport);
     }

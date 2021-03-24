@@ -253,7 +253,7 @@ function selectDestinationAirport(airport) {
                 );
                 let options = {
                     ...Spideroptions,
-                    chartTitle: "% Delayed Flights- Month",
+                    chartTitle: "% Delayed Flights - Month",
                     frequency: 12,
                     showLabels: false,
                     chartWidth: 320,
