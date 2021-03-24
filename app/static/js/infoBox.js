@@ -1,6 +1,6 @@
 let squareSize = 160
 // TODO: Add easter egg for connection rank 1
-function drawText(svg, text, info, transition = false, origin_info = null) {
+function drawText(svg, text, info) {
     svg.append("rect")
         .attr("x", 0)
         .attr("y", 0)
@@ -20,7 +20,7 @@ function drawText(svg, text, info, transition = false, origin_info = null) {
         })
         //font-family: 'Skyfont', sans-serif;
         .attr("font-family", "SkyFont")
-        .attr("font-size", "30px")
+        .attr("font-size", "180%")
         .attr("text-anchor", "middle")
         .attr("fill", "black")
 
@@ -57,7 +57,7 @@ function drawText(svg, text, info, transition = false, origin_info = null) {
             })
             .attr("text-anchor", "middle")
             .attr("font-family", "SkyFont")
-            .attr("font-size", "30px")
+            .attr("font-size", "300%")
             .attr("text-anchor", "middle")
             .attr("fill", "black")
             .text(info)
@@ -86,9 +86,9 @@ function drawOriginAirportInfoBox(airport) {
         .attr("height", squareSize)
 
     drawText(info_passengers_svg, "Flights", parseInt(airport['num_of_flights']))
-    drawText(info_connections_svg, "Connections", parseInt(airport['num_of_connections']))
+    drawText(info_connections_svg, "Destinations", parseInt(airport['num_of_connections']))
     // TODO: Have some way of showing percentage sign here
-    drawText(info_canceled_svg, "Cancelled", airport['perc_cancelled'])
+    drawText(info_canceled_svg, "Cancelled", airport['CANCELLED'])
 }
 
 function drawDestinationAirportInfoBox(airport) {
@@ -110,10 +110,8 @@ function drawDestinationAirportInfoBox(airport) {
         .attr("width", squareSize)
         .attr("height", squareSize)
 
-    console.log(airport)
-    console.log(firstSelectedAirport)
-    drawText(info_passengers_svg, "Flights", parseInt(airport['flight_volume']), true, firstSelectedAirport['num_of_flights'])
-    drawText(info_connections_svg, "Conn. rank", parseInt(airport['volume_rank']), true, firstSelectedAirport['num_of_connections'])
-    drawText(info_cancelled_svg, "Cancelled", parseInt(airport['cancelled']), true, firstSelectedAirport['num_of_connections'])
+    drawText(info_passengers_svg, "OD Flights", parseInt(airport['flight_volume']))
+    drawText(info_connections_svg, "Conn. rank", parseInt(airport['volume_rank']))
+    drawText(info_cancelled_svg, "OD Cancelled", parseInt(airport['cancelled']))
 
 }

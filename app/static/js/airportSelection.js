@@ -7,7 +7,7 @@ function updateDestinationAutoComplete(airport) {
                 _airport_names.push(airportConnections[i].name + " (" + airportConnections[i].iata + ")")
             }
             autocomplete(document.getElementById("destination-input-selector"), _airport_names);
-            })
+        })
 }
 
 $(document).ready(function () { // Wait until document is fully parsed
@@ -106,8 +106,22 @@ function showDestinationAirportInfo() {
 function resetToMainView() {
     d3.select("#map-view")
         .style("display", "block")
+    d3.select("#landing-text")
+        .style("display", "block")
 
     d3.select("#origin-chart").select('svg').remove()
+
+    d3.select("#od-chart").selectAll('svg').remove()
+
+    $('#lollipop-chart').insertAfter('#o-lollipop-row');
+    d3.select("#lollipop-chart").select('svg').remove()
+
+    d3.select("#chart-gauge").select('g').remove()
+    d3.select("#gauge-chart-text")
+        .style("display", "none")
+    d3.select("#gauge-chart-number")
+        .style("display", "none")
+
     d3.select("#origin-chart")
         .style("display", "block")
 
@@ -119,6 +133,11 @@ function resetToMainView() {
 
     d3.select("#destination-form")
         .style("display", "none")
+
+    d3.select("#gauge-bar-row")
+        .style("visibility", "hidden")
+
+    removeOldBarchart()
 }
 
 function resetToDestinationView() {
@@ -134,9 +153,23 @@ function resetToDestinationView() {
     d3.select("#od-row")
         .style("display", "none")
 
+    d3.select("#origin-chart").select('svg').remove()
+
+    d3.select("#od-chart").selectAll('svg').remove()
+
+    $('#lollipop-chart').insertAfter('#o-lollipop-row');
+    d3.select("#lollipop-chart").select('svg').remove()
+
+    d3.select("#chart-gauge").select('g').remove()
+    d3.select("#gauge-chart-text")
+        .style("display", "none")
+    d3.select("#gauge-chart-number")
+        .style("display", "none")
+
+    d3.select("#gauge-bar-row")
+        .style("visibility", "hidden")
+
     removeOldBarchart()
-
-
 }
 
 

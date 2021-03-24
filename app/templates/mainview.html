@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Map{% endblock %}
+{% block title %}Delay Checker{% endblock %}
 {% block body %}
     <script type="text/javascript">
         let lollipop_od = {{ lollipop_od | safe}};
@@ -27,11 +27,12 @@
     <div class="row flex-grow-1 border-bottom">
 
         {#        <div class="col-lg-6 flex-grow-1 border-right text-center" id="linechart"></div>#}
-        <div class="col-lg flex-grow-1 border-right">
-            <form class="form-group form-inline autocomplete" id="origin-form" autocomplete="off">
+        <div class="col-lg-6 flex-grow-1 border-right">
+            <form class="form-group form-inline autocomplete" id="origin-form" autocomplete="off" style="margin: 0">
+                <b>Origin airport -</b>
                 <input type="text" class="form-control"
                        id="origin-input-selector"
-                       placeholder="Origin Airport"
+                       placeholder="Select origin airport"
                        name="origin_value"
                        style="width: 350px">
                 <input type="submit" value="Submit">
@@ -39,6 +40,23 @@
             </form>
             <div class="col-lg flex-grow-1 col-xs-4 text-center align-self-center" id="originSelector">
                 <div class="row">
+                    <div class="row-lg flex-grow-1 row-xs-4 text-center align-self-center" id="landing-text" style="padding: 10%">
+                            <h3 class="mt-3" text-anchor="center">Delay Checker</h3>
+                        <p></p>
+
+                            <p class="text">
+<p></p>
+    	Have you ever missed a layover flight because of a delay?
+                                <p></p>
+                                This tool is meant to help you see what time delay to expect when flying any route within the United States of America. Which airline is delayed the least? How much extra time should you plan to make your connecting flight? Use this tool to inform your travel decisions.
+<p></p>
+We compare airline time performance and average delay for every route available using data from the U.S. Department of Transportation's (DOT) Bureau of Transportation Statistics for 2018. Our visualisation allows easy comparison between airlines for different time periods, as well as showing you what length and type of delay to expect overall.
+<p></p>
+To start, please select your flight origin on the map or in the search field below.  You will be prompted with the possible destinations from your point of origin.
+<p></p>
+Safe travels!
+    </p>
+                    </div>
                     <div class="col" id="origin-flights">
                     </div>
                     <div class="col" id="origin-connections">
@@ -46,7 +64,7 @@
                     <div class="col" id="origin-cancelled">
                     </div>
             </div>
-            <div class="row">
+            <div class="row" id="o-lollipop-row">
                 <div class="col" id="lollipop-chart" style="display: none; height: 285px">
                 </div>
             </div>
@@ -58,12 +76,13 @@
     </div>
 
 
-        <div class="col-lg flex-grow-1" style="padding: 0">
+        <div class="col-lg-6 flex-grow-1" style="padding: 0">
             <form class="form-group form-inline autocomplete" id="destination-form" autocomplete="off"
-                  style="display: none; padding: 0 15px">
+                  style="display: none; padding: 0 15px; margin: 0">
+                <b>Destination airport -</b>
                 <input type="text" class="form-control"
                        id="destination-input-selector"
-                       placeholder="Destination Airport"
+                       placeholder="Select destination airport"
                        name="destination_value"
                        style="width: 350px">
                 <input type="submit" value="Submit">
@@ -89,9 +108,9 @@
         </div>
     </div>
 
-    <div class="row align-items-center" id="gauge-bar-row">
+    <div class="row flex-grow-1 align-items-center border-bottom" id="gauge-bar-row" style="background-color: #f5f5f5; visibility: hidden">
 
-        <div class="col-lg flex-grow-1 mx-auto">
+        <div class="col-5 flex-grow-1 mx-auto border-right">
             <div class="row" id="od-lollipop-row">
                 {#                <div class="col-5 gauge-chart-container">#}
                 {#                    <svg class="chart-gauge" height="110" width="200"></svg>#}
@@ -101,23 +120,20 @@
             </div>
         </div>
 
-        <div class="col-lg flex-grow-1">
-            <div class="row">
+        <div class="col-2 flex-grow-1 border-left border-right gauge-chart-container my-auto">
+            <svg class="chart-gauge" height="110" width="200" id="chart-gauge"></svg>
+            <div id="gauge-chart-text" style="display: none">Average Arrival Delay</div>
+            <div id="gauge-chart-number" style="display: none">- mins</div>
+        </div>
 
-                <div class="col-5 gauge-chart-container my-auto">
-                    <svg class="chart-gauge" height="110" width="200"></svg>
-                    <div id="gauge-chart-text" style="display: none">Average Arrival Delay</div>
-                    <div id="gauge-chart-number" style="display: none">- mins</div>
-                </div>
-                <div class="col-7" id="delay-barchart"></div>
-            </div>
+        <div class="col-5 flex-grow-1 border-left border-right mx-auto my-auto" id="delay-barchart">
         </div>
 
     </div>
 
     <div class="row" id="od-row" style="display: none">
 
-        <div class="col-lg flex-grow-1 text-center" id="od-chart">
+        <div class="col-lg text-center" id="od-chart">
         </div>
     </div>
 
@@ -156,4 +172,5 @@
     <script>
         originAirport();
     </script>
+
 {% endblock %}

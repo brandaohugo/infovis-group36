@@ -44,7 +44,6 @@ BOI,Boise Air Terminal,Boise,ID,USA,43.56444444,-116.2227778,20,83,19191,0.4
 BOS,Gen Edw L Logan Intl,Boston,MA,USA,42.3643475,-71.00517917,65,3844,148191,2.6
 BPT,Southeast Texas Regional,Beaumont/Port Arthur,TX,USA,29.95083333,-94.02069444,1,33,851,3.9
 BQK,Glynco Jetport,Brunswick,GA,USA,31.25902778,-81.46630556,1,10,1038,1.0
-BQN,Rafael Hernandez,Aguadilla,PR,USA,18.49486111,-67.12944444,4,18,1960,0.9
 BRD,Brainerd-Crow Wing County Regional,Brainerd,MN,USA,46.39785806,-94.1372275,1,11,637,1.7
 BRO,Brownsville/S.Padre Island International,Brownsville,TX,USA,25.90683333,-97.42586111,3,81,2607,3.1
 BRW,Wiley Post Will Rogers Memorial,Barrow,AK,USA,71.2854475,-156.76600190000005,2,13,727,1.8
@@ -141,7 +140,6 @@ GST,Gustavus,Gustavus,AK,USA,58.42438139,-135.7073814,1,2,84,2.4
 GTF,Great Falls Intl,Great Falls,MT,USA,47.48200194,-111.3706853,8,6,1856,0.3
 GTR,Golden Triangle Regional,Columbus-Starkville-West Point,MS,USA,33.45033444,-88.59136861,1,6,1021,0.6
 GUC,Gunnison County,Gunnison,CO,USA,38.53396333,-106.9331817,2,4,230,1.7
-GUM,Guam International,Agana,GU,USA,13.48345,-144.7959825,2,7,623,1.1
 HDN,Yampa Valley,Hayden,CO,USA,40.48118028,-107.2176597,14,24,930,2.6
 HGR,Hagerstown Regional-Richard Henson,Hagerstown,MD,USA,39.70794444,-77.7295,2,0,138,0.0
 HHH,Hilton Head,,,USA,32.224384,-80.697629,1,30,535,5.6
@@ -264,10 +262,8 @@ PIH,Pocatello Regional,Pocatello,ID,USA,42.91130556,-112.5958611,1,1,1262,0.1
 PIT,Pittsburgh International,Pittsburgh,PA,USA,40.49146583,-80.23287083,48,956,49113,1.9
 PLN,Pellston Regional  of Emmet County,Pellston,MI,USA,45.5709275,-84.796715,2,41,1027,4.0
 PNS,Pensacola Regional,Pensacola,FL,USA,30.47330556,-87.18744444,17,201,11386,1.8
-PPG,Pago Pago International,Pago Pago,AS,USA,14.33102278,-170.71052580000003,1,0,122,0.0
 PRC,Ernest A. Love,Prescott,AZ,USA,34.65447222,-112.4195833,2,1,236,0.4
 PSC,Tri-Cities,Pasco,WA,USA,46.26468028,-119.1190292,8,36,2886,1.2
-PSE,Mercedita,Ponce,PR,USA,18.00830278,-66.56301194,2,13,792,1.6
 PSG,James C. Johnson Petersburg,Petersburg,AK,USA,56.80165194,-132.9452781,2,10,724,1.4
 PSM,Pease International Tradeport,Portsmouth,NH,USA,43.07795889,-70.82327333,4,6,303,2.0
 PSP,Palm Springs International,Palm Springs,CA,USA,33.82921556,-116.5062531,15,86,10619,0.8
@@ -310,21 +306,17 @@ SHV,Shreveport Regional,Shreveport,LA,USA,32.446627500000005,-93.82559833,7,118,
 SIT,Sitka,Sitka,AK,USA,57.04713806,-135.3615983,4,19,1341,1.4
 SJC,San Jose International,San Jose,CA,USA,37.36186194,-121.9290089,43,490,54625,0.9
 SJT,San Angelo Regional /Mathis,San Angelo,TX,USA,31.35775,-100.4963056,1,34,1433,2.4
-SJU,Luis Munoz Marin International,San Juan,PR,USA,18.43941667,-66.00183333,27,212,24544,0.9
 SLC,Salt Lake City Intl,Salt Lake City,UT,USA,40.78838778,-111.9777731,94,340,113054,0.3
 SLN,Salina Municipal,Salina,KS,USA,38.7914825,-97.65060333,2,5,685,0.7
 SMF,Sacramento International,Sacramento,CA,USA,38.69542167,-121.5907669,36,298,47110,0.6
 SMX,Santa Maria Pub/Capt G Allan Hancock,Santa Maria,CA,USA,34.89924833,-120.4575825,1,0,170,0.0
 SNA,John Wayne /Orange Co,Santa Ana,CA,USA,33.67565861,-117.86822250000002,24,277,41639,0.7
 SPI,Capital,Springfield,IL,USA,39.84395194,-89.67761861,4,50,1811,2.8
-SPN,Tinian International Airport,,,N Mariana Islands,14.996111,145.621384,1,7,257,2.7
 SPS,Sheppard AFB/Wichita Falls Municipal,Wichita Falls,TX,USA,33.98879611,-98.49189333,1,39,1058,3.7
 SRQ,Sarasota Bradenton International,Sarasota,FL,USA,27.39533333,-82.55411111,15,91,6341,1.4
 STC,St Cloud Regional,St Cloud,MN,USA,45.54532417,-94.05833667,2,1,145,0.7
 STL,Lambert-St Louis International,St Louis,MO,USA,38.74768694,-90.35998972,58,978,66197,1.5
 STS,Sonoma Co,Santa Rosa,CA,USA,38.50897694,-122.8128803,4,34,1504,2.3
-STT,Cyril E. King,Charlotte Amalie,VI,USA,18.33730556,-64.97336111,12,8,2533,0.3
-STX,Henry E. Rohlsen,Christiansted,VI,USA,17.70188889,-64.79855556,4,4,1125,0.4
 SUN,Friedman Memorial,Hailey,ID,USA,43.50484139,-114.2965903,5,120,1274,9.4
 SUX,Sioux Gateway,Sioux City,IA,USA,42.40260333,-96.38436694,2,39,1189,3.3
 SWF,Stewart,Newburgh,NY,USA,41.50409361,-74.10483833,8,41,1791,2.3

@@ -64,7 +64,7 @@ const drawSpiderWebChart = (rawData, options) => {
 
     const tickXOffset = 5;
     const titleMargin = 60;
-    
+
     const standardOpacity = 0.3;
     const raisedOpacity = 0.9;
 
@@ -76,14 +76,14 @@ const drawSpiderWebChart = (rawData, options) => {
 
     let svg = d3.select(divId).append("svg")
         .attr("width", chartWidth)
-        .attr("height", chartHeight);
+        .attr("height", chartHeight-90);
 
 
     let radialScale = d3.scaleLinear()
         .domain([minValue,maxValue])
         .range([0, maxRange - chartMargin]);
 
-    
+
     let ticks = [...Array(numTicks).keys()].map((e,i) => {
         return Math.round(Math.min((i+1) * maxValue / numTicks, maxValue))
     });
@@ -102,7 +102,8 @@ const drawSpiderWebChart = (rawData, options) => {
         svg.append("text")
         .attr("x", spiderCenterX + tickXOffset)
         .attr("y", spiderCenterY - radialScale(t))
-        .attr("opacity", 0.5)
+        .attr("opacity", 0.8)
+        .style("font-weight", 700)
         .style("font-size", "10px")
         .text(t.toString())
     );
@@ -164,14 +165,14 @@ const drawSpiderWebChart = (rawData, options) => {
         return coordinates;
     }
 
-    try { 
+    try {
         data.forEach((dt,i) => {
             if (i >= maxLabels) {
                 throw BreakException
             }
             let color = colors[i];
             let coordinates = getPathCoordinates(dt);
-    
+
             if (showLabels) {
                 svg.append("text")
                 .attr("x", spiderCenterX + maxRange )
@@ -205,5 +206,5 @@ const drawSpiderWebChart = (rawData, options) => {
     } catch (e) {
         //pass
     }
-    
+
 }
