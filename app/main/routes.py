@@ -36,10 +36,12 @@ def map():
 
     lollipop_data = data.lollipop_data.to_json(orient='records')
 
+    lollipop_od = data.lollipop_od.to_json(orient='records')
+
     return render_template("mainview.html", map_data=map_data.us_states_map,
                            airport_locations=map_data.us_airport_locations,
                            plot_data=plot_data, table_data=table_data, airport_names=map_data.airport_names, 
-                           flights_data=flights_data, lollipop_data = lollipop_data)
+                           flights_data=flights_data, lollipop_data = lollipop_data, lollipop_od = lollipop_od)
 
 
 # @main.route('/bokeh', methods=['GET', 'POST'])

@@ -2,6 +2,7 @@
 {% block title %}Delay Checker{% endblock %}
 {% block body %}
     <script type="text/javascript">
+        let lollipop_od = {{ lollipop_od | safe}};
         let lollipop_data = {{ lollipop_data | safe}};
         d3.selectAll(".nav-item").classed("active", false);
         d3.select("#nav-link-map").classed("active", true);
@@ -107,7 +108,7 @@ Safe travels!
         </div>
     </div>
 
-    <div class="row flex-grow-1 align-items-center border-bottom" id="gauge-bar-row" style="background-color: #f5f5f5;">
+    <div class="row flex-grow-1 align-items-center border-bottom" id="gauge-bar-row" style="background-color: #f5f5f5; visibility: hidden">
 
         <div class="col-5 flex-grow-1 mx-auto border-right">
             <div class="row" id="od-lollipop-row">
