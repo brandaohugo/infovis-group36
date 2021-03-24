@@ -204,7 +204,13 @@ function selectOriginAirport(airport) {
             drawOriginAirportFlow(firstSelectedAirport, flights, flowOptions, onClickFlow);
         })
     drawOriginAirportInfoBox(airport)
-    drawLollipopChart(airport.iata);
+    const destinationVal = $('#destination-input-selector').val()
+    if (destinationVal) {
+        const destIata = destinationVal.match(/\(([A-Z]+)\)/)[1]
+        drawLollipopChart(airport.iata, destIata);
+    } else {
+        drawLollipopChart(airport.iata);
+    }
 
     d3.select("#destination-form")
         .style("display", "block")
@@ -312,10 +318,12 @@ function selectDestinationAirport(airport) {
         console.log("Second airport", secondSelectedAirport)
         drawDestinationAirportInfoBox(secondSelectedAirport)
         createGaugeChart()
-        window.updateGaugeChart({
-            origin: firstSelectedAirport.iata,
-            destination: secondSelectedAirport.iata
+        updateGaugeChart({
+                    origin: firstSelectedAirport.iata,
+                    destination: secondSelectedAirport.iata
         })
+        drawLollipopChart(firstSelectedAirport.iata, secondSelectedAirport.iata);
+
         makeBarchart(firstSelectedAirport.iata, secondSelectedAirport.iata)
         showDestinationAirportInfo()
 

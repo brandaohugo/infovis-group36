@@ -2,6 +2,7 @@
 {% block title %}Delay Checker{% endblock %}
 {% block body %}
     <script type="text/javascript">
+        let lollipop_od = {{ lollipop_od | safe}};
         let lollipop_data = {{ lollipop_data | safe}};
         d3.selectAll(".nav-item").classed("active", false);
         d3.select("#nav-link-map").classed("active", true);
