@@ -140,5 +140,12 @@ const drawOriginAirportFlow = (origin, flights, flowOptions, onClickFlow) => {
         return d.x < width / 2;
     })
     .attr("x", 6 + sankey.nodeWidth())
-    .attr("text-anchor", "start");
+    .attr("text-anchor", "start")
+
+    let titleText = 'Top destinations sorted by flight volume';
+    d3.select(divId).append('text')
+        .attr('x', svgWidth / 2)
+        .attr('y', chartHeight + margin.top + 30)
+        .text(titleText)
+        .attr('text-anchor', 'middle')
 };

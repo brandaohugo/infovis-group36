@@ -5,7 +5,7 @@ https://bl.ocks.org/llad/3918637
 
 const containerDiv = d3.select('#lollipop-chart');
 
-const svgWidth = 580;
+const svgWidth = 690;
 const margin = { top: 20, right: 30, bottom: 20, left: 130 };
 
 const plotWidth = svgWidth - margin.left - margin.right;
@@ -26,8 +26,9 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
     const svgHeight = plotHeight + margin.top + margin.bottom + 60;
 
     const odSvg = containerDiv.append('svg')
-        .attr('height', svgHeight)
-        .attr('width', svgWidth);
+    .attr("viewBox", '0 0 ' + svgWidth + ' ' + svgHeight)
+        // .attr('height', svgHeight)
+        // .attr('width', svgWidth);
 
     let titleText = forOriginDestination ? 'Average delay in minutes between origin and destination airports' : 'Average delay in minutes from origin airport';
     odSvg.append('text')
