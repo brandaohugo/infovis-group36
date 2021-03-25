@@ -111,7 +111,6 @@ function drawConnectionLine(origin, destination) {
         .style("opacity", 0.85)
         .style("stroke-width", function () {
             if (destination.flight_volume > 100) {
-                console.log(destination)
                 return 2
             } else {
                 return 1
