@@ -40,7 +40,7 @@ map_svg.selectAll("path")
     .attr("d", path)
     .style("stroke", color_palette.LCyan)
     .style("stroke-width", "1")
-    .style("fill", color_palette.Gunmetal);
+    .style("fill", color_palette.BBlue);
 
 let firstSelectedAirport = null
 let secondSelectedAirport = null
@@ -142,6 +142,64 @@ function getAirportConnections(originAirport, flights) {
     return filteredAirportLocations
 }
 
+function drawLegend() {
+    map_svg.select("text").remove()
+    map_svg.select("mydots").remove()
+    map_svg.select("mylabels").remove()
+    var keys = ["< 0", ">= 0 and =< 5 ", "> 5"]
+
+// Usually you have a color scale in your chart already
+    var color = d3.scaleOrdinal()
+        .domain(keys)
+        .range(["green", "orange", "red"]);
+
+    // Add one dot in the legend for each name.
+    var size = 20
+    let xPos = 50
+    let yPos = 50
+    map_svg
+        .append("text")
+        .text("Average delay in minutes")
+        .attr("x", xPos)
+        .attr("y", yPos - 10)
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", "black")
+        .style("font-size", "34px")
+
+    map_svg.selectAll("mydots")
+        .data(keys)
+        .enter()
+        .append("rect")
+        .attr("x", xPos)
+        .attr("y", function (d, i) {
+            return yPos + i * (size + 5)
+        }) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", function (d) {
+            return color(d)
+        })
+
+    map_svg.selectAll("mylabels")
+        .data(keys)
+        .enter()
+        .append("text")
+        .attr("x", xPos + size * 1.2)
+        .attr("y", function (d, i) {
+            return yPos + i * (size + 5) + (size / 2)
+        }) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", function (d) {
+            return color(d)
+        })
+        .text(function (d) {
+            return d
+        })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+
+}
+
 const drawAirportConnections = (originAirport, flights) => {
     let airportConnections = getAirportConnections(originAirport, flights)
     map_svg.selectAll("line").remove()
@@ -155,6 +213,7 @@ const drawAirportConnections = (originAirport, flights) => {
             return null
         }
     })
+    drawLegend()
     drawAirports(airportConnections)
 }
 
@@ -319,8 +378,8 @@ function selectDestinationAirport(airport) {
         drawDestinationAirportInfoBox(secondSelectedAirport)
         createGaugeChart()
         updateGaugeChart({
-                    origin: firstSelectedAirport.iata,
-                    destination: secondSelectedAirport.iata
+            origin: firstSelectedAirport.iata,
+            destination: secondSelectedAirport.iata
         })
         drawLollipopChart(firstSelectedAirport.iata, secondSelectedAirport.iata);
 
