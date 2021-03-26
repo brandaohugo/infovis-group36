@@ -312,13 +312,13 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Month",
-                    divId: "#od-chart-month",
+                    divId: "#od-chart",
                     frequency: 12,
                     showLabels: true,
                     chartWidth: 480,
                     chartHeight: 320
                 }
-                drawSpiderWebChart(ODData, options)
+                setTimeout(() => drawSpiderWebChart(ODData, options), 1000);
             });
         // Day of month
         d3.csv(urls.aggrDayOfMonth)
@@ -330,7 +330,7 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Day of the Month",
-                    divId: "#od-chart-day",
+                    divId: "#od-chart",
                     frequency: 31,
                     showLabels: false,
                     chartWidth: 260,
@@ -348,7 +348,7 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Hour of Day",
-                    divId: "#od-chart-hour",
+                    divId: "#od-chart",
                     frequency: 24,
                     showLabels: false,
                     chartWidth: 260,
@@ -366,7 +366,7 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Day of Week",
-                    divId: "#od-chart-week",
+                    divId: "#od-chart",
                     frequency: 7,
                     showLabels: false,
                     chartWidth: 260,
