@@ -111,7 +111,6 @@ function drawConnectionLine(origin, destination) {
         .style("opacity", 0.85)
         .style("stroke-width", function () {
             if (destination.flight_volume > 100) {
-                console.log(destination)
                 return 2
             } else {
                 return 1
@@ -246,7 +245,7 @@ function selectOriginAirport(airport) {
         .then(flights => {
             drawAirportConnections(firstSelectedAirport, flights)
             map_svg.selectAll("circle").style("fill", color_palette.BSienna)
-            map_svg.select("#" + firstSelectedAirport.iata).style("fill", "green")
+            map_svg.select("#" + firstSelectedAirport.iata).style("fill", color_palette.Gunmetal)
             const flowOptions = {
                 margins: {
                     top: 10,
@@ -473,6 +472,43 @@ function drawAirports(airports) {
             $(".tipsy").remove();
             selectAirport(d)
         })
+        .on("mouseover", function (d, i) {
+            d3.select(this)
+                .style("opacity", 1)
+                .attr("r", function (d) {
+                    return (lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1) * 2
+                })
+        })
+        .on("mouseout", function (d, i) {
+            d3.select(this)
+                .style("opacity", 0.85)
+                .attr("r", function (d) {
+                    return lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1
+
+                })
+        });
+
+    // Create Event Handlers for mouse
+    function handleMouseOver(d, i) {  // Add interactivity
+        console.log(d)
+        // Use D3 to select element, change color and size
+        d3.select(this).attr({
+            fill: "green",
+            // r: (lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1) * 2,
+        });
+    }
+
+    function handleMouseOut(d, i) {
+        // Use D3 to select element, change color back to normal
+        d3.select(this).attr({
+
+            r: lastTransform["k"] === 1 ? locationRadius : locationRadius / Math.max(1, lastTransform['k']) + 1,
+        });
+
+        // Select text by id and then remove
+        d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
+    }
+
 
     $('.airport-circle').tipsy({
         gravity: 'w',

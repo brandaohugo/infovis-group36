@@ -5,8 +5,8 @@ https://bl.ocks.org/llad/3918637
 
 const containerDiv = d3.select('#lollipop-chart');
 
-const svgWidth = 690;
-const margin = { top: 20, right: 30, bottom: 20, left: 130 };
+const svgWidth = 580;
+const margin = {top: 20, right: 30, bottom: 20, left: 130};
 
 const plotWidth = svgWidth - margin.left - margin.right;
 
@@ -30,6 +30,15 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
         // .attr('height', svgHeight)
         // .attr('width', svgWidth);
 
+    let sorted_array = []
+    data.forEach(airline => {
+        sorted_array.push({"AIRLINE": airline["AIRLINE"], "ARR_DELAY": airline["ARR_DELAY"]})
+    })
+    sorted_array.sort(function (a, b) {
+        return a["ARR_DELAY"] - b["ARR_DELAY"];
+    });
+
+
     let titleText = forOriginDestination ? 'Average delay in minutes between origin and destination airports' : 'Average delay in minutes from origin airport';
     odSvg.append('text')
         .attr('x', svgWidth / 2)
@@ -48,10 +57,10 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
 
     const y = d3.scaleBand()
         .range([20, plotHeight])
-        .domain(data.map((d) => d.AIRLINE))
+        .domain(sorted_array.map((d) => d.AIRLINE))
 
     const colorScale = d3.scaleLinear()
-        .domain([d3.min(data, (d) => d.ARR_DELAY), 0, d3.max(data, (d) => d.ARR_DELAY)])
+        .domain([d3.min(sorted_array, (d) => d.ARR_DELAY), 0, d3.max(sorted_array, (d) => d.ARR_DELAY)])
         .range(["#98C1D9", "#E0FBFC", "#EE6C4D"])
 
     const textHeight = 14;
@@ -102,8 +111,28 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
     g.append("g")
         .call(d3.axisTop(x))
 
+    if (sorted_array[sorted_array.length - 1]["ARR_DELAY"] > 15) {
+        g.append("line")
+            .attr("x1", x(15))
+            .attr("y1", 0)
+            .attr("x2", x(15))
+            .attr("y2", plotHeight)
+            .attr('stroke', '#ff0000')
+            .attr('stroke-width', 1) // vertical axis line
+        //
+        // for (let i = 0; i < (plotHeight / 40); i++) {
+        //     g.append("line")
+        //     .attr("x1", x(15))
+        //     .attr("y1", plotHeight/2 + i * (plotHeight/9) + 10)
+        //     .attr("x2", x(sorted_array[sorted_array.length - 1]["ARR_DELAY"]) )
+        //     .attr("y2", i * 20 + 10)
+        //     .attr('stroke', '#ff0000')
+        //     .attr('stroke-width', 2) // vertical axis line
+        // }
+    }
+
     g.selectAll(".lineToCircle")
-        .data(data)
+        .data(sorted_array)
         .join((enter) => {
             const wrapper = enter.append("g");
 
