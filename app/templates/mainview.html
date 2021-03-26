@@ -12,7 +12,7 @@
         let plot_data = {{ plot_data |safe }};
         let table_data = {{ table_data |safe }};
         let flights_data = {{ flights_data |safe }};
-        
+
 
         let color_palette = {
             'BBlue': '#3D5A80',
@@ -88,7 +88,7 @@ Safe travels!
                 <input type="submit" value="Submit">
                 <input type="reset" value="Clear">
             </form>
-            <div class="col-lg" id="map-view" style="padding: 0">
+            <div class="col-lg" id="map-view" style="padding: 0; cursor: grabbing">
                 {#                <button onclick="resetMap()">Reset Map</button>#}
             </div>
 
