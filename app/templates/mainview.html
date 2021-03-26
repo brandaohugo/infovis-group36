@@ -52,7 +52,7 @@
 <p></p>
 We compare airline time performance and average delay for every route available using data from the U.S. Department of Transportation's (DOT) Bureau of Transportation Statistics for 2018. Our visualisation allows easy comparison between airlines for different time periods, as well as showing you what length and type of delay to expect overall.
 <p></p>
-To start, please select your flight origin on the map or in the search field below.  You will be prompted with the possible destinations from your point of origin.
+<b>To start, please select your flight origin on the map or in the search field below.  You will be prompted with the possible destinations from your point of origin.</b>
 <p></p>
 Safe travels!
     </p>
@@ -65,11 +65,11 @@ Safe travels!
                     </div>
             </div>
             <div class="row" id="o-lollipop-row">
-                <div class="col" id="lollipop-chart" style="display: none; height: 285px">
+                <div class="col my-auto mx-auto" id="lollipop-chart" style="display: none; height: 285px">
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg flex-grow-1 text-center"
+                <div class="col-lg flex-grow-1"
                      id="origin-chart" style="height: 100%"></div>
             </div>
         </div>
@@ -111,7 +111,7 @@ Safe travels!
     <div class="row flex-grow-1 align-items-center border-bottom" id="gauge-bar-row" style="background-color: #f5f5f5; visibility: hidden">
 
         <div class="col-5 flex-grow-1 mx-auto border-right">
-            <div class="row" id="od-lollipop-row">
+            <div class="row my-auto mx-auto" id="od-lollipop-row">
                 {#                <div class="col-5 gauge-chart-container">#}
                 {#                    <svg class="chart-gauge" height="110" width="200"></svg>#}
                 {#                    <div id="gauge-chart-text" style="display: none">Average Arrival Delay</div>#}
@@ -121,7 +121,7 @@ Safe travels!
         </div>
 
         <div class="col-2 flex-grow-1 border-left border-right gauge-chart-container my-auto">
-            <svg class="chart-gauge" height="110" width="200" id="chart-gauge"></svg>
+            <svg class="chart-gauge" viewBox="0 0 200 110" id="chart-gauge"></svg>
             <div id="gauge-chart-text" style="display: none">Average Arrival Delay</div>
             <div id="gauge-chart-number" style="display: none">- mins</div>
         </div>
