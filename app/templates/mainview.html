@@ -52,7 +52,7 @@
 <p></p>
 We compare airline time performance and average delay for every route available using data from the U.S. Department of Transportation's (DOT) Bureau of Transportation Statistics for 2018. Our visualisation allows easy comparison between airlines for different time periods, as well as showing you what length and type of delay to expect overall.
 <p></p>
-<b>To start, please select your flight origin on the map or in the search field below.  You will be prompted with the possible destinations from your point of origin.</b>
+<b>To start, please select your flight origin on the map or in the search field above.  You will be prompted with the possible destinations from your point of origin.</b>
 <p></p>
 Safe travels!
     </p>
@@ -65,7 +65,7 @@ Safe travels!
                     </div>
             </div>
             <div class="row" id="o-lollipop-row">
-                <div class="col my-auto mx-auto" id="lollipop-chart" style="display: none; height: 285px">
+                <div class="col my-auto mx-auto" id="lollipop-chart" style="display: none; height: 100%">
                 </div>
             </div>
             <div class="row">
@@ -131,10 +131,9 @@ Safe travels!
 
     </div>
 
-    <div class="row" id="od-row" style="display: none">
+    <div class="row flex-grow-1 align-items-center border-bottom" id="od-row" style="display: none">
 
-        <div class="col-lg text-center" id="od-chart">
-        </div>
+        <div class="col-lg flex-grow-1 border-left border-right gauge-chart-container my-auto" id="od-chart"></div>>
     </div>
 
 

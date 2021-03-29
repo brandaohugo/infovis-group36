@@ -294,7 +294,6 @@ function selectDestinationAirport(airport) {
         map_svg.select("#" + secondSelectedAirport.iata).style("fill", "blue")
         const Spideroptions = {
             titleFontSize: "12px",
-            divId: "#od-chart",
             maxLabels: 6,
             numTicks: 5,
             chartMargin: 50,
@@ -312,12 +311,13 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Month",
+                    divId: "#od-chart",
                     frequency: 12,
-                    showLabels: false,
-                    chartWidth: 320,
+                    showLabels: true,
+                    chartWidth: 480,
                     chartHeight: 320
                 }
-                drawSpiderWebChart(ODData, options)
+                setTimeout(() => drawSpiderWebChart(ODData, options), 1000);
             });
         // Day of month
         d3.csv(urls.aggrDayOfMonth)
@@ -329,9 +329,10 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Day of the Month",
+                    divId: "#od-chart",
                     frequency: 31,
-                    showLabels: true,
-                    chartWidth: 480,
+                    showLabels: false,
+                    chartWidth: 260,
                     chartHeight: 320
                 }
                 drawSpiderWebChart(ODData, options)
@@ -346,9 +347,10 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Hour of Day",
+                    divId: "#od-chart",
                     frequency: 24,
                     showLabels: false,
-                    chartWidth: 320,
+                    chartWidth: 260,
                     chartHeight: 320
                 }
                 drawSpiderWebChart(ODData, options)
@@ -363,9 +365,10 @@ function selectDestinationAirport(airport) {
                 let options = {
                     ...Spideroptions,
                     chartTitle: "% Delayed Flights - Day of Week",
+                    divId: "#od-chart",
                     frequency: 7,
                     showLabels: false,
-                    chartWidth: 320,
+                    chartWidth: 260,
                     chartHeight: 320
                 }
                 drawSpiderWebChart(ODData, options)
