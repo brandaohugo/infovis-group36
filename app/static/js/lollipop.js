@@ -111,26 +111,6 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
     g.append("g")
         .call(d3.axisTop(x))
 
-    if (sorted_array[sorted_array.length - 1]["ARR_DELAY"] > 15) {
-        g.append("line")
-            .attr("x1", x(15))
-            .attr("y1", 0)
-            .attr("x2", x(15))
-            .attr("y2", plotHeight)
-            .attr('stroke', '#ff0000')
-            .attr('stroke-width', 1) // vertical axis line
-        //
-        // for (let i = 0; i < (plotHeight / 40); i++) {
-        //     g.append("line")
-        //     .attr("x1", x(15))
-        //     .attr("y1", plotHeight/2 + i * (plotHeight/9) + 10)
-        //     .attr("x2", x(sorted_array[sorted_array.length - 1]["ARR_DELAY"]) )
-        //     .attr("y2", i * 20 + 10)
-        //     .attr('stroke', '#ff0000')
-        //     .attr('stroke-width', 2) // vertical axis line
-        // }
-    }
-
     g.selectAll(".lineToCircle")
         .data(sorted_array)
         .join((enter) => {
