@@ -26,9 +26,9 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
     const svgHeight = plotHeight + margin.top + margin.bottom + 60;
 
     const odSvg = containerDiv.append('svg')
-    .attr("viewBox", '0 0 ' + svgWidth + ' ' + svgHeight)
-        // .attr('height', svgHeight)
-        // .attr('width', svgWidth);
+    // .attr("viewBox", '0 0 ' + svgWidth + ' ' + svgHeight)
+        .attr('height', svgHeight)
+        .attr('width', svgWidth);
 
     let sorted_array = []
     data.forEach(airline => {
