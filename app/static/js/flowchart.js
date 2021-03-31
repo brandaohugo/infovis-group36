@@ -128,7 +128,4 @@ const drawOriginAirportFlow = (origin, flights, flowOptions, onClickFlow) => {
         .attr('y', chartHeight + margin.top + 30)
         .text(titleText)
         .attr('text-anchor', 'middle')
-
-    console.log(divId)
-
 };
