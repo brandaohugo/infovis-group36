@@ -16,20 +16,17 @@ const drawLollipopChart = (originAirport, destinationAirport) => {
     let data;
     const forOriginDestination = originAirport && destinationAirport
     if (forOriginDestination) {
-        data = lollipop_od.filter((d) => {
+        data = lollipopOd.filter((d) => {
             return (d.ORIGIN === originAirport) && (d.DEST === destinationAirport);
         });
     } else {
-        data = lollipop_data.filter((d) => d.ORIGIN === originAirport);
+        data = lollipopData.filter((d) => d.ORIGIN === originAirport);
     }
     const plotHeight = (data.length + 1) * 18;
     const svgHeight = plotHeight + margin.top + margin.bottom + 60;
 
     const odSvg = containerDiv.append('svg')
     .attr("viewBox", '0 0 ' + svgWidth + ' ' + svgHeight)
-        // .attr('height', svgHeight)
-        // .attr('width', svgWidth);
-
     let sorted_array = []
     data.forEach(airline => {
         sorted_array.push({"AIRLINE": airline["AIRLINE"], "ARR_DELAY": airline["ARR_DELAY"]})

@@ -1,4 +1,5 @@
 let squareSize = 160
+
 // TODO: Add easter egg for connection rank 1
 function drawText(svg, text, info) {
     svg.append("rect")
@@ -24,44 +25,21 @@ function drawText(svg, text, info) {
         .attr("text-anchor", "middle")
         .attr("fill", "black")
 
-    // if (transition) {
-    //     svg.append("text")
-    //         .attr("y", function (d, i) {
-    //             return (squareSize / 2) + 50
-    //         })
-    //         .attr("x", function (d, i) {
-    //             return (squareSize / 2)
-    //         })
-    //         .attr("text-anchor", "middle")
-    //         .attr("font-family", "SkyFont")
-    //         .attr("font-size", "30px")
-    //         .attr("text-anchor", "middle")
-    //         .attr("fill", "black")
-    //         .text(info)
-    //         .transition()
-    //         .duration(5000)
-    //         .textTween(function (d) {
-    //             console.log(origin_info, info)
-    //             return d3.interpolateRound(parseInt(origin_info), parseInt(info));
-    //
-    //         })
-    //         .end();
-    // } else {
-        // Info block
-        svg.append("text")
-            .attr("y", function (d, i) {
-                return (squareSize / 2) + 50
-            })
-            .attr("x", function (d, i) {
-                return (squareSize / 2)
-            })
-            .attr("text-anchor", "middle")
-            .attr("font-family", "SkyFont")
-            .attr("font-size", "300%")
-            .attr("text-anchor", "middle")
-            .attr("fill", "black")
-            .text(info)
-    // }
+
+    // Info block
+    svg.append("text")
+        .attr("y", function (d, i) {
+            return (squareSize / 2) + 50
+        })
+        .attr("x", function (d, i) {
+            return (squareSize / 2)
+        })
+        .attr("text-anchor", "middle")
+        .attr("font-family", "SkyFont")
+        .attr("font-size", "300%")
+        .attr("text-anchor", "middle")
+        .attr("fill", "black")
+        .text(info)
 
 }
 

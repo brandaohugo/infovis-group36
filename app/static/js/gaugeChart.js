@@ -38,7 +38,7 @@ function updateGaugeChart({origin, destination}) {
 }
 
 function getDelay({origin, destination}) {
-    const dataPoint = flights_data.find((data) => {
+    const dataPoint = flightsData.find((data) => {
         return data.origin === origin && data.destination === destination;
     });
 

@@ -7,9 +7,7 @@ Zakaria Chowdhury, D3 v4 Multi Line Chart
 https://codepen.io/zakariachowdhury/pen/JEmjwq?editors=0110
  */
 
-function originAirport(data) {
-
-    var data = plot_data
+function originAirport() {
 
     var lineOpacity = "0.40";
     var lineOpacityHover = "0.85";
@@ -25,10 +23,10 @@ function originAirport(data) {
 
 //set canvas margins
 
-    leftMargin = 70
-    topMargin = 5
-    bottomMargin = 2
-    chartHeight = 550
+    let leftMargin = 70
+    let topMargin = 5
+    let bottomMargin = 2
+    let chartHeight = 550
 
     var svg = d3.select("#origin-airport")
         .append("svg")
@@ -53,21 +51,21 @@ function originAirport(data) {
 
 
 //scale xAxis
-    var xExtent = d3.extent(data, d => d.MONTH);
-    xScale = d3.scaleLinear().domain(xExtent).range([leftMargin, 900])
+    var xExtent = d3.extent(plotData, d => d.MONTH);
+    let xScale = d3.scaleLinear().domain(xExtent).range([leftMargin, 900])
 
 
 //scale yAxis
-    var yMax = d3.max(data, d => d.ARR_DELAY)
-    yMin = d3.min(data, d => d.ARR_DELAY)
+    var yMax = d3.max(plotData, d => d.ARR_DELAY)
+    let yMin = d3.min(plotData, d => d.ARR_DELAY)
 
-    yScale = d3.scaleLinear().domain([yMin - bottomMargin, yMax + topMargin]).range([chartHeight, 0])
+    let yScale = d3.scaleLinear().domain([yMin - bottomMargin, yMax + topMargin]).range([chartHeight, 0])
 
-    middle = yScale(-1.5)
+    let middle = yScale(-1.5)
 
 
 //draw xAxis and xAxis label
-    xAxis = d3.axisBottom()
+    let xAxis = d3.axisBottom()
         .scale(xScale)
 
     svg.append("g")
@@ -80,7 +78,7 @@ function originAirport(data) {
         .text("Month")
 
     //draw xAxis and xAxis label
-    xAxisZero = d3.axisBottom()
+    let xAxisZero = d3.axisBottom()
         .scale(xScale)
         .ticks(0)
 
@@ -91,7 +89,7 @@ function originAirport(data) {
 
 //yAxis and yAxis label
 
-    yAxis = d3.axisLeft()
+    let yAxis = d3.axisLeft()
         .scale(yScale)
         .ticks(10)
 
@@ -110,7 +108,7 @@ function originAirport(data) {
 
     var sumstat = d3.nest()
         .key(d => d.AIRLINE)
-        .entries(data);
+        .entries(plotData);
 
 
 //set color pallete for different vairables
@@ -131,8 +129,8 @@ function originAirport(data) {
         .attr('class', 'line')
         .attr("d", function (d) {
             return d3.line()
-                .x(d => xScale(d.MONTH))
-                .y(d => yScale(d.ARR_DELAY)).curve(d3.curveMonotoneX)
+                .x(e => xScale(e.MONTH))
+                .y(e => yScale(e.ARR_DELAY)).curve(d3.curveMonotoneX)
                 (d.values)
         })
         .attr("fill", "none")
@@ -162,7 +160,7 @@ function originAirport(data) {
 
 //append circle
     lines.selectAll("circle-group")
-        .data(data)
+        .data(plotData)
         .enter()
         .append("g")
         .style("fill", d => color(d.AIRLINE))
@@ -214,79 +212,4 @@ function originAirport(data) {
         .style("fill", "black")
         .style("font-size", 28)
         .style("font-family", "Arial Black")
-
-
-    // https://www.vis4.net/blog/2015/04/making-html-tables-in-d3-doesnt-need-to-be-a-pain/
-    // START HERE MARTA
-
-    // var airlineNames = Object.keys(table_data[0])
-    //
-    //
-    // // // column definitions
-    // var columns = [
-    //     {
-    //         head: 'Month', cl: 'center',
-    //         html: function (r) {
-    //             return r;
-    //         }
-    //     }
-    // ];
-    //
-    // for (index = 0; index < airlineNames.length; ++index) {
-    //     var airline = airlineNames[index]
-    //     columns.push({
-    //         head: airline, cl: 'center',
-    //         html: function (r) {
-    //             return r[airline];
-    //         }
-    //     })
-    // }
-    //
-    // // create table
-    // var table = d3.select('body')
-    //     .append('table');
-    //
-    // // create table header
-    // table.append('thead').append('tr')
-    //     .selectAll('th')
-    //     .data(columns).enter()
-    //     .append('th')
-    //     .attr('class', function (r) {
-    //         return r.cl;
-    //     })
-    //     .text(function (r) {
-    //         return r.head;
-    //     });
-    //
-    // // create table body
-    // table.append('tbody')
-    //     .selectAll('tr')
-    //     .data(table_data).enter()
-    //     .append('tr')
-    //     .selectAll('td')
-    //     .data(function (row, i) {
-    //         return columns.map(function (c) {
-    //             // compute cell values for this specific row
-    //             var cell = {};
-    //             d3.keys(c).forEach(function (k) {
-    //                 cell[k] = typeof c[k] == 'function' ? c[k](row, i) : c[k];
-    //             });
-    //             return cell;
-    //         });
-    //     }).enter()
-    //     .append('td')
-    //     .html(function (r) {
-    //         return r.html;
-    //     })
-    //     .attr('class', function (r) {
-    //         return r.cl;
-    //     });
-    //
-    // function length() {
-    //     var fmt = d3.format('02d');
-    //     return function (l) {
-    //         return Math.floor(l / 60) + ':' + fmt(l % 60) + '';
-    //     };
-    // }
-
 }

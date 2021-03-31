@@ -23,8 +23,6 @@ if __name__ == '__main__':
     pdfWriter = PyPDF2.PdfFileWriter()
     pdfWriter.addPage(page0)
     pdfWriter.removeImages(ignoreByteStringObject=True)
-    pdfWriter.
-
 
     pdfOutputFile = open('test.pdf', 'wb')
     pdfWriter.write(pdfOutputFile)

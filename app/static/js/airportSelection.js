@@ -14,19 +14,19 @@ $(document).ready(function () { // Wait until document is fully parsed
     $("#origin-form").bind('submit', function (e) {
         e.preventDefault();
 
-        let origin_airport = $('#origin-form').serializeArray()[0]['value']
-        let airport_iata = origin_airport.split('(')[1].substr(0, 3)
+        let originAirport = $('#origin-form').serializeArray()[0]['value']
+        let airportIata = originAirport.split('(')[1].substr(0, 3)
 
-        let airport_found = false
-        for (let i = 0; i < airport_locations.length; i++) {
-            if (airport_locations[i].iata === airport_iata.toUpperCase()) {
-                selectOriginAirport(airport_locations[i])
-                updateDestinationAutoComplete(airport_locations[i])
-                airport_found = true
+        let airportFound = false
+        for (let i = 0; i < airportLocations.length; i++) {
+            if (airportLocations[i].iata === airportIata.toUpperCase()) {
+                selectOriginAirport(airportLocations[i])
+                updateDestinationAutoComplete(airportLocations[i])
+                airportFound = true
                 break
             }
         }
-        if (!airport_found) {
+        if (!airportFound) {
             alert("The input did not match any IATA")
         } else {
             // if origin airport is found, see if there is also a destination airport
@@ -35,7 +35,7 @@ $(document).ready(function () { // Wait until document is fully parsed
             if (destinationAirport) {
                 const destinationIata = destinationAirport.split('(')[1].substr(0, 3);
                 window.updateGaugeChart({
-                    origin: airport_iata,
+                    origin: airportIata,
                     destination: destinationIata
                 })
             }
@@ -57,20 +57,18 @@ $(document).ready(function () { // Wait until document is fully parsed
         e.preventDefault();
 
         let destination_airport = $('#destination-form').serializeArray()[0]['value']
-        console.log("Destination airport", destination_airport)
-        let airport_iata = destination_airport.split('(')[1].substr(0, 3)
+        let airportIata = destination_airport.split('(')[1].substr(0, 3)
 
-        let airport_found = false
-        for (let i = 0; i < airport_locations.length; i++) {
-            if (airport_locations[i].iata === airport_iata.toUpperCase()) {
-                expandAirportInformation(firstSelectedAirport, airport_locations[i])
-                // selectDestinationAirport(airport_locations[i])
-                airport_found = true
+        let airportFound = false
+        for (let i = 0; i < airportLocations.length; i++) {
+            if (airportLocations[i].iata === airportIata.toUpperCase()) {
+                expandAirportInformation(selectedOriginAirport, airportLocations[i])
+                airportFound = true
                 showDestinationAirportInfo()
                 break
             }
         }
-        if (!airport_found) {
+        if (!airportFound) {
             alert("The input did not match any IATA")
         }
 
@@ -91,9 +89,6 @@ function showDestinationAirportInfo() {
     d3.select("#origin-chart")
         .style("display", "none")
 
-    // d3.select("#lollipop-chart")
-    //     .style("display", "none")
-
     d3.select("#destination-airport")
         .style("display", "block")
 
@@ -103,14 +98,7 @@ function showDestinationAirportInfo() {
     $('#lollipop-chart').insertAfter('#od-lollipop-row');
 }
 
-function resetToMainView() {
-    d3.select("#map-view")
-        .style("display", "block")
-    d3.select("#landing-text")
-        .style("display", "block")
-
-    d3.select("#origin-chart").select('svg').remove()
-
+function clearGaugeLollipop() {
     d3.select("#od-chart").selectAll('svg').remove()
 
     $('#lollipop-chart').insertAfter('#o-lollipop-row');
@@ -121,7 +109,18 @@ function resetToMainView() {
         .style("display", "none")
     d3.select("#gauge-chart-number")
         .style("display", "none")
+}
 
+function resetToMainView() {
+    d3.select("#map-view")
+        .style("display", "block")
+    d3.select("#landing-text")
+        .style("display", "block")
+
+    d3.select("#origin-chart").select('svg').remove()
+    d3.select("#origin-chart").select('text').remove()
+
+    clearGaugeLollipop()
     d3.select("#origin-chart")
         .style("display", "block")
 
@@ -154,17 +153,10 @@ function resetToDestinationView() {
         .style("display", "none")
 
     d3.select("#origin-chart").select('svg').remove()
+    d3.select("#origin-chart").select('text').remove()
 
-    d3.select("#od-chart").selectAll('svg').remove()
 
-    $('#lollipop-chart').insertAfter('#o-lollipop-row');
-    d3.select("#lollipop-chart").select('svg').remove()
-
-    d3.select("#chart-gauge").select('g').remove()
-    d3.select("#gauge-chart-text")
-        .style("display", "none")
-    d3.select("#gauge-chart-number")
-        .style("display", "none")
+    clearGaugeLollipop()
 
     d3.select("#gauge-bar-row")
         .style("visibility", "hidden")
@@ -202,7 +194,7 @@ function autocomplete(inp, arr) {
                 /*insert a input field that will hold the current array item's value:*/
                 b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
                 /*execute a function when someone clicks on the item value (DIV element):*/
-                b.addEventListener("click", function (e) {
+                b.addEventListener("click", function (_) {
                     /*insert the value for the autocomplete text field:*/
                     inp.value = this.getElementsByTagName("input")[0].value;
                     /*close the list of autocompleted values,
@@ -274,4 +266,4 @@ function autocomplete(inp, arr) {
     });
 }
 
-autocomplete(document.getElementById("origin-input-selector"), airport_names);
+autocomplete(document.getElementById("origin-input-selector"), airportNames);
